@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/levelUp/static/css/main.5f361e03.chunk.css",
-    "main.js": "/levelUp/static/js/main.54fc92be.chunk.js",
-    "main.js.map": "/levelUp/static/js/main.54fc92be.chunk.js.map",
+    "main.js": "/levelUp/static/js/main.36101de4.chunk.js",
+    "main.js.map": "/levelUp/static/js/main.36101de4.chunk.js.map",
     "runtime-main.js": "/levelUp/static/js/runtime-main.4602af5c.js",
     "runtime-main.js.map": "/levelUp/static/js/runtime-main.4602af5c.js.map",
     "static/js/2.7c579ac1.chunk.js": "/levelUp/static/js/2.7c579ac1.chunk.js",
     "static/js/2.7c579ac1.chunk.js.map": "/levelUp/static/js/2.7c579ac1.chunk.js.map",
     "index.html": "/levelUp/index.html",
-    "precache-manifest.4e34272f8a152291bef0cf3a8a894a99.js": "/levelUp/precache-manifest.4e34272f8a152291bef0cf3a8a894a99.js",
+    "precache-manifest.ca825bafa6dfba82d2d571be98c0b0b9.js": "/levelUp/precache-manifest.ca825bafa6dfba82d2d571be98c0b0b9.js",
     "service-worker.js": "/levelUp/service-worker.js",
     "static/css/main.5f361e03.chunk.css.map": "/levelUp/static/css/main.5f361e03.chunk.css.map",
     "static/js/2.7c579ac1.chunk.js.LICENSE.txt": "/levelUp/static/js/2.7c579ac1.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.4602af5c.js",
     "static/js/2.7c579ac1.chunk.js",
     "static/css/main.5f361e03.chunk.css",
-    "static/js/main.54fc92be.chunk.js"
+    "static/js/main.36101de4.chunk.js"
   ]
 }
