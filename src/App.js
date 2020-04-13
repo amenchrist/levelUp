@@ -1,14 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { response } from 'express';
+//import { response } from 'express';
 
 
 
-class App extends React.component() {
+class App extends React.Component {
 
   componentDidMount() {
-    console.log("Component has mounted")
+    console.log("Component has mounted");
     fetch('https://secret-citadel-16777.herokuapp.com')
     .then(res => res.json())
     .then(console.log);
