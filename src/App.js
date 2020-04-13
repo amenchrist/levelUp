@@ -1,7 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { response } from 'express';
 
+componentDidMount() {
+  fetch('https://secret-citadel-16777.herokuapp.com/')
+  .then(response => response.json)
+  .then(console.log);
+}
 function App() {
   return (
     <div className="App">
