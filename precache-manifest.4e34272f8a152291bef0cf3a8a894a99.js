@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bf76831c597f99878f2eb5046d2b45c6",
+    "revision": "deae2e5a4cd071ebb68ed5aca3c248cf",
     "url": "/levelUp/index.html"
   },
   {
-    "revision": "59aaaeab0c39ea71d202",
+    "revision": "72bbbb7251c305612c55",
     "url": "/levelUp/static/css/main.5f361e03.chunk.css"
   },
   {
-    "revision": "db602543bc93d0dea542",
-    "url": "/levelUp/static/js/2.4654e5f2.chunk.js"
+    "revision": "c87f642adf49cc3e09f1",
+    "url": "/levelUp/static/js/2.7c579ac1.chunk.js"
   },
   {
-    "revision": "e88a3e95b5364d46e95b35ae8c0dc27d",
-    "url": "/levelUp/static/js/2.4654e5f2.chunk.js.LICENSE.txt"
+    "revision": "3635e2c947bdcc4d684587a6eee5e2c2",
+    "url": "/levelUp/static/js/2.7c579ac1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "59aaaeab0c39ea71d202",
-    "url": "/levelUp/static/js/main.5bc01ddd.chunk.js"
+    "revision": "72bbbb7251c305612c55",
+    "url": "/levelUp/static/js/main.54fc92be.chunk.js"
   },
   {
     "revision": "6098a0b83b6444f3c86f",
