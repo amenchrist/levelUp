@@ -13,6 +13,8 @@ class App extends React.Component {
     .then(res => res.json())
     .then(console.log);
   }
+  //https://secret-citadel-16777.herokuapp.com
+  //http://localhost:5000/
 
   render() {
     return (
