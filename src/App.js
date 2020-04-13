@@ -5,7 +5,7 @@ import { response } from 'express';
 
 componentDidMount() {
   fetch('https://secret-citadel-16777.herokuapp.com/')
-  .then(response => response.json)
+  .then(res => res.json())
   .then(console.log);
 }
 function App() {
