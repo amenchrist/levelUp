@@ -8,6 +8,7 @@ import { response } from 'express';
 class App extends React.component() {
 
   componentDidMount() {
+    console.log("Component has mounted")
     fetch('https://secret-citadel-16777.herokuapp.com')
     .then(res => res.json())
     .then(console.log);
