@@ -9,7 +9,7 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log("Component has mounted");
-    fetch('https://secret-citadel-16777.herokuapp.com')
+    fetch('https://safe-island-15843.herokuapp.com')
     .then(res => res.json())
     .then(console.log);
   }
@@ -22,7 +22,7 @@ class App extends React.Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Get Ready to Level Up
           </p>
           <a
             className="App-link"
