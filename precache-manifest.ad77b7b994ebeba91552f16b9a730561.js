@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "eb396bbec94e66914b1244d5f0bfb84d",
+    "revision": "744ed87612f279f62c8e1e67c0f486e4",
     "url": "/levelUp/index.html"
   },
   {
