@@ -1,14 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import './index.css';
 //import App from './App';
-import Home from './Home';
+import Home from './containers/Home';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
+import { selectView } from './reducers';
+
+const store = createStore(selectView);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Home />
+    <Provider store = {store}>
+    <Home  />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
