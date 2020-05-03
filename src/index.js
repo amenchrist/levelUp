@@ -8,6 +8,7 @@ import Home from './containers/Home';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
 import { selectView } from './reducers';
+import NavBar from './containers/NavBar';
 
 const store = createStore(selectView);
 
@@ -15,6 +16,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
     <Home  />
+    <NavBar />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

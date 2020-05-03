@@ -1,8 +1,22 @@
 import React from 'react';
 
-function TaskOverview() {
+function TaskOverview({ touchFunction }) {
+
+    function passTitle(e) {
+        let targ = e.target;
+        checkForTitle(targ)
+        function checkForTitle (t) {
+            if (t.title) {
+                 touchFunction(t.title);
+            } else {
+                t = t.parentNode;
+                checkForTitle (t);   
+            }
+        }
+    }
+
     return (
-        <article className="w-40 center bg-white br1 ba b--black-10" title="Tasks">
+        <article className="w-40 center bg-white br1 ba b--black-10" title="TASKS" onClick={passTitle}> 
             <div className="tc">
                 <h1 className="f3 mb2">3/5</h1>
                 <h2 className="f5 fw4 gray mt0">Tasks</h2>
