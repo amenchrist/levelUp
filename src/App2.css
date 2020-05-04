@@ -1,0 +1,13 @@
+.app {
+    max-width: 500px;
+    min-width: 400px;
+    border: 2px solid white;
+    background-color: red;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100vh;
+}
+
+.navbar {
+    margin-top: auto;
+}

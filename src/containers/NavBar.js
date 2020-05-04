@@ -31,7 +31,7 @@ function NavBar(props) {
         checkForTitle(targ)
         function checkForTitle (t) {
             if (t.title) {
-                 onTouch(t.title);
+                onTouch(t.title);
             } else {
                 t = t.parentNode;
                 checkForTitle (t);   

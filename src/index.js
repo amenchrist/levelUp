@@ -4,19 +4,17 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import './index.css';
 //import App from './App';
-import Home from './containers/Home';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
 import { selectView } from './reducers';
-import NavBar from './containers/NavBar';
+import App2 from './App2';
 
 const store = createStore(selectView);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
-    <Home  />
-    <NavBar />
+    <App2  />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
