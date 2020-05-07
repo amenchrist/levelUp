@@ -9,8 +9,7 @@ import { selectView, selectItem } from '../actions';
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID
+        view: state.selectViewReducer.view
     }
 }
 
@@ -26,25 +25,17 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 function NavBar(props) {
-    const { changeView, changeItemID } = props;
+    const { changeView, changeItemID  } = props;
     function passTitle(e) {
         //Takes the events target and checks for title attribute 
         //If no title attribute, check parent node for title attribute
         //If not found, repeat step 2
         let targ = e.target;
-        checkForKey(targ)
-        function checkForKey (t) {
-            if (t.id) {
-                changeItemID(t.id);
-            } else {
-                t = t.parentNode;
-                changeItemID(t);   
-            }
-        }
         checkForTitle(targ)
         function checkForTitle(t) {
             if (t.title) {
                 changeView(t.title);
+                changeItemID(0);
             } else {
                 t = t.parentNode;
                 checkForTitle(t);   

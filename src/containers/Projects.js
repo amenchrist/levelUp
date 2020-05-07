@@ -30,7 +30,6 @@ function Projects(props) {
         //If not found, repeat step 2
         let targ = e.target;
         checkForTitle(targ);
-        console.log(typeof parseInt(targ.id));
         function checkForTitle (t) {
             if (t.id) {
                  onTouch(t.id);
@@ -41,7 +40,7 @@ function Projects(props) {
         }
     }
 
-    switch(itemID === "0") {
+    switch(itemID === "0" || itemID === 0) {
         case  false:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>

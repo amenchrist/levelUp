@@ -33,11 +33,11 @@ export default function ProjectDetails({ id }) {
                 <p>Time Remaining: {project.timeRemaining}</p>
                 <p>Status: {project.status}</p>
             </div>
-            {/* <div>
-                <h5>Next Action: </h5>
-                <p>{project.nextAction}</p>
-            </div>
             <div>
+                <h5>Next Action: </h5>
+                <p>{project.nextAction.task}</p>
+            </div>
+            {/* <div>
                 <h5>Task List</h5>
                 <p>{project.taskList}</p>
             </div> */}

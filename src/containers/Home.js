@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import StatsOverview from '../components/StatsOverview';
 import TaskOverview from '../components/TasksOverview';
@@ -30,9 +30,6 @@ const mapDispatchToProps = (dispatch) => {
 
 function Home(props) {
 
-    useEffect(() => {
-       
-    })
 
     const { onTouch } = props;
     const { view } = props;

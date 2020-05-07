@@ -14,20 +14,20 @@ export default function TaskDetails({ id }) {
            break;
         }
     }
-    
+
     return (
         <div>
             <div >
                 <h5>ID: {task.id}</h5>
                 <h5>Name: {task.name}</h5>
-                <h5>Goal: {task.output} </h5>
+                <h5>Output: {task.output} </h5>
             </div>
             <div className='show'>
                 <h5>Description</h5>
                 <p>{task.description}</p>
             </div>
             <div >
-                {/* <h5>Output: {task.associatedProject.id} </h5> */}
+                <p>Associated Project: {task.associatedProject.name}</p>
                 <h5>Due Date: {task.dueDate}</h5>
                 <h5>Time Required: {task.timeRequired}</h5>
                 <p>Status: {task.status}</p>

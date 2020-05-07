@@ -23,7 +23,7 @@ export const TaskList = [
         name: 'Task 2',
         description: 'About Task 2',
         output: 'recordable product of task completion',
-        outputRecordID: null, //Assigned on task completion
+        outputRecordID: 0, //Assigned on task completion
         associatedProject: {
             id: 1,
             name: 'Project 1',
@@ -39,7 +39,7 @@ export const TaskList = [
         name: 'Task 3',
         description: 'About Task 3',
         output: 'recordable product of task completion',
-        outputRecordID: null, //Assigned on task completion
+        outputRecordID: 0, //Assigned on task completion
         associatedProject: {
             id: 1,
             name: 'Project 1',
@@ -55,7 +55,7 @@ export const TaskList = [
         name: 'Task 4',
         description: 'About Task 4',
         output: 'recordable product of task completion',
-        outputRecordID: null, //Assigned on task completion
+        outputRecordID: 0, //Assigned on task completion
         associatedProject: {
             id: 1,
             name: 'Project 1',
@@ -71,7 +71,7 @@ export const TaskList = [
         name: 'Task 5',
         description: 'About Task 5',
         output: 'recordable product of task completion',
-        outputRecordID: null, //Assigned on task completion
+        outputRecordID: 0, //Assigned on task completion
         associatedProject: {
             id: 1,
             name: 'Project 1',

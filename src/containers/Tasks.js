@@ -13,7 +13,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onTouch: (id) => {
+        changeItemID: (id) => {
             return dispatch(selectItem(id))
         }
     }
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function Tasks(props) {
 
-    const { onTouch } = props;
+    const { changeItemID } = props;
     const { itemID } = props;
 
     function passKey(e) {
@@ -29,19 +29,18 @@ function Tasks(props) {
         //If no title attribute, check parent node for title attribute
         //If not found, repeat step 2
         let targ = e.target;
-        checkForTitle(targ);
-        console.log(typeof parseInt(targ.id));
-        function checkForTitle (t) {
+        checkForID(targ);
+        function checkForID (t) {
             if (t.id) {
-                 onTouch(t.id);
+                changeItemID(t.id);
             } else {
                 t = t.parentNode;
-                checkForTitle (t);   
+                checkForID (t);   
             }
         }
     }
 
-    switch(itemID === '0') {
+    switch(itemID === '0' || itemID === 0) {
         case  false:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
