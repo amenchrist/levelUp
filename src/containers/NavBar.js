@@ -48,8 +48,8 @@ function NavBar(props) {
             <HomeButton touchFunction={passTitle} />
             <ProjectsButton touchFunction={passTitle} />
             <TasksButton touchFunction={passTitle} />
-            <SkillsButton touchFunction={passTitle} />
             <InboxButton touchFunction={passTitle} />
+            <SkillsButton touchFunction={passTitle} />
         </div>       
     )
 }

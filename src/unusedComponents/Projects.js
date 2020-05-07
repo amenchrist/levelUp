@@ -29,13 +29,13 @@ function Projects(props) {
         //If no title attribute, check parent node for title attribute
         //If not found, repeat step 2
         let targ = e.target;
-        checkForTitle(targ);
-        function checkForTitle (t) {
+        checkForKey(targ);
+        function checkForKey(t) {
             if (t.id) {
                  onTouch(t.id);
             } else {
                 t = t.parentNode;
-                checkForTitle (t);   
+                checkForKey(t);   
             }
         }
     }

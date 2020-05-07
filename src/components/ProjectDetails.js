@@ -3,7 +3,7 @@ import { ProjectList } from '../ProjectList';
 
 
 
-export default function ProjectDetails({ id }) {
+export default function ProjectDetails({ id, touchFunction }) {
 
     let project = {};
 
@@ -35,7 +35,7 @@ export default function ProjectDetails({ id }) {
             </div>
             <div>
                 <h5>Next Action: </h5>
-                <p>{project.nextAction.task}</p>
+                <h5><span id={project.nextAction.id} onClick={touchFunction}>{project.nextAction.task}</span></h5>
             </div>
             {/* <div>
                 <h5>Task List</h5>

@@ -3,7 +3,7 @@ import { TaskList } from '../TaskList';
 
 
 
-export default function TaskDetails({ id }) {
+export default function TaskDetails({ id , touchFunction }) {
 
     let task = {};
 
@@ -27,7 +27,7 @@ export default function TaskDetails({ id }) {
                 <p>{task.description}</p>
             </div>
             <div >
-                <p>Associated Project: {task.associatedProject.name}</p>
+                <h5>Associated Project: <span id={task.associatedProject.id} onClick={touchFunction}>{task.associatedProject.name}</span></h5>
                 <h5>Due Date: {task.dueDate}</h5>
                 <h5>Time Required: {task.timeRequired}</h5>
                 <p>Status: {task.status}</p>
