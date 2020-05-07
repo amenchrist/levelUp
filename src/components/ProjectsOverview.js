@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function ProjectsOverview({ touchFunction }) {
+function ProjectsOverview({ onTouch }) {
     // return target.parentNode
     // if parentnode.title doesnt exist, return 
 
@@ -13,7 +13,7 @@ function ProjectsOverview({ touchFunction }) {
         checkForTitle(targ)
         function checkForTitle (t) {
             if (t.title) {
-                 touchFunction(t.title);
+                onTouch(t.title);
             } else {
                 t = t.parentNode;
                 checkForTitle (t);   

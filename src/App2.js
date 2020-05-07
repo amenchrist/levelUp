@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setView } from './actions';
+import { selectView } from './actions';
 import Home from './containers/Home';
 import NavBar from './containers/NavBar';
 import './App2.css';
 
 const mapStateToProps = state => {
     return {
-        view: state.view
+        view: state.selectViewReducer.view
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onTouch: (title) => {
-            return dispatch(setView(title))
+            return dispatch(selectView(title))
         }
     }
 }
@@ -28,8 +28,10 @@ function App2(props) {
 
     
     return (
-        <div className="app ">
-            <Home touchFunction={onTouch} />
+        <div className='app'>
+            <div className='home-container'>
+                <Home touchFunction={onTouch} />
+            </div>
             <NavBar touchFunction={onTouch} />
         </div>
     );

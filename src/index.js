@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createLogger } from 'redux-logger'
 import './index.css';
 //import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
-import { selectView } from './reducers';
+import './tachyonBoost.css';
+import { selectViewReducer, selectItemReducer } from './reducers';
 import App2 from './App2';
 
-const store = createStore(selectView);
+const rootReducer = combineReducers({selectViewReducer, selectItemReducer});
+const logger = createLogger();
+const store = createStore(rootReducer, applyMiddleware(logger));
 
 ReactDOM.render(
   <React.StrictMode>

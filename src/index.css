@@ -14,15 +14,11 @@ code {
 }
 
 html, body {
-  margin: 0; 
+  margin: 0;
+  padding: 0;
   height: 100%;
   width: 100%;
   overflow: hidden;
   overflow-y: hidden;
   /* position: fixed; */
-}
-
-.navbar {
-  max-width: 400px;
-  
 }

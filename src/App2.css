@@ -1,6 +1,7 @@
 .app {
-    max-width: 500px;
-    min-width: 400px;
+    /* max-width: 500px;
+    min-width: 400px; */
+    width: 400px;
     border: 2px solid white;
     background-color: red;
     margin-left: auto;
@@ -9,5 +10,23 @@
 }
 
 .navbar {
-    margin-top: auto;
+    /* margin-top: auto; */
+    width: 100%;
+    height: 10%;
+    margin-bottom: 0;
+}
+
+.home-container {
+    /* max-width: 500px;
+    min-width: 400px;
+    border: 2px solid white;
+    background-color: red; */
+    /* display: flexbox; */
+    width: 100%;
+    height: 90%;
+    padding: 0;
+}
+
+.show {
+    border: 2px dashed white;
 }

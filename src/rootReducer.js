@@ -1,2 +1,0 @@
-import { selectView } from './reducers';
-

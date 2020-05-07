@@ -1,0 +1,45 @@
+import React from 'react';
+import { TaskList } from '../TaskList';
+
+
+
+export default function TaskDetails({ id }) {
+
+    let task = {};
+
+    for (let i=0; i<TaskList.length; i++){
+
+        if (TaskList[i].id === id){
+           task = TaskList[i];
+           break;
+        }
+    }
+    
+    return (
+        <div>
+            <div >
+                <h5>ID: {task.id}</h5>
+                <h5>Name: {task.name}</h5>
+                <h5>Goal: {task.output} </h5>
+            </div>
+            <div className='show'>
+                <h5>Description</h5>
+                <p>{task.description}</p>
+            </div>
+            <div >
+                {/* <h5>Output: {task.associatedProject.id} </h5> */}
+                <h5>Due Date: {task.dueDate}</h5>
+                <h5>Time Required: {task.timeRequired}</h5>
+                <p>Status: {task.status}</p>
+            </div>
+            {/* <div>
+                <h5>Next Action: </h5>
+                <p>{project.nextAction}</p>
+            </div>
+            <div>
+                <h5>Task List</h5>
+                <p>{project.taskList}</p>
+            </div> */}
+        </div>
+    );
+}

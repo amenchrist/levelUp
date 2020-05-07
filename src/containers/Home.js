@@ -5,9 +5,9 @@ import TaskOverview from '../components/TasksOverview';
 import ProjectsOverview from '../components/ProjectsOverview';
 import InboxOverview from '../components/InboxOverview';
 import SkillsOverview from '../components/SkillsOverview';
-import { setView } from '../actions';
+import { selectView } from '../actions';
 import Projects from './Projects';
-import { PROJECTS, SKILLS, STATS, TASKS, INBOX } from '../contants';
+import { PROJECTS, SKILLS, STATS, TASKS, INBOX } from '../constants';
 import Tasks from './Tasks';
 import Skills from './Skills';
 import Stats from './Stats';
@@ -16,17 +16,18 @@ import './Home.css';
 
 const mapStateToProps = state => {
     return {
-        view: state.view
+        view: state.selectViewReducer.view
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onTouch: (title) => {
-            return dispatch(setView(title))
+            return dispatch(selectView(title))
         }
     }
 }
+
 function Home(props) {
 
     useEffect(() => {
@@ -59,10 +60,12 @@ function Home(props) {
             )
         default:
             return (
-                <div className="home-container" >
-                    <StatsOverview touchFunction={onTouch} />
+                <div >
+                    <div className='pb3'>
+                        <StatsOverview touchFunction={onTouch} />
+                    </div>
                     <div className="flex justify-center pb3 h-15">
-                        <ProjectsOverview touchFunction={onTouch} />
+                        <ProjectsOverview onTouch={onTouch} />
                         <TaskOverview touchFunction={onTouch} />
                     </div>
                     <div className="flex justify-center pb3 h-15">

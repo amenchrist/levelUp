@@ -1,9 +1,12 @@
 import React from 'react';
+import { InboxItems } from '../InboxItems';
+import List from '../components/List';
 
 export default function Inbox() {
     return (
-        <div className='h-75 w-90 center bg-white br1 pa3 pa4-ns mv3 ba b--black-10'>
+        <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
             <h1 className='tc'>Inbox</h1>
-        </div>       
+            <List content={InboxItems}/>
+        </div>   
     )
 }
