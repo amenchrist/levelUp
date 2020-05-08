@@ -1,14 +1,14 @@
 import React from 'react';
-import { InboxItems } from '../InboxItems';
+import { db } from '../db';
 
-export default function TaskDetails({ id }) {
+export default function ItemDetails({ id }) {
 
     let item = {};
 
-    for (let i=0; i<InboxItems.length; i++){
+    for (let i=0; i<db.length; i++){
 
-        if (InboxItems[i].id === id){
-           item = InboxItems[i];
+        if (db[i].id === id){
+           item = db[i];
            break;
         }
     }
@@ -17,7 +17,7 @@ export default function TaskDetails({ id }) {
         <div>
             <div >
                 <h5>ID: {item.id}</h5>
-                <h5>Name: {item.input}</h5>
+                <h5>Name: {item.name}</h5>
                 <h5>Entry Date: {item.entryDate} </h5>
                 <p>Description: {item.description}</p>
             </div>

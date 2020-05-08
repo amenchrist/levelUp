@@ -6,7 +6,7 @@ import ProjectsOverview from '../components/ProjectsOverview';
 import InboxOverview from '../components/InboxOverview';
 import SkillsOverview from '../components/SkillsOverview';
 import { selectView, selectItem } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, PROJECT, TASK, INBOX_ITEM } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, PROJECT, TASK, INBOX_ITEM, SKILLS, NEW_ITEM } from '../constants';
 // import Projects from './Projects';
 // import Tasks from './Tasks';
 // import Skills from './Skills';
@@ -18,6 +18,8 @@ import './Home.css';
 import TaskDetails from '../components/TaskDetails';
 import ProjectDetails from '../components/ProjectDetails';
 import ItemDetails from '../components/ItemDetails';
+import NewItemButton from '../components/NewItemButton';
+import NewItem from '../components/NewItem';
 
 const mapStateToProps = state => {
     return {
@@ -57,7 +59,20 @@ function Home(props) {
         }
     }
 
-    switch( (view === PROJECTS || view === TASKS) || (view === STATS || view === INBOX) ) {
+    function passTitle(e) {
+        let targ = e.target;
+        checkForTitle(targ)
+        function checkForTitle (t) {
+            if (t.title) {
+                 onTouch(t.title);
+            } else {
+                t = t.parentNode;
+                checkForTitle (t);   
+            }
+        }
+    }
+
+    switch( (view === SKILLS || view === NEW_ITEM)|| ((view === PROJECTS || view === TASKS) || (view === STATS || view === INBOX)) ) {
         // case PROJECTS:
         //     return (
         //         <Projects />
@@ -80,12 +95,20 @@ function Home(props) {
         //     )
         case true:
             if (itemID === "0" || itemID === 0) {
-                return (
-                    <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
-                        <h1 className='tc'>{view}</h1>
-                        <List content={db} filter={view} touchFunction={passKey}/>
-                    </div>
-                )
+                switch(view === NEW_ITEM) {
+                    case true:
+                        return (
+                            <NewItem submitFunction={passTitle} />
+                        )
+                    default:
+                        return (
+                            <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                                <h1 className='tc'>{view}</h1>
+                                <List content={db} filter={view} touchFunction={passKey}/>
+                                <NewItemButton touchFunction={passTitle} />
+                            </div>
+                        )
+                }
             } else {
                 let itemType = '';
                 const id = parseInt(itemID);
@@ -102,6 +125,7 @@ function Home(props) {
                             <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
                                 <h1 className='tc'>Project</h1>
                                 <ProjectDetails id={parseInt(itemID)} touchFunction={passKey} />
+                                
                             </div>        
                         )
                     case TASK:
@@ -109,6 +133,7 @@ function Home(props) {
                             <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
                                 <h1 className='tc'>Task</h1>
                                 <TaskDetails id={parseInt(itemID)} touchFunction={passKey} />
+                                
                             </div>        
                         )
                     case INBOX_ITEM:
@@ -116,6 +141,7 @@ function Home(props) {
                             <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
                                 <h1 className='tc'>Inbox Item</h1>
                                 <ItemDetails id={parseInt(itemID)} touchFunction={passKey} />
+                                <NewItemButton touchFunction={passTitle} />
                             </div>        
                         )
                     default:
@@ -123,6 +149,7 @@ function Home(props) {
                             <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
                                 <h1 className='tc'>Error</h1>
                                 <p>Item Not Found</p>
+                                <NewItemButton touchFunction={passTitle} />
                             </div>        
                         )
                 }
@@ -131,15 +158,15 @@ function Home(props) {
             return (
                 <div >
                     <div className='pb3'>
-                        <StatsOverview touchFunction={onTouch} />
+                        <StatsOverview touchFunction={passTitle} />
                     </div>
                     <div className="flex justify-center pb3 h-15">
-                        <ProjectsOverview onTouch={onTouch} />
-                        <TaskOverview touchFunction={onTouch} />
+                        <ProjectsOverview touchFunction={passTitle} />
+                        <TaskOverview touchFunction={passTitle} />
                     </div>
                     <div className="flex justify-center pb3 h-15">
-                        <InboxOverview touchFunction={onTouch}/>
-                        <SkillsOverview touchFunction={onTouch}/>
+                        <InboxOverview touchFunction={passTitle}/>
+                        <SkillsOverview touchFunction={passTitle}/>
                     </div>
                 </div>
             );

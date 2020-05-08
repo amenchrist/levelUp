@@ -1,5 +1,5 @@
 import React from 'react';
-import { TaskList } from '../TaskList';
+import { db } from '../db';
 
 
 
@@ -7,10 +7,10 @@ export default function TaskDetails({ id , touchFunction }) {
 
     let task = {};
 
-    for (let i=0; i<TaskList.length; i++){
+    for (let i=0; i<db.length; i++){
 
-        if (TaskList[i].id === id){
-           task = TaskList[i];
+        if (db[i].id === id){
+           task = db[i];
            break;
         }
     }

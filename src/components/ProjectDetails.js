@@ -1,16 +1,14 @@
 import React from 'react';
-import { ProjectList } from '../ProjectList';
-
-
+import { db } from '../db';
 
 export default function ProjectDetails({ id, touchFunction }) {
 
     let project = {};
 
-    for (let i=0; i<ProjectList.length; i++){
+    for (let i=0; i<db.length; i++){
 
-        if (ProjectList[i].id === id){
-           project = ProjectList[i];
+        if (db[i].id === id){
+           project = db[i];
            break;
         }
     }

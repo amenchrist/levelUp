@@ -45,10 +45,10 @@ function NavBar(props) {
 
     return (
         <div className='navbar center flex'>
+            <InboxButton touchFunction={passTitle} />
+            <TasksButton touchFunction={passTitle} />
             <HomeButton touchFunction={passTitle} />
             <ProjectsButton touchFunction={passTitle} />
-            <TasksButton touchFunction={passTitle} />
-            <InboxButton touchFunction={passTitle} />
             <SkillsButton touchFunction={passTitle} />
         </div>       
     )

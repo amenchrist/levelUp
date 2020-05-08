@@ -22,7 +22,7 @@ export default function ListItem( { touchFunction, item }){
         case INBOX_ITEM:
             return (
                 <div className='bb' id={item.id} onClick={touchFunction}>
-                    <h3>{item.input}</h3>
+                    <h3>{item.name}</h3>
                     <p>{item.entryDate}</p>
                 </div>
             )

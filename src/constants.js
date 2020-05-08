@@ -11,3 +11,4 @@ export const INBOX_ITEM = 'INBOX_ITEM';
 export const SELECT_PROJECT = 'SELECT_PROJECT';
 export const SELECT_TASK = 'SELECT_TASK';
 export const SELECT_ITEM = 'SELECT_ITEM';
+export const NEW_ITEM = 'NEW_ITEM';
