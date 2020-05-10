@@ -1,4 +1,4 @@
-import { PROJECT } from "./constants";
+import { PROJECT, UNPLANNED } from "./constants";
 
 export const ProjectList = [
     {
@@ -12,7 +12,7 @@ export const ProjectList = [
         dueDate: 1591012800, //gmt timestamp
         timeRequired: 2629746, //In seconds (Average Time it has historically taken for the whole project to be completed by you or someone else)
         timeRemaining: 2629746,
-        status: 'NOT_STARTED', //STARTED, ONGOING, NOT_STARTED, COMPLETED
+        status: UNPLANNED, //STARTED, ONGOING, NOT_STARTED, COMPLETED, UNPLANNED, UNFINISHED
         nextAction: {
             id: 16,
             task: 'First physical action',
@@ -40,7 +40,7 @@ export const ProjectList = [
         dueDate: 1591012800, //gmt timestamp
         timeRequired: 2629746, //In seconds
         timeRemaining: 2629746,
-        status: 'NOT_STARTED',
+        status: UNPLANNED,
         nextAction: {
             id: 17,
             task: 'First physical action'

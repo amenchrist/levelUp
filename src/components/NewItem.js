@@ -27,6 +27,8 @@ export default function NewItem({ submitFunction }) {
         event.preventDefault();
     }
 
+    
+
     return (
         <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
             <h1 className='tc'>NEW ITEM</h1>

@@ -1,26 +1,27 @@
 import React from 'react';
-import { db } from '../db';
+import { InboxItems } from '../InboxItems';
+import Processor from '../containers/Processor'
 
-export default function ItemDetails({ id }) {
+export default function ItemDetails({ id, touchFunction }) {
 
     let item = {};
+    let nextItemID = null;
+    for (let i=0; i<InboxItems.length; i++){
 
-    for (let i=0; i<db.length; i++){
-
-        if (db[i].id === id){
-           item = db[i];
+        if (InboxItems[i].id === id){
+           item = InboxItems[i];
+           nextItemID = InboxItems[i+1].id;
            break;
         }
     }
-
     return (
-        <div>
-            <div >
-                <h5>ID: {item.id}</h5>
-                <h5>Name: {item.name}</h5>
-                <h5>Entry Date: {item.entryDate} </h5>
-                <p>Description: {item.description}</p>
-            </div>
+        <div >
+            <h5>ID: {item.id}</h5>
+            <h5>Name: {item.name}</h5>
+            <h5>Entry Date: {item.entryDate} </h5>
+            <p>Description: {item.description}</p>
+            <h5>status: {item.status} </h5>
+            <Processor item={item} nextItemID={nextItemID} touchFunction={touchFunction} />
         </div>
     );
 }

@@ -15,7 +15,7 @@ export const TaskList = [
         },
         dueDate: 1591012800, //gmt timestamp
         timeRequired: 900, //In seconds
-        status: 'PENDING' //PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
+        status: 'PENDING' //PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED, DEFERRED
     },
     {
         type: TASK,

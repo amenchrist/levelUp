@@ -95,19 +95,18 @@ function Home(props) {
         //     )
         case true:
             if (itemID === "0" || itemID === 0) {
-                switch(view === NEW_ITEM) {
-                    case true:
-                        return (
-                            <NewItem submitFunction={passTitle} />
-                        )
-                    default:
-                        return (
-                            <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
-                                <h1 className='tc'>{view}</h1>
-                                <List content={db} filter={view} touchFunction={passKey}/>
-                                <NewItemButton touchFunction={passTitle} />
-                            </div>
-                        )
+                if (view === NEW_ITEM) {
+                    return (
+                        <NewItem submitFunction={passTitle} />
+                    )
+                } else {
+                    return (
+                        <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                            <h1 className='tc'>{view}</h1>
+                            <List content={db} filter={view} touchFunction={passKey}/>
+                            <NewItemButton touchFunction={passTitle} />
+                        </div>
+                    )
                 }
             } else {
                 let itemType = '';
