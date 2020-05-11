@@ -4,7 +4,7 @@ import StatsOverview from '../components/StatsOverview';
 import TaskOverview from '../components/TasksOverview';
 import ProjectsOverview from '../components/ProjectsOverview';
 import InboxOverview from '../components/InboxOverview';
-import SkillsOverview from '../components/SkillsOverview';
+//import SkillsOverview from '../components/SkillsOverview';
 import { selectView, selectItem } from '../actions';
 import { PROJECTS, STATS, TASKS, INBOX, PROJECT, TASK, INBOX_ITEM, SKILLS, NEW_ITEM } from '../constants';
 // import Projects from './Projects';
@@ -20,6 +20,9 @@ import ProjectDetails from '../components/ProjectDetails';
 import ItemDetails from '../components/ItemDetails';
 import NewItemButton from '../components/NewItemButton';
 import NewItem from '../components/NewItem';
+import NewItemTile from '../components/NewItemTile';
+
+
 
 const mapStateToProps = state => {
     return {
@@ -155,17 +158,44 @@ function Home(props) {
             }
         default:
             return (
-                <div >
-                    <div className='pb3'>
+                <div className='h-100' >
+                    <div className='pb1 ph1 h-40'>
                         <StatsOverview touchFunction={passTitle} />
                     </div>
-                    <div className="flex justify-center pb3 h-15">
-                        <ProjectsOverview touchFunction={passTitle} />
-                        <TaskOverview touchFunction={passTitle} />
+                    <div className="flex justify-center h-20 ">
+                        <div className='w-50 pa1'>
+                            <ProjectsOverview touchFunction={passTitle} />
+                        </div>
+                        <div className='w-50 pa1'>
+                            <TaskOverview touchFunction={passTitle} />
+                        </div>
                     </div>
-                    <div className="flex justify-center pb3 h-15">
-                        <InboxOverview touchFunction={passTitle}/>
-                        <SkillsOverview touchFunction={passTitle}/>
+                    <div className='flex w-100 h-10 pa1'>
+                        <NewItemTile touchFunction={passTitle} />
+                    </div>
+                    <div className="flex justify-center h-30">
+                        <div className=' w-50 h-100 pa1'>
+                            <div className='h-100 bg-white br1'></div>
+                            {/* <SkillsOverview touchFunction={passTitle}/> */}
+                        </div>
+                        <div className=' w-50 h-100'>
+                            <div className=' w-100 h-50'>
+                                <div className='h-50 pa1'>
+                                    <div className='h-100 bg-white br1'></div>
+                                </div>
+                                <div className='h-50 pa1'>
+                                    <div className='h-100 bg-white br1'></div>
+                                </div>
+                            </div>
+                            <div className='w-100 h-50 flex'>
+                                <div className='w-50 h-100 pa1'>
+                                    <div className='h-100 bg-white br1'></div>
+                                </div>
+                                <div className='w-50 h-100 pa1'>
+                                    <InboxOverview touchFunction={passTitle}/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             );
