@@ -175,21 +175,30 @@ function Home(props) {
                     </div>
                     <div className="flex justify-center h-30">
                         <div className=' w-50 h-100 pa1'>
-                            <div className='h-100 bg-white br1'></div>
+                            {/* <div className='h-100 bg-white br1'></div> */}
+                            <div className='flex items-center justify-center h-100 w-100 center bg-white br1 pa1'>
+                                        <h2 className='tc'>Daily<br />Tasks</h2>
+                                    </div>
                             {/* <SkillsOverview touchFunction={passTitle}/> */}
                         </div>
                         <div className=' w-50 h-100'>
                             <div className=' w-100 h-50'>
-                                <div className='h-50 pa1'>
-                                    <div className='h-100 bg-white br1'></div>
+                                <div className=' h-50 pa1'>
+                                    <div className='flex items-center justify-center h-100 w-100 center bg-white br1 pa'>
+                                        <h4 className='tc'>Next Actions List</h4>
+                                    </div>
                                 </div>
                                 <div className='h-50 pa1'>
-                                    <div className='h-100 bg-white br1'></div>
+                                    <div className='flex items-center justify-center h-100 w-100 center bg-white br1 pa'>
+                                        <h4 className='tc'>Contexts</h4>
+                                    </div>
                                 </div>
                             </div>
                             <div className='w-100 h-50 flex'>
                                 <div className='w-50 h-100 pa1'>
-                                    <div className='h-100 bg-white br1'></div>
+                                    <div className='flex items-center justify-center h-100 w-100 center bg-white br1 pa1'>
+                                        <h4 className='tc'>Process<br />Inbox</h4>
+                                    </div>
                                 </div>
                                 <div className='w-50 h-100 pa1'>
                                     <InboxOverview touchFunction={passTitle}/>
