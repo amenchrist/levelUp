@@ -23,8 +23,10 @@ export default function List({ touchFunction, content, filter }) {
         return <ListItem item={filteredContent[i]} touchFunction={touchFunction} key={content[i].id}/>
     })
     return (
-        <Scroll>
-            {ListItems}
-        </Scroll>
+        <div className='bg-white'>
+            <Scroll>
+                {ListItems}
+            </Scroll>
+        </div>
     )
 }

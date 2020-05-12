@@ -6,7 +6,7 @@ import ProjectsOverview from '../components/ProjectsOverview';
 import InboxOverview from '../components/InboxOverview';
 //import SkillsOverview from '../components/SkillsOverview';
 import { selectView, selectItem } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, PROJECT, TASK, INBOX_ITEM, SKILLS, NEW_ITEM } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, PROJECT, TASK, INBOX_ITEM, SKILLS, NEW_ITEM, UNPROCESSED } from '../constants';
 // import Projects from './Projects';
 // import Tasks from './Tasks';
 // import Skills from './Skills';
@@ -59,6 +59,21 @@ function Home(props) {
                 t = t.parentNode;
                 checkForID (t);   
             }
+        }
+    }
+
+    function selectItem(){
+    
+        for (let i=0; i<db.length; i++){
+            if (db[i].type === INBOX_ITEM && db[i].status === UNPROCESSED) {
+                changeItemID(db[i].id);
+                onTouch(INBOX)
+                break;
+            } else {
+                changeItemID(0);
+                onTouch(INBOX)
+            }
+            
         }
     }
 
@@ -125,7 +140,7 @@ function Home(props) {
                     case PROJECT:
                         return (
                             <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
-                                <h1 className='tc'>Project</h1>
+                                <h1 className='tc'>Mission</h1>
                                 <ProjectDetails id={parseInt(itemID)} touchFunction={passKey} />
                                 
                             </div>        
@@ -158,8 +173,8 @@ function Home(props) {
             }
         default:
             return (
-                <div className='h-100' >
-                    <div className='pb1 ph1 h-40'>
+                <div className='h-100 pa1' >
+                    <div className='pa1 ph1 h-40'>
                         <StatsOverview touchFunction={passTitle} />
                     </div>
                     <div className="flex justify-center h-20 ">
@@ -177,7 +192,7 @@ function Home(props) {
                         <div className=' w-50 h-100 pa1'>
                             {/* <div className='h-100 bg-white br1'></div> */}
                             <div className='flex items-center justify-center h-100 w-100 center bg-white br1 pa1'>
-                                        <h2 className='tc'>Daily<br />Tasks</h2>
+                                        <h2 className='tc'>Today's<br />Mission</h2>
                                     </div>
                             {/* <SkillsOverview touchFunction={passTitle}/> */}
                         </div>
@@ -185,7 +200,7 @@ function Home(props) {
                             <div className=' w-100 h-50'>
                                 <div className=' h-50 pa1'>
                                     <div className='flex items-center justify-center h-100 w-100 center bg-white br1 pa'>
-                                        <h4 className='tc'>Next Actions List</h4>
+                                        <h4 className='tc'>Daily Exercises</h4>
                                     </div>
                                 </div>
                                 <div className='h-50 pa1'>
@@ -195,7 +210,7 @@ function Home(props) {
                                 </div>
                             </div>
                             <div className='w-100 h-50 flex'>
-                                <div className='w-50 h-100 pa1'>
+                                <div className='w-50 h-100 pa1' onClick={selectItem}>
                                     <div className='flex items-center justify-center h-100 w-100 center bg-white br1 pa1'>
                                         <h4 className='tc'>Process<br />Inbox</h4>
                                     </div>
