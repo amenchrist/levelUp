@@ -16,14 +16,14 @@ export default function ListItem( { touchFunction, item }){
             return (
                 <div className='bb' id={item.id} onClick={touchFunction}>
                     <h3>{item.name}</h3>
-                    <p>{item.associatedProject.name}</p>
+                    <p>{item.requiredContext}</p>
                 </div>
             )
         case INBOX_ITEM:
             return (
                 <div className='bb' id={item.id} onClick={touchFunction}>
                     <h3>{item.name}</h3>
-                    <p>{item.entryDate}</p>
+                    <p>{(new Date(item.entryDate)).toISOString().substr(0, 10)}</p>
                 </div>
             )
         default:

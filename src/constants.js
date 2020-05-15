@@ -17,4 +17,8 @@ export const UNPROCESSED = 'UNPROCESSED';
 export const PROCESSED = 'PROCESSED';
 export const PENDING = 'PENDING';
 export const DELEGATION_PENDING = 'DELEGATION_PENDING';
+export const LOW = 'LOW';
+export const MEDIUM = 'MEDIUM';
+export const HIGH = 'HIGH';
+export const MISSION = 'MISSION';
 //STARTED, ONGOING, NOT_STARTED, COMPLETED, UNPLANNED, UNFINISHED

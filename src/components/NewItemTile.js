@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { NEW_ITEM } from '../constants'
 
 export default function NewItemTile({ touchFunction }) {

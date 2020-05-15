@@ -110,7 +110,6 @@ function Processor({ nextItemID, item, touchFunction, changeItemID }) {
         changeItemID(item.id);
     }
     if (item.status === UNPROCESSED && step === 0){
-        console.log(step)
         proceed();
     }
 
@@ -121,7 +120,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID }) {
                     <QuestionAndOptions question='Is this Actionable?' yes={() => { setIsActionable(true); proceed() }} />
                 </div>
             )
-        case ( step === 2 ):
+        case ( isActionable === true && step === 2 ):
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionandInput question="What does 'DONE' look like?" submitFunction={(answer) => { setOutcome(answer); proceed() }} />

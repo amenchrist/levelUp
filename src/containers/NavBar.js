@@ -4,7 +4,7 @@ import HomeButton from '../components/HomeButton';
 import ProjectsButton from '../components/ProjectsButton';
 import TasksButton from '../components/TasksButton';
 import InboxButton from '../components/InboxButton';
-import SkillsButton from '../components/SkillsButton';
+import StatsButton from '../components/StatsButton';
 import { selectView, selectItem } from '../actions';
 
 const mapStateToProps = state => {
@@ -45,11 +45,11 @@ function NavBar(props) {
 
     return (
         <div className='navbar center flex'>
+            <HomeButton touchFunction={passTitle} />
             <InboxButton touchFunction={passTitle} />
             <TasksButton touchFunction={passTitle} />
-            <HomeButton touchFunction={passTitle} />
             <ProjectsButton touchFunction={passTitle} />
-            <SkillsButton touchFunction={passTitle} />
+            <StatsButton touchFunction={passTitle} />
         </div>       
     )
 }

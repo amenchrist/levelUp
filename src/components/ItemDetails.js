@@ -10,7 +10,11 @@ export default function ItemDetails({ id, touchFunction }) {
 
         if (InboxItems[i].id === id){
            item = InboxItems[i];
-           nextItemID = InboxItems[i+1].id;
+           if (InboxItems[i+1]) {
+               nextItemID = InboxItems[i+1].id;
+           } else {
+            nextItemID = 0;
+           }
            break;
         }
     }
