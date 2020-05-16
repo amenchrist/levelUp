@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { INBOX_ITEM, TASK, INBOX } from '../constants';
-import { db } from '../db'
+import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION } from '../constants';
+import { InboxItems } from '../InboxItems'
 import NewTask from './NewTask';
 import NewMission from './NewMission';
 
@@ -13,13 +13,14 @@ class Item{
         this.entryDate = d.getTime();
         this.name = name;
         this.description = description;
+        this.status = UNPROCESSED;
 
     }
 }
 
-export default function NewItem({ submitFunction }) {
+export default function NewItem({ submitFunction, view }) {
 
-    const [ type, setType ] = useState('INBOX_ITEM');
+    const [ type, setType ] = useState(view);
     const [ name, setName ] = useState('');
     const [ description, setDescription ] = useState('');
 
@@ -31,8 +32,8 @@ export default function NewItem({ submitFunction }) {
 
     function submitNewItem(event) {
         let i = new Item(name, description);
-        db.unshift(i);
-        submitFunction(event);
+        InboxItems.unshift(i);
+        // submitFunction(event);
         reset();
         event.preventDefault();
     }
@@ -41,7 +42,7 @@ export default function NewItem({ submitFunction }) {
         switch(true) {
             case type === TASK:
                 return <NewTask />
-            case type === 'MISSION':
+            case type === MISSION:
                 return <NewMission />
             default:
                 return (
@@ -58,8 +59,14 @@ export default function NewItem({ submitFunction }) {
     }
 
     return (
-        <div className='pa1'>
-            <label htmlFor="type" className=''>Type:</label>
+        <div className='pa1 w-100'>
+            <button className="button w-20" onClick={(e)=> setType(INBOX)}>INBOX</button>
+            <button className="button w-20" onClick={(e)=> setType(TASK)}>TASK</button>
+            <button className="button w-20" onClick={(e)=> setType(MISSION)}>MISSION</button>
+            <button className="button w-20" onClick={(e)=> setType(e.target.value)}>REF</button>
+            <button className="button w-20" onClick={(e)=> setType(e.target.value)}>FINANCE</button>
+            {displayTypeForm()}
+            {/* <label htmlFor="type" className=''>Type:</label>
             <select id="type" value={type} onChange={(e)=> setType(e.target.value)}>
                 <option value="INBOX_ITEM">INBOX</option>
                 <option value="TASK">TASK</option>
@@ -67,8 +74,7 @@ export default function NewItem({ submitFunction }) {
                 <option value="REFERENCE">REFERENCE</option>
                 <option value="EXPENSE">EXPENSE</option>
                 <option value="INCOME">INCOME</option>
-            </select>
-            {displayTypeForm()}
+            </select> */}
         </div>
     )
 }

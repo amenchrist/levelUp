@@ -3,10 +3,10 @@ import { PROJECT, UNPLANNED } from "./constants";
 export const ProjectList = [
     {
         type: PROJECT,
-        id: 11,
+        id: 1589657001530,
         name: 'Project 1',
         description: 'About Project 1',
-        goal: 'What done looks like for Project 1',
+        outcome: 'What done looks like for Project 1',
         output: 'Recordable proof of completed project',
         outputRecordID: null, //Assigned on completion
         dueDate: 1591012800, //gmt timestamp
@@ -31,10 +31,10 @@ export const ProjectList = [
     },
     {
         type: PROJECT,
-        id: 12,
+        id: 1589657001531,
         name: 'Project 2',
         description: 'About Project 2',
-        goal: 'What done looks like for Project 2',
+        outcome: 'What done looks like for Project 2',
         output: 'Recordable proof of completed project',
         outputRecordID: null, //Assigned on completion
         dueDate: 1591012800, //gmt timestamp
@@ -58,10 +58,10 @@ export const ProjectList = [
     },
     {
         type: PROJECT,
-        id: 13,
+        id: 1589657001532,
         name: 'Project 3',
         description: 'About Project 3',
-        goal: 'What done looks like for Project 3',
+        outcome: 'What done looks like for Project 3',
         output: 'Recordable proof of completed project',
         outputRecordID: null, //Assigned on completion
         dueDate: 1591012800, //gmt timestamp
@@ -85,10 +85,10 @@ export const ProjectList = [
     },
     {
         type: PROJECT,
-        id: 14,
+        id: 1589657001533,
         name: 'Project 4',
         description: 'About Project 4',
-        goal: 'What done looks like for Project 4',
+        outcome: 'What done looks like for Project 4',
         output: 'Recordable proof of completed project',
         outputRecordID: null, //Assigned on completion
         dueDate: 1591012800, //gmt timestamp
@@ -112,10 +112,10 @@ export const ProjectList = [
     },
     {
         type: PROJECT,
-        id: 15,
+        id: 1589657001534,
         name: 'Project 5',
         description: 'About Project 5',
-        goal: 'What done looks like for Project 5',
+        outcome: 'What done looks like for Project 5',
         output: 'Recordable proof of completed project',
         outputRecordID: null, //Assigned on completion
         dueDate: 1591012800, //gmt timestamp

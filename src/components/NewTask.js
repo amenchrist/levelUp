@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
-import { INBOX_ITEM, PENDING, LOW, TASK, MEDIUM, HIGH } from '../constants';
-import { db } from '../db';
+import { PENDING, LOW, TASK, MEDIUM, HIGH } from '../constants';
+import { TaskList } from '../TaskList';
+import { selectView, selectItem } from '../actions';
+import { connect } from 'react-redux';
 
-export default function NewTask({ submitFunction }) {
+const mapStateToProps = state => {
+    return {
+        view: state.selectViewReducer.view,
+        itemID: state.selectItemReducer.itemID
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onTouch: (title) => {
+            return dispatch(selectView(title))
+        },
+        changeItemID: (id) => {
+            return dispatch(selectItem(id))
+        }
+    }
+}
+
+function NewTask({ changeItemID }) {
+
+    let today = new Date().toISOString().substr(0, 10);
 
     const [ name, setName ] = useState('');
     const [ outcome, setOutcome ] = useState('');
     const [ requiredContext, setRequiredContext ] = useState('');
     const [ note, setNote ] = useState('');
-    const [ dueDate, setDueDate ] = useState(0);
+    const [ dueDate, setDueDate ] = useState(today);
     const [ priority, setPriority ] = useState('');
     const [ frequency, setFrequency ] = useState(0);
     const [ requirements, setRequirements ] = useState('');
@@ -17,8 +39,11 @@ export default function NewTask({ submitFunction }) {
     class Task{
         constructor() {
             const d= new Date();
-    
-            this.type = INBOX_ITEM;
+
+            setFrequency(0);
+            setAssociatedProject({});
+
+            this.type = TASK;
             this.id = d.getTime();
             this.entryDate = d.getTime();
             this.status = PENDING;
@@ -39,13 +64,14 @@ export default function NewTask({ submitFunction }) {
     }
 
     function submitNewItem(event) {
-        let i = new Task();
-        db.unshift(i);
-        submitFunction(event);
+        let t = new Task();
+        console.log(t);
+        TaskList.unshift(t);
+        changeItemID(t.id);
         event.preventDefault();
     }
 
-    let today = new Date().toISOString().substr(0, 10);
+    
 
     return (
         <div className='h-100 w-100 center br1 pa3 ba b--black-10 '>
@@ -58,7 +84,7 @@ export default function NewTask({ submitFunction }) {
                 <label htmlFor="due date" className=''>Due Date:</label>
                 <input id='due date' type='date' min={today} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
                 <select id="priority" value={priority} onChange={(e)=> setPriority(e.target.value)}>
-                    <option value="" disabled selected>Priority</option>
+                    <option value="" disabled defaultValue>Priority</option>
                     <option value={LOW}>Low</option>
                     <option value={MEDIUM}>Medium</option>
                     <option value={HIGH}>High</option>
@@ -71,3 +97,5 @@ export default function NewTask({ submitFunction }) {
         </div>
     )
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewTask);

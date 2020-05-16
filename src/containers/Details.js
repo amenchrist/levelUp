@@ -1,18 +1,19 @@
 import React from 'react';
-import { db } from '../db';
 import { PROJECT, TASK, INBOX_ITEM } from '../constants';
 import NewItemButton from '../components/NewItemButton';
 import ItemDetails from '../components/ItemDetails';
 import TaskDetails from '../components/TaskDetails';
 import ProjectDetails from '../components/ProjectDetails';
 
-export default function Details( { itemID, touchFunction }){
-    let itemType = '';
+export default function Details( { content, itemID, touchFunction }){
+    let itemType, item;
+    let db = content;
     const id = parseInt(itemID);
     for (let i=0; i<db.length; i++){
 
         if (db[i].id === id){
         itemType = db[i].type;
+        item = db[i];
         break;
         }
     }
@@ -21,7 +22,7 @@ export default function Details( { itemID, touchFunction }){
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
                     <h1 className='tc'>Mission</h1>
-                    <ProjectDetails id={parseInt(itemID)} touchFunction={touchFunction} />
+                    <ProjectDetails project={item} touchFunction={touchFunction} />
                     
                 </div>        
             )

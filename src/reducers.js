@@ -7,13 +7,16 @@ const initialHomeState = {
     project: 0,
     task: 0,
     itemID: 0,
-    view: OVERVIEW 
+    exp: 20,
+    view: OVERVIEW,
+    previousView: OVERVIEW
 }
 
 export const selectViewReducer = (state=initialHomeState, action={}) => {
     switch(action.type){
         case CHANGE_VIEW:
-            return Object.assign({}, state, {view: action.payload});
+            // state.previousView.unshift(state.view);
+            return Object.assign({}, state, {view: action.payload, previousView: state.view});
         default:
             return state;
     }

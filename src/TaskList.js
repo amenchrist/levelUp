@@ -3,7 +3,7 @@ import { TASK, LOW } from "./constants";
 export const TaskList = [
     {
         type: TASK,
-        id: 16,
+        id: 1589657001522,
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: 0,
@@ -14,7 +14,7 @@ export const TaskList = [
         outcome: 'Bread in the fridge',
         requiredContext: 'At the Supermarket',
         note: 'Brown bread preferably',
-        dueDate: 1591012800, //gmt timestamp
+        dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
         associatedProject: {
             id: 11,
@@ -25,7 +25,7 @@ export const TaskList = [
     },
     {
         type: TASK,
-        id: 17,
+        id: 1589657001523,
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: 0,
@@ -36,7 +36,7 @@ export const TaskList = [
         outcome: 'Bread in the fridge',
         requiredContext: 'At the Supermarket',
         note: 'Brown bread preferably',
-        dueDate: 1591012800, //gmt timestamp
+        dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
         associatedProject: {
             id: 11,
@@ -47,7 +47,7 @@ export const TaskList = [
     },
     {
         type: TASK,
-        id: 18,
+        id: 1589657001524,
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: 0,
@@ -58,7 +58,7 @@ export const TaskList = [
         outcome: 'Bread in the fridge',
         requiredContext: 'At the Supermarket',
         note: 'Brown bread preferably',
-        dueDate: 1591012800, //gmt timestamp
+        dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
         associatedProject: {
             id: 11,
@@ -69,7 +69,7 @@ export const TaskList = [
     },
     {
         type: TASK,
-        id: 19,
+        id: 1589657001525,
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: 0,
@@ -80,7 +80,7 @@ export const TaskList = [
         outcome: 'recordable product of task completion',
         requiredContext: 'At the Supermarket',
         note: 'Brown bread preferably',
-        dueDate: 1591012800, //gmt timestamp
+        dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
         associatedProject: {
             id: 11,
@@ -91,7 +91,7 @@ export const TaskList = [
     },
     {
         type: TASK,
-        id: 20,
+        id: 1589657001526,
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: 0,
@@ -102,7 +102,7 @@ export const TaskList = [
         outcome: 'recordable product of task completion',
         requiredContext: 'At the Supermarket',
         note: 'Brown bread preferably',
-        dueDate: 1591012800, //gmt timestamp
+        dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
         associatedProject: {
             id: 11,

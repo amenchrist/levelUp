@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION } from '../constants';
 import List from '../components/List';
-import { db } from '../db';
+import { InboxItems } from '../InboxItems';
+import { TaskList } from '../TaskList';
+import { ProjectList } from '../ProjectList'
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
 import NewItem from '../components/NewItem';
@@ -15,6 +17,7 @@ import Stats from './Stats';
 const mapStateToProps = state => {
     return {
         view: state.selectViewReducer.view,
+        previousView: state.selectViewReducer.previousView,
         itemID: state.selectItemReducer.itemID
     }
 }
@@ -30,9 +33,25 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
+
+
 function Main(props) {
     
-    const { view, itemID, onTouch, changeItemID } = props;
+    const { view, itemID, onTouch, changeItemID, previousView } = props;
+    
+    let type;
+
+    switch(previousView) {
+        case TASKS:
+            type = TASK;
+        break;
+        case PROJECTS:
+            type = MISSION;
+        break;
+        default:
+    }
+    
+    const db = InboxItems.concat(ProjectList, TaskList);
     
     function passKey(e) {
         //Takes the events target and checks for title attribute 
@@ -79,7 +98,7 @@ function Main(props) {
                                 <h6>EXP: 205</h6>
                             </div>
                             <div className='h-90'>
-                                <NewItem submitFunction={passTitle} />
+                                <NewItem submitFunction={passTitle} view={type} />
                             </div>
                         </div>
                     )
@@ -111,7 +130,7 @@ function Main(props) {
                                 <h6>EXP: 205</h6>
                             </div>
                             <div className='h-90 pa1'>
-                                <Details itemID={itemID} touchFunction={passKey} />
+                                <Details content={db} itemID={itemID} touchFunction={passKey} />
                             </div>
                         </div>
                 )

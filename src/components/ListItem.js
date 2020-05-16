@@ -9,7 +9,7 @@ export default function ListItem( { touchFunction, item }){
             return (
                 <div className='bb' id={item.id} onClick={touchFunction}>
                     <h3>{item.name}</h3>
-                    <p>{item.goal}</p>
+                    <p>{item.outcome}</p>
                 </div>
             )
         case TASK:
