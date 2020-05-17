@@ -21,4 +21,16 @@ export const LOW = 'LOW';
 export const MEDIUM = 'MEDIUM';
 export const HIGH = 'HIGH';
 export const MISSION = 'MISSION';
+export const TODAY = 'TODAY';
 //STARTED, ONGOING, NOT_STARTED, COMPLETED, UNPLANNED, UNFINISHED
+
+//For frequency/recurring
+
+export const NONE = 'NONE';
+export const DAILY = 'DAILY';
+export const WEEKLY = 'WEEKLY';
+export const MONTHLY = 'MONTHLY';
+export const FORTHNIGHTLY = 'FORTHNIGHTLY';
+export const THREE_MONTHS = 'THREE_MONTHS';
+export const SIX_MONTHS = 'SIX_MONTHS';
+export const YEARLY = 'YEARLY';

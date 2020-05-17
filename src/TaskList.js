@@ -1,4 +1,4 @@
-import { TASK, LOW } from "./constants";
+import { TASK, LOW, DAILY } from "./constants";
 
 export const TaskList = [
     {
@@ -14,7 +14,7 @@ export const TaskList = [
         outcome: 'Bread in the fridge',
         requiredContext: 'At the Supermarket',
         note: 'Brown bread preferably',
-        dueDate: 1589657001526, //gmt timestamp
+        dueDate: new Date().toISOString().substr(0, 10), //gmt timestamp
         timeRequired: 900, //In seconds
         associatedProject: {
             id: 11,
@@ -36,7 +36,7 @@ export const TaskList = [
         outcome: 'Bread in the fridge',
         requiredContext: 'At the Supermarket',
         note: 'Brown bread preferably',
-        dueDate: 1589657001526, //gmt timestamp
+        dueDate: new Date().toISOString().substr(0, 10), //gmt timestamp
         timeRequired: 900, //In seconds
         associatedProject: {
             id: 11,
@@ -50,7 +50,7 @@ export const TaskList = [
         id: 1589657001524,
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
-        frequency: 0,
+        frequency: DAILY,
         timeSpent: 0,
         priority : LOW,
         outcomeRecordID: 0, //Assigned on task completion
@@ -72,7 +72,7 @@ export const TaskList = [
         id: 1589657001525,
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
-        frequency: 0,
+        frequency: DAILY,
         timeSpent: 0,
         priority : LOW,
         outcomeRecordID: 0, //Assigned on task completion

@@ -6,10 +6,12 @@ import ProjectsOverview from '../components/ProjectsOverview';
 import InboxOverview from '../components/InboxOverview';
 //import SkillsOverview from '../components/SkillsOverview';
 import { selectView, selectItem } from '../actions';
-import { INBOX, INBOX_ITEM, UNPROCESSED } from '../constants';
+import { INBOX, INBOX_ITEM, UNPROCESSED, DAILY } from '../constants';
 import { db } from '../db';
 import './Home.css';
 import NewItemTile from '../components/NewItemTile';
+import TodaysMission from '../components/TodaysMission';
+// import DailyEx from '../components/DailyEx';
 
 const mapStateToProps = state => {
     return {
@@ -78,21 +80,17 @@ function Home(props) {
             </div>
             <div className="flex justify-center h-30">
                 <div className=' w-50 h-100 pa1'>
-                    {/* <div className='h-100 bg-white br1'></div> */}
-                    <div className='flex items-center justify-center h-100 w-100 center bg-white pa1'>
-                                <h2 className='tc'>Today's<br />Mission</h2>
-                            </div>
-                    {/* <SkillsOverview touchFunction={passTitle}/> */}
+                   <TodaysMission touchFunction={passTitle} />
                 </div>
                 <div className=' w-50 h-100'>
                     <div className=' w-100 h-50'>
                         <div className=' h-50 pa1'>
-                            <div className='flex items-center justify-center h-100 w-100 center bg-white '>
+                            <div className='flex items-center justify-center h-100 w-100 center bg-white ' title={DAILY} onClick={passTitle} >
                                 <h4 className='tc'>Daily Exercises</h4>
                             </div>
                         </div>
                         <div className='h-50 pa1'>
-                            <div className='flex items-center justify-center h-100 w-100 center bg-white '>
+                            <div className='flex items-center justify-center h-100 w-100 center bg-white 'title='REFERENCES' onClick={passTitle}>
                                 <h4 className='tc'>References</h4>
                             </div>
                         </div>

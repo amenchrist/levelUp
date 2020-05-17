@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION, TODAY, DAILY } from '../constants';
 import List from '../components/List';
 import { InboxItems } from '../InboxItems';
 import { TaskList } from '../TaskList';
@@ -82,7 +82,7 @@ function Main(props) {
         }
     }
 
-    const views = [ NEW_ITEM, PROJECTS, TASKS, INBOX ];
+    const views = [ NEW_ITEM, PROJECTS, TASKS, INBOX, TODAY, DAILY ];
 
     switch( true) {
         case (view === STATS):
