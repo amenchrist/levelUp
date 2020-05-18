@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectView, selectItem } from '../actions';
+import { selectView, selectItem, UpdateExp } from '../actions';
 import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION, TODAY, DAILY } from '../constants';
 import List from '../components/List';
 import { InboxItems } from '../InboxItems';
@@ -18,7 +18,8 @@ const mapStateToProps = state => {
     return {
         view: state.selectViewReducer.view,
         previousView: state.selectViewReducer.previousView,
-        itemID: state.selectItemReducer.itemID
+        itemID: state.selectItemReducer.itemID,
+        exp: state.UpdateExpReducer.exp
     }
 }
 
@@ -29,6 +30,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeItemID: (id) => {
             return dispatch(selectItem(id))
+        },
+        updateExp: (exp) => {
+            return dispatch(UpdateExp(exp))
         }
     }
 }
@@ -37,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function Main(props) {
     
-    const { view, itemID, onTouch, changeItemID, previousView } = props;
+    const { view, itemID, onTouch, changeItemID, previousView, updateExp, exp } = props;
     
     let type;
 
@@ -95,26 +99,26 @@ function Main(props) {
                     return (
                         <div className='h-100 pa1'>
                             <div className='show h-10'>
-                                <h6>EXP: 205</h6>
+                                <h5>EXP: {exp}</h5>
                             </div>
                             <div className='h-90'>
-                                <NewItem submitFunction={passTitle} view={type} />
+                                <NewItem submitFunction={passTitle} view={type} updateExp={updateExp} />
                             </div>
                         </div>
                     )
                 } else {
                     return (
-                        <div className='h-100 lightup'>
-                            <div className='show h-10'>
-                                <h6>EXP: 205</h6>
+                        <div className='h-100'>
+                            <div className='h-10'>
+                                <h5>EXP: {exp}</h5>
                             </div>
                             <div className='h-90 pa1'>
-                                <div className='h-100 w-100 center br1 ba b--black-10 pa1'>
-                                    <h1 className='tc'>{view}</h1>
+                                <div className='h-100 w-100 center pa1'>
+                                    <h1 className='tc b gold'>{view}</h1>
                                     <div className=' h-70 '>
                                         <List content={db} filter={view} touchFunction={passKey}/>
                                     </div>
-                                    <div className='flex justify-center pt2'>
+                                    <div className='flex w-100 content-end pa2'>
                                         <NewItemButton touchFunction={passTitle} />
                                     </div>
                                 </div>
@@ -127,10 +131,10 @@ function Main(props) {
                 return (
                     <div className='h-100 pa1'>
                             <div className='show h-10'>
-                                <h6>EXP: 205</h6>
+                                <h5>EXP: {exp}</h5>
                             </div>
                             <div className='h-90 pa1'>
-                                <Details content={db} itemID={itemID} touchFunction={passKey} />
+                                <Details content={db} itemID={itemID} />
                             </div>
                         </div>
                 )

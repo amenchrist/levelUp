@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-function NewTask({ changeItemID }) {
+function NewTask({ changeItemID, updateExp }) {
 
     let today = new Date().toISOString().substr(0, 10);
 
@@ -67,6 +67,7 @@ function NewTask({ changeItemID }) {
         let t = new Task();
         console.log(t);
         TaskList.unshift(t);
+        updateExp(5);
         changeItemID(t.id);
         event.preventDefault();
     }

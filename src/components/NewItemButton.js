@@ -3,8 +3,8 @@ import { NEW_ITEM } from '../constants'
 
 export default function NewItemButton({ touchFunction }) {
     return (
-        <div className='show w3 h3' title={NEW_ITEM} onClick={touchFunction}>
-            <h3 className='tc'>N</h3>
+        <div className='whiteB w3 h3 flex items-center justify-center' title={NEW_ITEM} onClick={touchFunction}>
+            <h1 className=' white b f8 fw9'>+</h1>
         </div>
     )
 }

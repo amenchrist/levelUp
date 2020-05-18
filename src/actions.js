@@ -1,4 +1,4 @@
-import {CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM} from './constants';
+import {CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM, UPDATE_EXP} from './constants';
 
 export const selectView = (item) => {
     return {
@@ -22,4 +22,10 @@ export const selectItem = (itemID) => {
     return {
     type: SELECT_ITEM,
     payload: itemID
+}};
+
+export const UpdateExp = (exp) => {
+    return {
+    type: UPDATE_EXP,
+    payload: exp
 }};

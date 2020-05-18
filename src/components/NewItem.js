@@ -18,7 +18,7 @@ class Item{
     }
 }
 
-export default function NewItem({ submitFunction, view }) {
+export default function NewItem({ submitFunction, view, updateExp }) {
 
     const [ type, setType ] = useState(view);
     const [ name, setName ] = useState('');
@@ -33,6 +33,7 @@ export default function NewItem({ submitFunction, view }) {
     function submitNewItem(event) {
         let i = new Item(name, description);
         InboxItems.unshift(i);
+        updateExp(5);
         // submitFunction(event);
         reset();
         event.preventDefault();
@@ -41,9 +42,9 @@ export default function NewItem({ submitFunction, view }) {
     function displayTypeForm(){
         switch(true) {
             case type === TASK:
-                return <NewTask />
+                return <NewTask updateExp={updateExp} />
             case type === MISSION:
-                return <NewMission />
+                return <NewMission updateExp={updateExp} />
             default:
                 return (
                     <div className='h-100 w-100 center ba b--black-10'>

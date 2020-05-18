@@ -5,7 +5,7 @@ import ItemDetails from '../components/ItemDetails';
 import TaskDetails from '../components/TaskDetails';
 import ProjectDetails from '../components/ProjectDetails';
 
-export default function Details( { content, itemID, touchFunction }){
+export default function Details( { content, itemID, touchFunction, updateExp }){
     let itemType, item;
     let db = content;
     const id = parseInt(itemID);
@@ -20,9 +20,8 @@ export default function Details( { content, itemID, touchFunction }){
     switch(itemType) {
         case PROJECT:
             return (
-                <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
-                    <h1 className='tc'>Mission</h1>
-                    <ProjectDetails project={item} touchFunction={touchFunction} />
+                <div className='w-100 center br1 pa3 ba b--black-10'>
+                    <ProjectDetails project={item} touchFunction={touchFunction} updateExp={updateExp}/>
                     
                 </div>        
             )
@@ -30,7 +29,7 @@ export default function Details( { content, itemID, touchFunction }){
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
                     <h1 className='tc'>Task</h1>
-                    <TaskDetails id={parseInt(itemID)} touchFunction={touchFunction} />
+                    <TaskDetails id={parseInt(itemID)} />
                     
                 </div>        
             )

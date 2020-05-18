@@ -16,7 +16,8 @@ import TodaysMission from '../components/TodaysMission';
 const mapStateToProps = state => {
     return {
         view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID
+        itemID: state.selectItemReducer.itemID,
+        exp: state.UpdateExpReducer.exp
     }
 }
 
@@ -33,7 +34,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function Home(props) {
     
-    const { onTouch, changeItemID } = props;
+    const { onTouch, changeItemID, exp } = props;
 
     function selectItem(){
     
@@ -65,7 +66,7 @@ function Home(props) {
     return (
         <div className='h-100 pa1' >
             <div className='pa1 ph1 h-40'>
-                <StatsOverview touchFunction={passTitle} />
+                <StatsOverview touchFunction={passTitle} exp={exp} />
             </div>
             <div className="flex justify-center h-20 ">
                 <div className='w-50 pa1'>

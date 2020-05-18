@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-function NewMission({ changeItemID }) {
+function NewMission({ changeItemID, updateExp }) {
 
     let today = new Date().toISOString().substr(0, 10);
 
@@ -68,6 +68,7 @@ function NewMission({ changeItemID }) {
         console.log(m);
         // console.log(m.id);
         ProjectList.unshift(m);
+        updateExp(5);
         changeItemID(m.id);
         event.preventDefault();
         setFrequency(0);

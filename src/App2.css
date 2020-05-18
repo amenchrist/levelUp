@@ -9,29 +9,31 @@
 }
 
 .navbar {
-    /* margin-top: auto; */
     width: 100%;
     height: 10%;
-    margin-bottom: 0;
 }
 
 .home-container {
-    /* max-width: 500px;
-    min-width: 400px;
-    border: 2px solid white;
-    background-color: red; */
-    /* display: flexbox; */
     width: 100%;
     height: 90%;
-    padding: 0;
 }
 
 .show {
     border: 2px dashed white;
 }
 
-.lightup h1, .lightup p, .lightup h3 {
-    
-    color: white;
+.showBlack {
+    border: 2px dashed black;
 }
 
+.showRed {
+    border: 2px dashed red;
+}
+
+.listItem {
+    background-image: linear-gradient(to right, rgba(0,0,0,0.3) , rgba(255, 255, 255, 0.3));
+}
+
+.whiteB {
+    border: 2px solid white;
+}

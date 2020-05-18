@@ -1,4 +1,4 @@
-import { CHANGE_VIEW, OVERVIEW, SELECT_ITEM } from "./constants"
+import { CHANGE_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP } from "./constants"
 
 const initialHomeState = {
     projects: 0,
@@ -7,7 +7,7 @@ const initialHomeState = {
     project: 0,
     task: 0,
     itemID: 0,
-    exp: 20,
+    exp: 0,
     view: OVERVIEW,
     previousView: OVERVIEW
 }
@@ -37,4 +37,15 @@ export const selectItemReducer = (state=initialItemViewState, action={}) => {
     }
 }
 
+const initialExpState = {
+    exp: 0
+}
 
+export const UpdateExpReducer = (state=initialExpState, action={}) => {
+    switch(action.type){
+        case UPDATE_EXP:
+            return Object.assign({}, state, {exp: (state.exp + action.payload)});
+        default:
+            return state;
+    }
+}
