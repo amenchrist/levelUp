@@ -97,8 +97,8 @@ function Main(props) {
             if (itemID === "0" || itemID === 0) { // Imagine the id for list component = 0
                 if (view === NEW_ITEM) {
                     return (
-                        <div className='h-100 pa1'>
-                            <div className='show h-10'>
+                        <div className='h-100 pa2'>
+                            <div className=' h-10'>
                                 <h5>EXP: {exp}</h5>
                             </div>
                             <div className='h-90'>
@@ -114,11 +114,11 @@ function Main(props) {
                             </div>
                             <div className='h-90 pa1'>
                                 <div className='h-100 w-100 center pa1'>
-                                    <h1 className='tc b gold'>{view}</h1>
-                                    <div className=' h-70 '>
+                                    <h1 className='tc b gold ma0 pb2'>{view}</h1>
+                                    <div className=' h-80 '>
                                         <List content={db} filter={view} touchFunction={passKey}/>
                                     </div>
-                                    <div className='flex w-100 content-end pa2'>
+                                    <div className='h-10 flex w-100 content-end pa2'>
                                         <NewItemButton touchFunction={passTitle} />
                                     </div>
                                 </div>
@@ -129,8 +129,8 @@ function Main(props) {
                 }
             } else {
                 return (
-                    <div className='h-100 pa1'>
-                            <div className='show h-10'>
+                    <div className='h-100 pa2 '>
+                            <div className='h-10'>
                                 <h5>EXP: {exp}</h5>
                             </div>
                             <div className='h-90 pa1'>
