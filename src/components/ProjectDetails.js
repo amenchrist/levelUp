@@ -1,14 +1,17 @@
 import React from 'react';
 import List from './List';
+import { MISSION } from '../constants';
 import { connect } from 'react-redux';
-import { selectView, selectItem, UpdateExp } from '../actions';
+import { selectView, selectItem, UpdateExp, RestorePreviousState } from '../actions';
+import { TaskList } from '../TaskList';
 
 const mapStateToProps = state => {
     return {
         view: state.selectViewReducer.view,
         previousView: state.selectViewReducer.previousView,
         itemID: state.selectItemReducer.itemID,
-        exp: state.UpdateExpReducer.exp
+        exp: state.UpdateExpReducer.exp,
+        previousState: state.RestorePreviousStateReducer.previousState
     }
 }
 
@@ -22,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateExp: (exp) => {
             return dispatch(UpdateExp(exp))
+        },
+        restorePreviousState: (previousState) => {
+            return dispatch(RestorePreviousState(previousState))
         }
     }
 }
@@ -29,6 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
 
 function ProjectDetails({ project, view, changeItemID }) {
+    
 
     function passKey(e) {
         //Takes the events target and checks for title attribute 
@@ -46,6 +53,24 @@ function ProjectDetails({ project, view, changeItemID }) {
         }
     }
     
+    function getTasks(){
+        let tasks = [];
+        if(project.taskList !== []){
+            for(let i=0; i<project.taskList.length; i++){
+                for(let j=0; j<TaskList.length; j++){
+                    if(project.taskList[i] === TaskList[j].id ){
+                        tasks.push(TaskList[j]);
+                        break;
+                    }
+                }
+            }
+        }
+        console.log(tasks);
+        return tasks;
+    }
+
+    const projectTasks = getTasks();
+
     return (
         <div>
             <div className='w-100 pa2 pb3' >
@@ -70,8 +95,9 @@ function ProjectDetails({ project, view, changeItemID }) {
             </div>
             <h5 className='bb b--white pa2 fw3 white b' >TASKS</h5>
             <div className='pa2'>
-                <List content={project.taskList} filter={view} touchFunction={passKey} />
+                <List content={projectTasks} filter={MISSION} touchFunction={passKey} />
             </div>
+            
         </div>
     );
 }

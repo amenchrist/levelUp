@@ -4,6 +4,7 @@ export const UPDATE_EXP = 'UPDATE_EXP';
 export const SELECT_PROJECT = 'SELECT_PROJECT';
 export const SELECT_TASK = 'SELECT_TASK';
 export const SELECT_ITEM = 'SELECT_ITEM';
+export const RESTORE_PREVIOUS_STATE = 'RESTORE_PREVIOUS_STATE';
 //
 
 export const OVERVIEW = 'OVERVIEW';

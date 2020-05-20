@@ -8,10 +8,10 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
 import './tachyonBoost.css';
-import { selectViewReducer, selectItemReducer, UpdateExpReducer } from './reducers';
+import { selectViewReducer, selectItemReducer, UpdateExpReducer, RestorePreviousStateReducer } from './reducers';
 import App2 from './App2';
 
-const rootReducer = combineReducers({selectViewReducer, selectItemReducer, UpdateExpReducer});
+const rootReducer = combineReducers({selectViewReducer, selectItemReducer, UpdateExpReducer, RestorePreviousStateReducer});
 const logger = createLogger();
 const store = createStore(rootReducer, applyMiddleware(logger));
 

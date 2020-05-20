@@ -19,16 +19,7 @@ export const ProjectList = [
             task: 'First physical action',
             output: 'recordable product of task completion' //information, document etc
         },
-        taskList: [
-            {
-                id: 1,
-                task: 'A physical action'
-            },
-            {
-                id: 2,
-                task: 'Another physical action'
-            }
-        ]
+        taskList: [ 1589657001522, 1589657001523 ]
     },
     {
         type: PROJECT,
@@ -47,16 +38,7 @@ export const ProjectList = [
             id: 17,
             task: 'First physical action'
         },
-        taskList: [
-            {
-                id: 1,
-                task: 'A physical action'
-            },
-            {
-                id: 2,
-                task: 'Another physical action'
-            }
-        ]
+        taskList: [ 1589657001524 ]
     },
     {
         type: PROJECT,
@@ -75,16 +57,7 @@ export const ProjectList = [
             id: 16,
             task: 'First physical action'
         },
-        taskList: [
-            {
-                id: 1,
-                task: 'A physical action'
-            },
-            {
-                id: 2,
-                task: 'Another physical action'
-            }
-        ]
+        taskList: [ 1589657001525 ]
     },
     {
         type: PROJECT,
@@ -103,16 +76,7 @@ export const ProjectList = [
             id: 16,
             task: 'First physical action'
         },
-        taskList: [
-            {
-                id: 1,
-                task: 'A physical action'
-            },
-            {
-                id: 2,
-                task: 'Another physical action'
-            }
-        ]
+        taskList: [ 1589657001526 ]
     },
     {
         type: PROJECT,
@@ -131,15 +95,6 @@ export const ProjectList = [
             id: 16,
             task: 'First physical action'
         },
-        taskList: [
-            {
-                id: 1,
-                task: 'A physical action'
-            },
-            {
-                id: 2,
-                task: 'Another physical action'
-            }
-        ]
+        taskList: []
     }
 ]

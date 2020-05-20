@@ -4,6 +4,7 @@ import NewItemButton from '../components/NewItemButton';
 import ItemDetails from '../components/ItemDetails';
 import TaskDetails from '../components/TaskDetails';
 import ProjectDetails from '../components/ProjectDetails';
+import BackButton from '../components/BackButton';
 
 export default function Details( { content, itemID, touchFunction, updateExp }){
     let itemType, item;
@@ -21,6 +22,7 @@ export default function Details( { content, itemID, touchFunction, updateExp }){
         case PROJECT:
             return (
                 <div className='w-100 center br1 pa3 ba b--black-10'>
+                    <BackButton />
                     <ProjectDetails project={item} touchFunction={touchFunction} updateExp={updateExp}/>
                     
                 </div>        
@@ -28,6 +30,7 @@ export default function Details( { content, itemID, touchFunction, updateExp }){
         case TASK:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                    <BackButton />
                     <h1 className='tc'>Task</h1>
                     <TaskDetails id={parseInt(itemID)} />
                     
@@ -36,6 +39,7 @@ export default function Details( { content, itemID, touchFunction, updateExp }){
         case INBOX_ITEM:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                    <BackButton />
                     <h1 className='tc'>Inbox Item</h1>
                     <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} />
                     <NewItemButton touchFunction={touchFunction} />
@@ -44,6 +48,7 @@ export default function Details( { content, itemID, touchFunction, updateExp }){
         default:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                    <BackButton />
                     <h1 className='tc'>Error</h1>
                     <p>Item Not Found</p>
                     <NewItemButton touchFunction={touchFunction} />
