@@ -4,7 +4,7 @@ import Scroll from './Scroll';
 import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, MISSION } from '../constants';
 
 export default function List({ touchFunction, content, filter }) {
-    console.log(content);
+    //console.log(content);
 
     // A Mission's Tasklist
     const missionTasks = content.map((entry,i ) => {

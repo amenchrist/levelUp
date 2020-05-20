@@ -134,7 +134,7 @@ function Main(props) {
                                 <h5>EXP: {exp}</h5>
                             </div>
                             <div className='h-90 pa1'>
-                                <Details content={db} itemID={itemID} />
+                                <Details content={db} itemID={itemID} selectAnother={changeItemID} />
                             </div>
                         </div>
                 )
