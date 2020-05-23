@@ -1,50 +1,14 @@
 import React, { useState } from 'react';
 import QuestionAndOptions from '../components/QuestionAndOptions';
 import QuestionandInput from '../components/QuestionAndInput';
+import { InboxItems } from '../InboxItems';
 import { ProjectList } from '../ProjectList';
 import { TaskList } from '../TaskList';
 import { PROJECT, UNPLANNED, PROCESSED, TASK, PENDING, UNPROCESSED } from '../constants';
 import { selectView, selectItem } from '../actions';
 import { connect } from 'react-redux';
 
-class Project{
-    constructor(name, goal) {
-        const d = new Date();
-        this.type = PROJECT;        
-        this.id = d.getTime();
-        this.name = name;
-        this.description = '';
-        this.goal = goal;
-        this.output = null;
-        this.outputRecordID = null;
-        this.dueDate = (d.getTime() + 7776000000); // 3 months from the date the project is planned 
-        this.timeRequired = 7776000000;
-        this.timeRemaining = setInterval(()=> {
-            let timeNow = (new Date()).getTime();
-            return (this.dueDate - timeNow)
-        }, 1);
-        this.status = UNPLANNED;
-        this.nextAction = {};
-        this.taskList = [];
-    }
-}
 
-class Task{
-    constructor(name,output, isDelegatable) {
-        const d = new Date();
-        this.type = TASK;        
-        this.id = d.getTime();
-        this.name = name;
-        this.description = '';
-        this.output = output;
-        this.outputRecordID = 0;
-        this.timeRequired = null; 
-        this.status = PENDING;
-        this.isDelegatable = isDelegatable;
-        this.associatedProject = {};
-        this.dueDate = null;
-    }
-}
 
 const mapStateToProps = state => {
     return {
@@ -64,14 +28,73 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-function Processor({ nextItemID, item, touchFunction, changeItemID }) {
+function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex }) {
+
+    class Task{
+        constructor(name,outcome, isDelegatable) {
+            const d = new Date();
+            this.type = TASK;        
+            this.id = d.getTime();
+            this.name = name;
+            this.description = '';
+            this.outcome = outcome;
+            this.outputRecordID = 0;
+            this.timeRequired = null; 
+            this.status = PENDING;
+            this.isDelegatable = isDelegatable;
+            this.associatedProject = {};
+            this.dueDate = (new Date()).toISOString().substr(0, 10);
+        }
+    }
+
+    class Project{
+        constructor(name, goal) {
+            const d = new Date();
+            this.type = PROJECT;        
+            this.id = d.getTime();
+            this.name = name;
+            this.description = '';
+            this.goal = goal;
+            this.outcome = outcome;
+            this.outputRecordID = null;
+            this.dueDate = (new Date((d.getTime() + 7776000000))).toISOString().substr(0, 10); // 3 months from the date the project is planned 
+            this.timeRequired = 7776000000;
+            this.timeRemaining = setInterval(()=> {
+                let timeNow = (new Date()).getTime();
+                return (this.dueDate - timeNow)
+            }, 1);
+            this.status = UNPLANNED;
+            this.nextAction = {};
+            this.taskList = [];
+        }
+    }
+
+    /**type: TASK,
+        id: 1589657001522,
+        entryDate: 20,
+        status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
+        frequency: 0,
+        timeSpent: 0,
+        priority : LOW,
+        outcomeRecordID: 0, //Assigned on task completion
+        name: 'Buy bread 5 ',
+        outcome: 'Bread in the fridge',
+        requiredContext: 'At the Supermarket',
+        note: 'Brown bread preferably',
+        dueDate: new Date().toISOString().substr(0, 10), //gmt timestamp
+        timeRequired: 900, //In seconds
+        associatedProjectID: 1589657001530,
+        requirements: '£1 minimum',
+        exp: 10 
+        */
+
+
     //actionable?
     //action
     //multistep?
     //done in 5?
     //delegatable?
     //project outcome
-
 
     const [ outcome, setOutcome ] = useState('');
     const [ isActionable, setIsActionable ] = useState(null);
@@ -83,20 +106,23 @@ function Processor({ nextItemID, item, touchFunction, changeItemID }) {
 
     function processNextItem(e){
         setStep(0);
-        touchFunction(e);
+        //touchFunction(e);
     }
 
     function makeNewProject(){
         let proj = new Project( action, outcome );
         ProjectList.unshift(proj);
         updateStatus();
-        refresh();
+        InboxItems.splice(itemIndex,1);
+        changeItemID(proj.id);
     }
 
     function makeNewTask(){
         let task = new Task( action, outcome, isDelegatable);
         TaskList.unshift(task);
-        updateStatus();
+        updateStatus()
+        InboxItems.splice(itemIndex,1);
+        changeItemID(task.id);
     }
     function updateStatus() {
         item.status = PROCESSED;
@@ -123,7 +149,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID }) {
         case ( isActionable === true && step === 2 ):
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
-                    <QuestionandInput question="What does 'DONE' look like?" submitFunction={(answer) => { setOutcome(answer); proceed() }} />
+                    <QuestionandInput question="What's the desired outcome?" submitFunction={(answer) => { setOutcome(answer); proceed() }} />
                 </div>
             )
         case ( step === 3 ):
@@ -135,14 +161,14 @@ function Processor({ nextItemID, item, touchFunction, changeItemID }) {
         case ( step === 4 ):
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
-                    <QuestionAndOptions question='Does the next action require more than one step?' yes={() => { setIsMultistep(true); proceed();  makeNewProject() } } no={() => { setIsMultistep(false); proceed();} } />
+                    <QuestionAndOptions question='Does the action require more than one step?' yes={() => { setIsMultistep(true); proceed();  makeNewProject() } } no={() => { setIsMultistep(false); proceed();} } />
                 </div>
             )
         case ( isMultistep === true && step === 5 ):
             // New project was added and page refreshed
             return (
-                <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
-                    <h3>A new Project has been added</h3>
+                <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
+                    <h3 className='white tc pb2'>A new Project has been added</h3>
                     <button className="button" id={nextItemID} onClick={processNextItem} >PROCESS NEXT ITEM</button>
                 </div>
             )
@@ -164,14 +190,13 @@ function Processor({ nextItemID, item, touchFunction, changeItemID }) {
         case ( isDoneInFive === false && step === 6 ):
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
-                    <QuestionAndOptions question='Can this task be delegated?' yes={() => { setIsDelegatable(true); updateStatus(); refresh(); proceed(); }} no={() => { setIsDelegatable(false); updateStatus(); refresh(); proceed(); }} />
+                    <QuestionAndOptions question='Can this task be delegated?' yes={() => { setIsDelegatable(true); updateStatus(); makeNewTask(); proceed(); }} no={() => { setIsDelegatable(false); updateStatus(); makeNewTask(); proceed(); }} />
                 </div>
             )
         case ( step === 7 ):
-            makeNewTask();
             return (
-                <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
-                    <h3>A new Task has been added</h3>
+                <div className='h-100 w-100 center br1 pa3 ba b--black-10 show flex items-center flex-column' >
+                    <h3 className='white tc pb2'>A new Task has been added</h3>
                     <button className="button" id={nextItemID} onClick={processNextItem} >PROCESS NEXT ITEM</button>
                 </div>
             )

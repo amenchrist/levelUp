@@ -14,6 +14,7 @@ export default function Details( { content, itemID, touchFunction, updateExp, se
     let next = itemID;
     let db = content;
     const id = parseInt(itemID);
+
     for (let i=0; i<db.length; i++){
 
         if (db[i].id === id){
@@ -35,45 +36,40 @@ export default function Details( { content, itemID, touchFunction, updateExp, se
         case PROJECT:
             return (
                 <div className='w-100 center br1 pa3 ba b--black-10'>
-                    <BackButton />
+                    <BackButton id={0} />
                     <ProjectDetails project={item} touchFunction={touchFunction} updateExp={updateExp}/>
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
                     </div>
                     
-                </div>        
+                </div>
             )
         case TASK:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
-                    <BackButton />
-                    <h1 className='tc'>Task</h1>
+                    <BackButton id={0} />
+                    <h1 className='tc b gold'>Task</h1>
                     <TaskDetails id={parseInt(itemID)} />
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
                     </div>
-                </div>        
+                </div>
             )
         case INBOX_ITEM:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
-                    <BackButton />
-                    <h1 className='tc'>Inbox Item</h1>
-                    <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} />
-                    <NewItemButton touchFunction={touchFunction} />
-                    <div className='flex justify-between self-end'>
-                        <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
-                        <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
-                    </div>
+                    <BackButton id={0} />
+                    <h1 className='tc b gold'>Inbox Item</h1>
+                    <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} selectAnother={selectAnother} prevID={prev} nextID={next} />
                 </div>        
             )
         default:
             return (
-                <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                <div className='h-100 w-100 center br1 pa3 ba b--black-10 pb2'>
                     <BackButton />
-                    <h1 className='tc'>Error</h1>
+                    <h1 className='tc b white'>Error</h1>
                     <p>Item Not Found</p>
                     <NewItemButton touchFunction={touchFunction} />
                 </div>        

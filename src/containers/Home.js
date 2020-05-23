@@ -81,7 +81,7 @@ function Home(props) {
             </div>
             <div className="flex justify-center h-30">
                 <div className=' w-50 h-100 pa1'>
-                   <TodaysMission touchFunction={passTitle} />
+                   <TodaysMission touchFunction={passTitle} gotoItem={changeItemID} />
                 </div>
                 <div className=' w-50 h-100'>
                     <div className=' w-100 h-50'>

@@ -54,39 +54,35 @@ function TaskDetails({ id , changeItemID, updateExp }) {
         TaskList.splice(position,1);
         updateExp(task.exp);
         changeItemID(0);
-
     }
 
     return (
-        <div>
-            <div className='lightup' >
-                {/* <h5>ID: {task.id}</h5> */}
-                <input type="checkbox" value="Done"></input>
-                <h3>{task.name}</h3>
-                <h5>{task.requiredContext}</h5>
-                {/* <h5><span id={task.associatedProject.id} onClick={touchFunction}>{task.associatedProject.name}</span></h5> */}
-                <h4>Outcome: {task.outcome} </h4>
-            </div>
-            <div >
-                <h5>Due Date: {(new Date(task.dueDate)).toISOString().substr(0, 10)}</h5>
-                <h5>Time Required: {task.timeRequired}</h5>
-                <h5>Status: {task.status}</h5>
-            </div>
-            <div className='bt bb'>
-                <h5>Note</h5>
-                <p>{task.note}</p>
-            </div>
-            <button className="button" onClick={startTimer}>START</button>
-            <button className="button" onClick={markAsDone}>DONE</button>
-            {/* <div>
-                <h5>Next Action: </h5>
-                <p>{project.nextAction}</p>
-            </div>
+        <div >
+            <input type="checkbox" value="Done"></input>
             <div>
-                <h5>Task List</h5>
-                <p>{project.taskList}</p>
-            </div> */}
+                <div className='w-100 pa2 pb3' >
+                    <h3 className='fw7 b white pb2'>{task.name}</h3>
+                    <h4 className='fw1 white'>{task.requiredContext}</h4>
+                </div>
+                <div className='w-100 pl2 pb3'>
+                    <h5 className='fw3 white'>Outcome: </h5>
+                    <h5 className='fw3 white'>{task.outcome} </h5>
+                </div>
+                <div className='w-100 pl2 pb3 flex justify-between'>
+                    <h5 className='fw3 white'>Due: {task.dueDate} </h5>
+                    <h5 className='fw3 white'>Time Required: {task.timeRequired}</h5>
+                </div>
+                <div className='w-100 pl2 pb3 flex justify-between'>
+                    <h5 className='fw3 white'>Status: {task.status}</h5>
+                    <h5 className='fw3 white'>Time Remaining: 12:34:50 </h5>
+                </div>
+                <h5 className='bb b--white pa2 fw3 white b' >NOTE</h5>
+                <div className='pa2'>
+                    <p className='fw3 white'>{task.note}</p>
+                </div>
+                <button className="button" onClick={startTimer}>START</button>
+                <button className="button" onClick={markAsDone}>DONE</button>
+            </div>
         </div>
     );
 }
-

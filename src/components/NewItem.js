@@ -3,39 +3,68 @@ import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION } from '../constants';
 import { InboxItems } from '../InboxItems'
 import NewTask from './NewTask';
 import NewMission from './NewMission';
+import { selectView, selectItem } from '../actions';
+import { connect } from 'react-redux';
 
-class Item{
-    constructor(name,description='None') {
-        const d= new Date();
-
-        this.type = INBOX_ITEM;
-        this.id = d.getTime();
-        this.entryDate = d.getTime();
-        this.name = name;
-        this.description = description;
-        this.status = UNPROCESSED;
-
+const mapStateToProps = state => {
+    return {
+        view: state.selectViewReducer.view,
+        itemID: state.selectItemReducer.itemID
     }
 }
 
-export default function NewItem({ submitFunction, view, updateExp }) {
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onTouch: (title) => {
+            return dispatch(selectView(title))
+        },
+        changeItemID: (id) => {
+            return dispatch(selectItem(id))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
+
+
+function NewItem({ submitFunction, view, updateExp, changeItemID }) {
 
     const [ type, setType ] = useState(view);
-    const [ name, setName ] = useState('');
-    const [ description, setDescription ] = useState('');
+    const [ name, setName ] = useState('Enter item name');
+    // 
 
     function reset(){
         setType(INBOX_ITEM);
-        setName('');
-        setDescription('');
+        setName('Enter item name');
+        // setDescription('');
+    }
+
+    class Item{
+        constructor(name,description='None') {
+            const d= new Date();
+    
+            this.type = INBOX_ITEM;
+            this.id = d.getTime();
+            this.entryDate = d.getTime();
+            this.name = name;
+            this.description = '';
+            this.status = UNPROCESSED;
+    
+        }
     }
 
     function submitNewItem(event) {
-        let i = new Item(name, description);
-        InboxItems.unshift(i);
-        updateExp(5);
-        // submitFunction(event);
-        reset();
+        if(name !== 'Enter item name' && name !== '' ){
+            console.log('name is set')
+            let i = new Item(name);
+            InboxItems.unshift(i);
+            console.log(i)
+            updateExp(5);
+            changeItemID(i.id);
+            // submitFunction(event);
+            reset();
+            event.preventDefault();
+        }
         event.preventDefault();
     }
     
@@ -47,11 +76,11 @@ export default function NewItem({ submitFunction, view, updateExp }) {
                 return <NewMission updateExp={updateExp} />
             default:
                 return (
-                    <div className='h-100 w-100 center ba b--black-10'>
-                        <h1 className='tc'>NEW ITEM</h1>
+                    <div className='h-100 w-100 center ba b--black-10 '>
+                        <h1 className='tc gold b'>NEW ITEM</h1>
                         <form onSubmit={submitNewItem} className='flex flex-column' title={INBOX}>
-                            <input type='text' value={name} onChange={(e)=> setName(e.target.value)} />
-                            <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+                            <input type='text' onChange={(e)=> setName(e.target.value)} placeholder='Enter item name...' className='pa2 mb2' />
+                            {/* <textarea value={description} onChange={(e) => setDescription(e.target.value)} /> */}
                             <input type='submit' value='submit' />
                         </form>
                     </div>
