@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION, TODAY, DAILY } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION, TODAY, DAILY, REFERENCES } from '../constants';
 import List from '../components/List';
 import { InboxItems } from '../InboxItems';
 import { TaskList } from '../TaskList';
-import { ProjectList } from '../ProjectList'
+import { ProjectList } from '../ProjectList';
+import { ReferenceList } from '../ReferenceList';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
 import NewItem from '../components/NewItem';
@@ -55,7 +56,7 @@ function Main(props) {
         default:
     }
     
-    const db = InboxItems.concat(ProjectList, TaskList);
+    const db = InboxItems.concat(ProjectList, TaskList, ReferenceList);
     
     function passKey(e) {
         //Takes the events target and checks for title attribute 
@@ -86,7 +87,7 @@ function Main(props) {
         }
     }
 
-    const views = [ NEW_ITEM, PROJECTS, TASKS, INBOX, TODAY, DAILY ];
+    const views = [ NEW_ITEM, PROJECTS, TASKS, INBOX, TODAY, DAILY, REFERENCES ];
 
     switch( true) {
         case (view === STATS):

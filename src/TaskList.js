@@ -33,7 +33,7 @@ export const TaskList = [
         outcome: 'Bread in the fridge',
         requiredContext: 'At the Supermarket',
         note: 'Brown bread preferably',
-        dueDate: new Date().toISOString().substr(0, 10), //gmt timestamp
+        dueDate: 1589657001523, //gmt timestamp
         timeRequired: 900, //In seconds
         associatedProjectID: 1589657001530,
         requirements: '£1 minimum',

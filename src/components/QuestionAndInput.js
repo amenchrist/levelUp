@@ -19,6 +19,7 @@ export default function QuestionandInput({ question, submitFunction }) {
             <h2 className='white tc pb2'>{question}</h2>
             <form onSubmit={submit}>
                 <input type='text' value={answer} onChange={(e)=> setAnswer(e.target.value)} />
+                <input type='submit' value='submit' />
             </form>
         </div>
     )

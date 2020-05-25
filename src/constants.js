@@ -17,6 +17,8 @@ export const PROJECT = 'PROJECT';
 export const TASK = 'TASK';
 export const INBOX_ITEM = 'INBOX_ITEM';
 export const NEW_ITEM = 'NEW_ITEM';
+export const REFERENCES = 'REFERENCES';
+export const REFERENCE = 'REFERENCE';
 
 // Status constants
 //STARTED, ONGOING, NOT_STARTED, COMPLETED, UNPLANNED, UNFINISHED
