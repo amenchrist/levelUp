@@ -7,7 +7,7 @@ export const TaskList = [
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: 0,
-        timeSpent: 0,
+        timeSpent: 600000,
         priority : LOW,
         outcomeRecordID: 0, //Assigned on task completion
         name: 'Buy bread 5 ',
@@ -26,7 +26,7 @@ export const TaskList = [
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: 0,
-        timeSpent: 0,
+        timeSpent: 300000,
         priority : LOW,
         outcomeRecordID: 0, //Assigned on task completion
         name: 'Buy bread 4 ',
@@ -45,7 +45,7 @@ export const TaskList = [
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: DAILY,
-        timeSpent: 0,
+        timeSpent: 150000,
         priority : LOW,
         outcomeRecordID: 0, //Assigned on task completion
         name: 'Buy bread 3 ',
@@ -64,7 +64,7 @@ export const TaskList = [
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: DAILY,
-        timeSpent: 0,
+        timeSpent: 400000,
         priority : LOW,
         outcomeRecordID: 0, //Assigned on task completion
         name: 'Buy bread 2',
@@ -83,7 +83,7 @@ export const TaskList = [
         entryDate: 20,
         status: 'PENDING' ,//PENDING, STARTED, UNFINISHED, DEFERED, NOT_STARTED, COMPLETED
         frequency: 0,
-        timeSpent: 0,
+        timeSpent: 500000,
         priority : LOW,
         outcomeRecordID: 0, //Assigned on task completion
         name: 'Buy bread',

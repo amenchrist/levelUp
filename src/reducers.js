@@ -1,4 +1,4 @@
-import { CHANGE_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE } from "./constants"
+import { CHANGE_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK } from "./constants"
 
 const initialState = {
     itemID: 0,
@@ -6,7 +6,8 @@ const initialState = {
     exp: 0,
     view: OVERVIEW,
     previousView: OVERVIEW,
-    previousState: {}
+    previousState: {},
+    taskStatus: ''
 }
 
 export const RestorePreviousStateReducer = (state=initialState, action={}) => {
@@ -60,3 +61,25 @@ export const UpdateExpReducer = (state=initialState, action={}) => {
     }
 }
 
+export const UpdateTaskStatusReducer = (state=initialState, action={}) => {
+    switch(action.type){
+        case UPDATE_TASK_STATUS:
+            return Object.assign({}, state, {taskStatus: action.payload});
+        default:
+            return state;
+    }
+}
+
+const initialActiveTask = {
+    activeTask: 0,
+    activeSince: null
+}
+
+export const SetActiveTaskReducer = (state=initialActiveTask, action={}) => {
+    switch(action.type){
+        case SET_ACTIVE_TASK:
+            return Object.assign({}, state, {activeTask: action.payload, activeSince: ((new Date()).getTime()) });
+        default:
+            return state;
+    }
+}

@@ -1,4 +1,4 @@
-import {CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE} from './constants';
+import {CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK} from './constants';
 
 export const selectView = (item) => {
     return {
@@ -34,4 +34,16 @@ export const RestorePreviousState = (previousState) => {
     return {
     type: RESTORE_PREVIOUS_STATE,
     payload: previousState
+}};
+
+export const UpdateTaskStatus = (status) => {
+    return {
+    type: UPDATE_TASK_STATUS,
+    payload: status
+}};
+
+export const SetActiveTask = (id) => {
+    return {
+    type: SET_ACTIVE_TASK,
+    payload: id
 }};

@@ -1,41 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { selectView } from './actions';
+import NavBar from './containers/NavBar';
 import './App.css';
-//import { response } from 'express';
+import Main from './containers/Main';
 
-
-
-class App extends React.Component {
-
-  componentDidMount() {
-    console.log("Component has mounted");
-    fetch('https://safe-island-15843.herokuapp.com')
-    .then(res => res.json())
-    .then(console.log);
-  }
-  //https://secret-citadel-16777.herokuapp.com
-  //http://localhost:5000/
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Get Ready to Level Up
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    )
-  };
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onTouch: (title) => {
+            return dispatch(selectView(title))
+        }
+    }
 }
 
-export default App;
+function App2(props) {
+
+    useEffect(() => {
+       
+    })
+
+    const { onTouch } = props;
+
+    
+    return (
+        <div className='app'>
+            <div className='home-container'>
+                <Main />
+            </div>
+            <NavBar touchFunction={onTouch} />
+        </div>
+    );
+}
+
+export default connect(mapDispatchToProps)(App2);
+
+
+//https://cdn.internetmultimediaonline.org/241F21/loveworldlive/ixilrao9.m3u8

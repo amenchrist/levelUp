@@ -5,6 +5,8 @@ export const SELECT_PROJECT = 'SELECT_PROJECT';
 export const SELECT_TASK = 'SELECT_TASK';
 export const SELECT_ITEM = 'SELECT_ITEM';
 export const RESTORE_PREVIOUS_STATE = 'RESTORE_PREVIOUS_STATE';
+export const UPDATE_TASK_STATUS = 'UPDATE_TASK_STATUS';
+export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK';
 //
 
 export const OVERVIEW = 'OVERVIEW';
@@ -31,6 +33,7 @@ export const STARTED = 'STARTED';
 export const DONE = 'DONE';
 export const ONGOING = 'ONGOING';
 export const COMPLETE = 'COMPLETE';
+export const PAUSED = 'PAUSED';
 //
 
 export const LOW = 'LOW';

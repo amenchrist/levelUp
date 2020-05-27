@@ -4,21 +4,23 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger'
 import './index.css';
-//import App from './App';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
 import './tachyonBoost.css';
-import { selectViewReducer, selectItemReducer, UpdateExpReducer, RestorePreviousStateReducer } from './reducers';
-import App2 from './App2';
+import { selectViewReducer, selectItemReducer, UpdateExpReducer, RestorePreviousStateReducer, UpdateTaskStatusReducer, SetActiveTaskReducer } from './reducers';
 
-const rootReducer = combineReducers({selectViewReducer, selectItemReducer, UpdateExpReducer, RestorePreviousStateReducer});
+
+const rootReducer = combineReducers({
+  selectViewReducer, selectItemReducer, UpdateExpReducer, RestorePreviousStateReducer, UpdateTaskStatusReducer, SetActiveTaskReducer
+});
 const logger = createLogger();
 const store = createStore(rootReducer, applyMiddleware(logger));
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
-    <App2  />
+    <App  />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

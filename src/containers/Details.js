@@ -48,7 +48,7 @@ export default function Details( { content, itemID, touchFunction, updateExp, se
             )
         case TASK:
             return (
-                <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                <div className='h-100 w-100 center br1 ba b--black-10 '>
                     <BackButton id={0} />
                     <h1 className='tc b gold'>Task</h1>
                     <TaskDetails id={parseInt(itemID)} />
@@ -60,7 +60,7 @@ export default function Details( { content, itemID, touchFunction, updateExp, se
             )
         case INBOX_ITEM:
             return (
-                <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                <div className='h-100 w-100 center br1 ba b--black-10'>
                     <BackButton id={0} />
                     <h1 className='tc b gold'>Inbox Item</h1>
                     <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} selectAnother={selectAnother} prevID={prev} nextID={next} />
@@ -68,7 +68,7 @@ export default function Details( { content, itemID, touchFunction, updateExp, se
             )
         case REFERENCE:
             return (
-                <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
+                <div className='h-100 w-100 center br1 ba b--black-10'>
                     <BackButton id={0} />
                     <h1 className='tc b gold'>REFERENCE</h1>
                     <ReferenceDetails id={parseInt(itemID)} />
@@ -80,7 +80,7 @@ export default function Details( { content, itemID, touchFunction, updateExp, se
             )
         default:
             return (
-                <div className='h-100 w-100 center br1 pa3 ba b--black-10 pb2'>
+                <div className='h-100 w-100 center br1 ba b--black-10 pb2'>
                     <BackButton />
                     <h1 className='tc b white'>Error</h1>
                     <p>Item Not Found</p>
