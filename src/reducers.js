@@ -71,14 +71,15 @@ export const UpdateTaskStatusReducer = (state=initialState, action={}) => {
 }
 
 const initialActiveTask = {
-    activeTask: 0,
-    activeSince: null
+    activeTask: {},
+    activeSince: null,
+    timeNow: (new Date()).getTime()
 }
 
 export const SetActiveTaskReducer = (state=initialActiveTask, action={}) => {
     switch(action.type){
         case SET_ACTIVE_TASK:
-            return Object.assign({}, state, {activeTask: action.payload, activeSince: ((new Date()).getTime()) });
+            return Object.assign({}, state, {activeTask: action.payload, activeSince: (new Date()).getTime() });
         default:
             return state;
     }

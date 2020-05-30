@@ -34,6 +34,7 @@ export const DONE = 'DONE';
 export const ONGOING = 'ONGOING';
 export const COMPLETE = 'COMPLETE';
 export const PAUSED = 'PAUSED';
+export const ACTIVE = 'ACTIVE';
 //
 
 export const LOW = 'LOW';

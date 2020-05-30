@@ -42,8 +42,8 @@ export const UpdateTaskStatus = (status) => {
     payload: status
 }};
 
-export const SetActiveTask = (id) => {
+export const SetActiveTask = (task) => {
     return {
     type: SET_ACTIVE_TASK,
-    payload: id
+    payload: task
 }};

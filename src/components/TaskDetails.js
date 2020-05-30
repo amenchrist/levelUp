@@ -63,6 +63,14 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
 
     const dateNow = (new Date()).getTime();
 
+    // if (task.id === activeTask.id) {
+    //     console.log(task.timeSpent)
+    //     console.log(dateNow)
+    //     task.timeSpent = task.timeSpent + (dateNow - activeSince)
+    //     console.log('aft '+ task.timeSpent)
+    //     console.log(dateNow)
+    // }
+
     useEffect(() => {
         setName(task.name);
         setrequiredContext(task.requiredContext);
