@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION, TODAY, DAILY, REFERENCES } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION, TODAY, DAILY, REFERENCES, OVERVIEW } from '../constants';
 import List from '../components/List';
 import { InboxItems } from '../InboxItems';
 import { TaskList } from '../TaskList';
@@ -93,6 +93,17 @@ function Main(props) {
         case (view === STATS):
             return (
                 <Stats />
+            )
+        case (view === OVERVIEW && parseInt(itemID) !== 0 ):
+            return (
+                <div className='h-100 pa2 '>
+                        <div className='h-10'>
+                            <h5>EXP: {exp}</h5>
+                        </div>
+                        <div className='h-90 pa1'>
+                            <Details content={db} itemID={itemID} selectAnother={changeItemID} />
+                        </div>
+                    </div>
             )
         case views.indexOf(view) !== -1 :
             if (itemID === "0" || itemID === 0) { // Imagine the id for list component = 0

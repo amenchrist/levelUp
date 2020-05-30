@@ -16,7 +16,10 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: new Date().toISOString().substr(0, 10), //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProjectID: 1589657001530,
+        associatedProject: {
+            name: 'Project',
+            id: 1589657001530
+        },
         requirements: '£1 minimum',
         exp: 10
     },
@@ -35,7 +38,10 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: 1589657001523, //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProjectID: 1589657001530,
+        associatedProject: {
+            name: 'Project',
+            id: 1589657001530
+        },
         requirements: '£1 minimum',
         exp: 10
     },
@@ -54,7 +60,10 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProjectID: 1589657001531,
+        associatedProject: {
+            name: 'Project',
+            id: 1589657001531
+        },
         requirements: '£1 minimum',
         exp: 10
     },
@@ -73,7 +82,10 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProjectID: 1589657001532,
+        associatedProject: {
+            name: 'Project',
+            id: 1589657001532
+        },
         requirements: '£1 minimum',
         exp: 10
     },
@@ -92,7 +104,10 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProjectID: 1589657001533,
+        associatedProject: {
+            name: 'Project',
+            id: 1589657001533
+        },
         requirements: '£1 minimum',
         exp: 10
     }

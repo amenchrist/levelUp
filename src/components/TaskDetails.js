@@ -108,7 +108,8 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
                     {/* <input type='text' onChange={(e)=> {setrequiredContext(e.target.value);} } onBlur={() =>task.outcome=outcome} value={outcome} className='fw3 white bn bg-transparent' /> */}
                 </div>
                 <div className='w-100 pl2 pb3 flex justify-between'>
-                    <h5 className='fw3 white'>Time Spent: {task.timeSpent}</h5>
+                    {/* <h5 className='fw3 white'>Time Spent: {task.timeSpent}</h5> */}
+                    <Timer timeSpent={task.timeSpent} task={task} />
                     <h5 className='fw3 white'>Time Remaining: 12:34:50 </h5>
                 </div>
                 <h5 className='fw3 white'>Status: {task.status}</h5>
@@ -117,7 +118,6 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
                     {/* <p className='fw3 white'>{task.note}</p> */}
                     <textarea rows="4" cols="45" onChange={(e)=> {setnote(e.target.value);} } onBlur={ () =>task.note=note } value={note} className='fw3 white bn bg-transparent' />
                 </div>
-                <Timer timeSpent={task.timeSpent} task={task} />
                 <TaskControls task={task} position={position} />
                 {/* <button className="button" onClick={startTimer}>START</button>
                 <button className="button" onClick={markAsDone}>DONE</button> */}

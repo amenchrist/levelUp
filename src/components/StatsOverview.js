@@ -1,23 +1,47 @@
 import React from 'react';
+//import React, { useState, useEffect } from 'react';
+import ActiveTaskTimer from './ActiveTaskTimer';
 
-function StatsOverview({ touchFunction, exp }) {
+// import { connect } from 'react-redux';
+// import { UpdateTaskStatus, SetActiveTask, selectItem } from '../actions';
+
+// const mapStateToProps = state => {
+//     return {
+//         activeTask: state.SetActiveTaskReducer.activeTask,
+//         status: state.UpdateTaskStatusReducer.taskStatus,
+//         activeSince: state.SetActiveTaskReducer.activeSince,
+//         timeNow: state.SetActiveTaskReducer.timeNow
+//     }
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         updateTaskStatus: (status) => {
+//             return dispatch(UpdateTaskStatus(status))
+//         },
+//         setActiveTask: (task) => {
+//             return dispatch(SetActiveTask(task))
+//         },
+//         changeItemID: (id) => {
+//             return dispatch(selectItem(id))
+//         }
+//     }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(StatsOverview);
+
+export default function StatsOverview({ touchFunction, exp }) {
 
     return (
         <article className="h-100 w-100 center bg-white pa2  " title="STATS" onClick={touchFunction}>
             <div className="tc w-100 h-100">
-                <div></div>
                 <h1 className="f2 mb0">Amen Christ</h1>
                 <h3 className="f6 pa1 gray ">Engineer</h3>
                 <h4 className="f6 gray ">Exp: {exp}</h4>
-                <div className=" pt3 ">
-                    <h2 className="pa1 ">Current Mission</h2>
-                    <h2 className="pa1 yellow ">Current Task</h2>
-                    <h2 className="pa1">12:45:34</h2>
-                </div>
+                <ActiveTaskTimer />
             </div>
         </article>  
     );
 }
 
-export default StatsOverview;
 

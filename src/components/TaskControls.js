@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 //import { TaskList } from '../TaskList';
 import { connect } from 'react-redux';
 import { selectItem, UpdateExp, UpdateTaskStatus, SetActiveTask } from '../actions';
@@ -35,16 +35,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(TaskControls);
 
 function TaskControls({ task, status, updateTaskStatus, updateExp, changeItemID, setActiveTask, activeSince, activeTask }){
 
-    const [prevTimeSpent, setprevTimeSpent] = useState(0);
+    const prevTimeSpent = task.timeSpent;
 
     function startTimer(){
-        setprevTimeSpent(task.timeSpent);
-        console.log('Start Timer')
-        console.log(prevTimeSpent)
-        console.log(task.timeSpent)
         setActiveTask(task);
         task.status = ACTIVE;
-        //changeItemID(task.id);
     }
 
     function pauseTask(){
@@ -67,16 +62,16 @@ function TaskControls({ task, status, updateTaskStatus, updateExp, changeItemID,
         case ACTIVE:
             console.log(activeTask.id === true)
             return (
-                <div>
+                <div className='flex justify-center'>
                     <button className="button" onClick={pauseTask}>PAUSE</button>
-                    <button className="button" onClick={markAsDone}>DONE</button>
+                    <button className="button" onClick={markAsDone}>MARK DONE</button>
                 </div>
             )
         case PAUSED:
             return (
-                <div>
+                <div className='flex justify-center'>
                     <button className="button" onClick={startTimer}>CONTINUE</button>
-                    <button className="button" onClick={markAsDone}>DONE</button>
+                    <button className="button" onClick={markAsDone}>MARK DONE</button>
                 </div>
             )
         case PENDING:
@@ -84,9 +79,9 @@ function TaskControls({ task, status, updateTaskStatus, updateExp, changeItemID,
             console.log(activeTask.id)
             if(activeTask.id === undefined) {
                 return (
-                    <div>
+                    <div className='flex justify-center'>
                         <button className="button" onClick={startTimer}>START</button>
-                        <button className="button" onClick={markAsDone}>Mark as DONE</button>
+                        <button className="button" onClick={markAsDone}>MARK DONE</button>
                     </div>
                 )
             } else {
