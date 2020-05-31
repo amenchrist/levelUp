@@ -72,8 +72,6 @@ function NewTask({ changeItemID, updateExp }) {
         event.preventDefault();
     }
 
-    
-
     return (
         <div className='h-100 w-100 center br1 pa3 ba b--black-10 '>
             <h1 className='tc'>NEW TASK</h1>

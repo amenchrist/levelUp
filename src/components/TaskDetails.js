@@ -77,10 +77,6 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
         setoutcome(task.outcome);
         setnote(task.note);
         setdueDate(task.dueDate);
-        
-        
-        
-    
     }, [task.name, task.requiredContext, task.outcome, task.note, task.dueDate, task.timeSpent, activeSince, activeTask, task.id, dateNow ])
 
     //console.log(task.id)

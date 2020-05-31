@@ -25,13 +25,14 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);
 
-function Timer({ timeSpent, task, timerOn, activeTask, activeSince, timeNow }){
+function Timer({ timeSpent, task, activeTask, activeSince, timeNow }){
 
 
     if (task.id === parseInt(activeTask.id) ){
         const dateNow = (new Date()).getTime();
         timeSpent = timeSpent + (dateNow - activeSince);
     }
+    console.log('time spent = '+timeSpent)
 
     let s = timeSpent;
     let ms = s % 1000;

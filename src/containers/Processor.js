@@ -34,20 +34,29 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex })
     class Task{
         constructor(name,outcome, isDelegatable, requiredContext) {
             const d = new Date();
-            this.type = TASK;        
+            this.type = TASK;
             this.id = d.getTime();
-            this.name = name;
-            this.requiredContext = requiredContext;
-            this.description = '';
-            this.outcome = outcome;
-            this.outputRecordID = 0;
-            this.timeRequired = null; 
+            this.entryDate = d.getTime();
             this.status = PENDING;
-            this.isDelegatable = isDelegatable;
-            this.associatedProject = {};
+            this.priority = 'NONE';
+            this.frequency = 0;
+            this.timeSpent = 0;
+            this.outcomeRecordID = 0;
+            this.name = name;
+            this.outcome = outcome;
+            this.requiredContext = requiredContext;
+            this.note = '';
             this.dueDate = (new Date()).toISOString().substr(0, 10);
+            this.timeRequired = 0;
+            this.requirements = '';
+            this.associatedProject = {};
+            this.exp = 10;
+            this.isDelegatable = isDelegatable;
+            this.description = '';
+            
         }
     }
+
 
     class Project{
         constructor(name, goal) {
