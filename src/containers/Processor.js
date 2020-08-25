@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import QuestionAndOptions from '../components/QuestionAndOptions';
 import QuestionandInput from '../components/QuestionAndInput';
-import { InboxItems } from '../InboxItems';
+import InboxItems  from '../InboxItems';
 import { ProjectList } from '../ProjectList';
 import { TaskList } from '../TaskList';
 import { ReferenceList } from '../ReferenceList';

@@ -1,4 +1,4 @@
-import {CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK} from './constants';
+import {CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, RETRIEVE_DB} from './constants';
 
 export const selectView = (item) => {
     return {
@@ -47,3 +47,10 @@ export const SetActiveTask = (task) => {
     type: SET_ACTIVE_TASK,
     payload: task
 }};
+
+export const RetrieveDB = (database) => {
+    return {
+        type: RETRIEVE_DB,
+        payload: database
+    }
+}

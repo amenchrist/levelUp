@@ -9,6 +9,7 @@ import PrevItemButton from '../components/PrevItemButton';
 import NextItemButton from '../components/NextItemButton';
 import ReferenceDetails from '../components/ReferenceDetails';
 
+
 export default function Details( { content, itemID, touchFunction, updateExp, selectAnother }){
     let itemType, item;
     let prev = itemID;

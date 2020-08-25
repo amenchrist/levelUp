@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION } from '../constants';
-import { InboxItems } from '../InboxItems'
+import  InboxItems  from '../InboxItems'
 import NewTask from './NewTask';
 import NewMission from './NewMission';
 import { selectView, selectItem } from '../actions';

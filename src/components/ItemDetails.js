@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { InboxItems } from '../InboxItems';
+import { connect } from 'react-redux';
 import Processor from '../containers/Processor'
 import PrevItemButton from '../components/PrevItemButton';
 import NextItemButton from '../components/NextItemButton';
 import NewItemButton from '../components/NewItemButton';
 
-export default function ItemDetails({ id, touchFunction, selectAnother, prevID, nextID }) {
+const mapStateToProps = state => {
+    return {
+        db: state.RetrieveDBReducer.db
+    }
+}
+
+function ItemDetails({ id, touchFunction, selectAnother, prevID, nextID, db }) {
+
+
+    const InboxItems = db.Inbox
 
     const [ readyToProcess, setReadyToProcess ] = useState(false);
 
@@ -26,9 +35,10 @@ export default function ItemDetails({ id, touchFunction, selectAnother, prevID, 
         }    
     }
 
+    console.log(item);
 
-
-    switch(readyToProcess){
+    if (item.name) {
+        switch(readyToProcess){
         case false:
             return (
                 <div >
@@ -54,5 +64,9 @@ export default function ItemDetails({ id, touchFunction, selectAnother, prevID, 
                     <Processor item={item} nextItemID={nextItemID} touchFunction={touchFunction} itemIndex={indx} />
                 </div>
             );
+        }
     }
+    
 }
+
+export default connect(mapStateToProps)(ItemDetails);

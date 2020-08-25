@@ -7,7 +7,7 @@ import InboxOverview from '../components/InboxOverview';
 //import SkillsOverview from '../components/SkillsOverview';
 import { selectView, selectItem } from '../actions';
 import { INBOX, INBOX_ITEM, UNPROCESSED, DAILY } from '../constants';
-import { db } from '../db';
+//import { db } from '../db';
 import './Home.css';
 import NewItemTile from '../components/NewItemTile';
 import TodaysMission from '../components/TodaysMission';
@@ -17,7 +17,8 @@ const mapStateToProps = state => {
     return {
         view: state.selectViewReducer.view,
         itemID: state.selectItemReducer.itemID,
-        exp: state.UpdateExpReducer.exp
+        exp: state.UpdateExpReducer.exp,
+        db: state.RetrieveDBReducer.db
     }
 }
 
@@ -34,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function Home(props) {
     
-    const { onTouch, changeItemID, exp } = props;
+    const { onTouch, changeItemID, exp, db } = props;
 
     function selectItem(){
     
@@ -47,7 +48,6 @@ function Home(props) {
                 changeItemID(0);
                 onTouch(INBOX)
             }
-            
         }
     }
 
@@ -70,10 +70,10 @@ function Home(props) {
             </div>
             <div className="flex justify-center h-20 ">
                 <div className='w-50 pa1'>
-                    <ProjectsOverview touchFunction={passTitle} />
+                    <ProjectsOverview touchFunction={passTitle} projects={db.Projects} />
                 </div>
                 <div className='w-50 pa1'>
-                    <TaskOverview touchFunction={passTitle} />
+                    <TaskOverview touchFunction={passTitle} tasks={db.Tasks}/>
                 </div>
             </div>
             <div className='flex w-100 h-10 pa1'>

@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
 function App2(props) {
 
     useEffect(() => {
-       
+        
     })
 
     const { onTouch } = props;

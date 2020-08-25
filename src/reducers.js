@@ -1,4 +1,4 @@
-import { CHANGE_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK } from "./constants"
+import { CHANGE_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, RETRIEVE_DB } from "./constants"
 
 const initialState = {
     itemID: 0,
@@ -7,7 +7,8 @@ const initialState = {
     view: OVERVIEW,
     previousView: OVERVIEW,
     previousState: {},
-    taskStatus: ''
+    taskStatus: '',
+    db: {}
 }
 
 export const RestorePreviousStateReducer = (state=initialState, action={}) => {
@@ -80,6 +81,15 @@ export const SetActiveTaskReducer = (state=initialActiveTask, action={}) => {
     switch(action.type){
         case SET_ACTIVE_TASK:
             return Object.assign({}, state, {activeTask: action.payload, activeSince: (new Date()).getTime() });
+        default:
+            return state;
+    }
+}
+
+export const RetrieveDBReducer = (state=initialState, action={}) => {
+    switch(action.type){
+        case RETRIEVE_DB:
+            return Object.assign({}, state, {db: action.payload});
         default:
             return state;
     }

@@ -48,6 +48,8 @@ export default function List({ touchFunction, content, filter }) {
         return <ListItem item={filteredContent[i]} touchFunction={touchFunction} key={content[i].id}/>
     })
 
+    
+
     ////////////////////////////////
 
 

@@ -125,5 +125,4 @@ function Timer({ timeSpent, task, activeTask, activeSince, timeNow }){
                 </div>
             );
     }
-
 };
