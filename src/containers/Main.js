@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { selectView, selectItem, UpdateExp, RetrieveDB } from '../actions';
+import { selectView, selectItem, UpdateExp, RetrieveDB, RefreshDB } from '../actions';
 import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION, TODAY, DAILY, REFERENCES, OVERVIEW } from '../constants';
 import List from '../components/List';
 import './Home.css';
@@ -17,9 +17,13 @@ const mapStateToProps = state => {
         previousView: state.selectViewReducer.previousView,
         itemID: state.selectItemReducer.itemID,
         exp: state.UpdateExpReducer.exp,
-        db: state.RetrieveDBReducer.db
+        recordState: state.items.record.isFetching,
+        db: state.items.record.items, //state.RetrieveDBReducer.db
+        record: state.items.record
     }
 }
+
+
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -34,6 +38,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         retrieveDB: (db) => {
             return dispatch(RetrieveDB(db))
+        },
+        refreshDB: () => {
+            return dispatch(RefreshDB())
         }
     }
 }
@@ -41,54 +48,19 @@ const mapDispatchToProps = (dispatch) => {
 
 function Main(props) {
 
-    const { view, itemID, onTouch, changeItemID, previousView, updateExp, exp, retrieveDB, db } = props;
-
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    //const [items, setItems] = useState([]);
-    // const [database, setDatabase] = useState({});
-
-    // Note: the empty deps array [] means
-    // this useEffect will run once
-    // similar to componentDidMount()
-    useEffect(() => {
-        fetch("https://secret-citadel-16777.herokuapp.com/")
-        .then(res => res.json())
-        .then(
-            (result) => {
-                retrieveDB(result);
-                setIsLoaded(true);
-                //setDatabase(result);
-            },
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
-            (error) => {
-            setIsLoaded(true);
-            setError(error);
-            }
-        )
-    }, [retrieveDB])
-
+    const { view, itemID, onTouch, changeItemID, previousView, updateExp, exp, retrieveDB, db, refreshDB, record } = props;
+    console.log(record)
 
     let dbCombined = [];
 
-
-    if (db.Inbox) {
-        //console.log('db.inbox = ',db.Inbox);
-        dbCombined = db.Inbox.concat(db.Projects, db.Tasks);
-        //console.log(dbCombined);
+    if(!record.isFetching){
+        if (db.Inbox !== undefined) {
+            //console.log('db.inbox = ',db.Inbox);
+            dbCombined = db.Inbox.concat(db.Projects, db.Tasks);
+            //console.log(dbCombined);
+        }
+        console.log(dbCombined)
     }
-
-
-    //console.log(typeof dbCombined);
-
-    // if (error) {
-    //     //return <div>Error: {error.message}</div>;
-    // } else if (!isLoaded) {
-    //     //
-    // }
-
     
     let type;
 
@@ -135,7 +107,7 @@ function Main(props) {
 
     const views = [ NEW_ITEM, PROJECTS, TASKS, INBOX, TODAY, DAILY, REFERENCES ];
 
-    if(isLoaded){
+    if(!record.isFetching){
 
         switch( true) {
             case (view === STATS):
@@ -205,7 +177,7 @@ function Main(props) {
                 );
         }
     } else {
-        return <div>Loading...</div>;
+        return <div className="f5 fw4 white">Loading...</div>;
       } 
 
 }

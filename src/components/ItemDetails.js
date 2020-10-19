@@ -7,7 +7,7 @@ import NewItemButton from '../components/NewItemButton';
 
 const mapStateToProps = state => {
     return {
-        db: state.RetrieveDBReducer.db
+        db: state.items.record.items//state.RetrieveDBReducer.db
     }
 }
 

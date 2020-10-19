@@ -1,4 +1,8 @@
-import {CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM, UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, RETRIEVE_DB} from './constants';
+import { 
+    CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM, 
+    UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, 
+    SET_ACTIVE_TASK, RETRIEVE_DB, REFRESH_DB 
+} from './constants';
 
 export const selectView = (item) => {
     return {
@@ -54,3 +58,146 @@ export const RetrieveDB = (database) => {
         payload: database
     }
 }
+
+export const RefreshDB = (database) => {
+    return {
+        type: REFRESH_DB,
+        payload: database
+    }
+}
+
+////////////////////
+
+// ASYNC REQUESTS
+
+export const SELECT_RECORD = 'SELECT_RECORD';
+
+export function SelectRecord(record) {
+  return {
+    type: SELECT_RECORD,
+    payload: record
+  }
+}
+
+export const INVALIDATE_RECORD = 'INVALIDATE_RECORD';
+
+export function InvalidateRecord(record) {
+  return {
+    type: INVALIDATE_RECORD,
+    record
+  }
+}
+
+export const REQUEST_ITEMS = 'REQUEST_ITEMS';
+
+export function RequestItems(record) {
+  return {
+    type: REQUEST_ITEMS,
+    record
+  }
+}
+
+export const RECEIVE_ITEMS = 'RECEIVE_ITEMS';
+
+export function ReceiveItems(record, json) {
+  return {
+    type: RECEIVE_ITEMS,
+    record,
+    items: json,
+    receivedAt: Date.now()
+  }
+}
+
+//////////////////////////////////////////////////////
+
+//import fetch from 'cross-fetch'
+
+
+
+export function FetchItems(record) {
+  return dispatch => {
+    dispatch(RequestItems(record))
+    return fetch(`http://localhost:5000`)
+      .then(response => response.json())
+      .then(json => dispatch(ReceiveItems(record, json)))
+  }
+}
+
+function shouldFetchPosts(state, subreddit) {
+  const posts = state.postsBySubreddit[subreddit]
+  if (!posts) {
+    return true
+  } else if (posts.isFetching) {
+    return false
+  } else {
+    return posts.didInvalidate
+  }
+}
+
+export function fetchPostsIfNeeded(subreddit) {
+  // Note that the function also receives getState()
+  // which lets you choose what to dispatch next.
+
+  // This is useful for avoiding a network request if
+  // a cached value is already available.
+
+  return (dispatch, getState) => {
+    if (shouldFetchPosts(getState(), subreddit)) {
+      // Dispatch a thunk from thunk!
+      return dispatch(FetchItems(subreddit))
+    } else {
+      // Let the calling code know there's nothing to wait for.
+      return Promise.resolve()
+    }
+  }
+}
+
+////////////////////////////////////
+
+export const PACK_ITEMS = 'PACK_ITEMS';
+
+export function PackItems(items) {
+  return {
+    type: PACK_ITEMS,
+    payload: items
+  }
+}
+
+export const DELIVER_ITEMS = 'DELIVER_ITEMS';
+
+export function DeliverItems(agent, json) { // record/agent/destination
+  return {
+    type: DELIVER_ITEMS,
+    agent,
+    payload: json,
+    deliveredAt: Date.now()
+  }
+}
+
+const testItem = {
+  content: "this is a test item fom the front end"
+}
+
+const agent1 = "amen"
+
+
+export function ShipItems(items, agent, record) {
+  return dispatch => {
+    dispatch(PackItems(items))
+    console.log("packed items: ", items)
+    return fetch(`http://localhost:5000/${agent1}`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(items)
+    })
+      .then(response => response.json())
+      .then(json => dispatch(DeliverItems(agent, json)))
+      .catch((error) => {
+        console.log("Error: ", error);
+      })
+  }
+}
+

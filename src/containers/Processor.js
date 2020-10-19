@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import QuestionAndOptions from '../components/QuestionAndOptions';
 import QuestionandInput from '../components/QuestionAndInput';
-import InboxItems  from '../InboxItems';
-import { ProjectList } from '../ProjectList';
-import { TaskList } from '../TaskList';
+//import InboxItems  from '../InboxItems';
+//import { ProjectList } from '../ProjectList';
+//import { TaskList } from '../TaskList';
 import { ReferenceList } from '../ReferenceList';
 import { PROJECT, UNPLANNED, PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE } from '../constants';
 import { selectView, selectItem } from '../actions';
 import { connect } from 'react-redux';
+import { ShipItems } from '../actions';
 
-
+//shipItems(items, agent, record)
+//
 
 const mapStateToProps = state => {
     return {
         view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID
+        itemID: state.selectItemReducer.itemID,
+        db: state.items.record.items //state.RetrieveDBReducer.db
     }
 }
 
@@ -25,11 +28,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeItemID: (id) => {
             return dispatch(selectItem(id))
+        },
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
         }
     }
 }
 
-function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex }) {
+function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, db, shipItems }) {
+
+    const InboxItems = db.Inbox;
+    const ProjectList = db.Projects;
+    const TaskList = db.Tasks;
 
     class Task{
         constructor(name,outcome, isDelegatable, requiredContext) {
@@ -125,6 +135,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex })
     function makeNewProject(){
         let proj = new Project( action, outcome );
         ProjectList.unshift(proj);
+        shipItems();
         updateStatus();
         InboxItems.splice(itemIndex,1);
         setNextID(proj.id);
@@ -133,6 +144,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex })
     function makeNewTask(){
         let task = new Task( action, outcome, isDelegatable, requiredContext);
         TaskList.unshift(task);
+        console.log("new task = ",task);
         //updateStatus();
         InboxItems.splice(itemIndex,1);
         setNextID(task.id);
@@ -141,6 +153,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex })
 
     function updateStatus() {
         item.status = PROCESSED;
+        shipItems(item);
     }
 
     function proceed() {
@@ -166,7 +179,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex })
         case ( step === 1 ):
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
-                    <QuestionAndOptions question='Is this Actionable?' yes={() => { setIsActionable(true); proceed() }} no={() => { setIsActionable(false); addToReferences(); proceed() }} />
+                    <QuestionAndOptions question='Is this Actionable?' yes={() => { setIsActionable(true); proceed() }} no={() => { setIsActionable(false); addToReferences(); updateStatus(); proceed() }} />
                 </div>
             )
         case ( isActionable === false && step === 2 ):

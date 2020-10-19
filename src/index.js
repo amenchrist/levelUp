@@ -1,21 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
 import './tachyonBoost.css';
-import { selectViewReducer, selectItemReducer, UpdateExpReducer, RestorePreviousStateReducer, UpdateTaskStatusReducer, SetActiveTaskReducer, RetrieveDBReducer } from './reducers';
+import rootReducer from './reducers';
+import { SelectRecord, FetchItems } from './actions';
 
-
-const rootReducer = combineReducers({
-  selectViewReducer, selectItemReducer, UpdateExpReducer, RestorePreviousStateReducer, UpdateTaskStatusReducer, SetActiveTaskReducer, RetrieveDBReducer
-});
 const logger = createLogger();
-const store = createStore(rootReducer, applyMiddleware(logger));
+const store = createStore(rootReducer, applyMiddleware(logger, thunkMiddleware));
+
+// store
+//   .dispatch(fetchPostsIfNeeded('reactjs'))
+//   .then(() => console.log(store.getState()))
+
+store.dispatch(SelectRecord('reactjs')) 
+store.dispatch(FetchItems('reactjs')).then(() => console.log(store.getState()))
 
 ReactDOM.render(
   <React.StrictMode>

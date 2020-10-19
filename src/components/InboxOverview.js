@@ -6,7 +6,7 @@ const mapStateToProps = state => {
         view: state.selectViewReducer.view,
         itemID: state.selectItemReducer.itemID,
         exp: state.UpdateExpReducer.exp,
-        db: state.RetrieveDBReducer.db
+        db: state.items.record.items //state.RetrieveDBReducer.db
     }
 }
 

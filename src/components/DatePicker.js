@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 export default function DatePicker({ item, dueDate }){
-    const [ date, setdate ] = useState(new Date(dueDate).toISOString().substr(0, 10));
+    const [ date, setdate ] = useState((new Date(dueDate)).toISOString().substr(0, 10));
     const [ changeDate, setchangeDate ] = useState(false);
     const changeD = false;
 
 
     useEffect(() => {
-        setdate(new Date(dueDate).toISOString().substr(0, 10));
+        setdate((new Date(dueDate)).toISOString().substr(0, 10));
         setchangeDate(false);
     }, [dueDate, changeD])
 
@@ -23,6 +23,4 @@ export default function DatePicker({ item, dueDate }){
             <h5 className='fw3 white' onClick={() => setchangeDate(true)}>Due: {new Date(item.dueDate).toISOString().substr(0, 10)} </h5>
             )
     }
-
-
 }

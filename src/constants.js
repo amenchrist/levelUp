@@ -7,7 +7,9 @@ export const SELECT_ITEM = 'SELECT_ITEM';
 export const RESTORE_PREVIOUS_STATE = 'RESTORE_PREVIOUS_STATE';
 export const UPDATE_TASK_STATUS = 'UPDATE_TASK_STATUS';
 export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK';
-export const RETRIEVE_DB = 'RETRIEVE_DB'
+export const RETRIEVE_DB = 'RETRIEVE_DB';
+export const REFRESH_DB = 'REFRESH_DB';
+
 //
 
 export const OVERVIEW = 'OVERVIEW';
