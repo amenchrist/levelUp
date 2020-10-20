@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION } from '../constants';
-import  InboxItems  from '../InboxItems'
+//import  InboxItems  from '../InboxItems'
 import NewTask from './NewTask';
 import NewMission from './NewMission';
-import { selectView, selectItem } from '../actions';
+import { selectView, selectItem, ShipItems } from '../actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
         view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID
+        itemID: state.selectItemReducer.itemID,
+        db: state.items.record.items
     }
 }
 
@@ -20,6 +21,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeItemID: (id) => {
             return dispatch(selectItem(id))
+        },
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
         }
     }
 }
@@ -27,11 +31,13 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
 
 
-function NewItem({ submitFunction, view, updateExp, changeItemID }) {
+function NewItem({ submitFunction, view, updateExp, changeItemID, shipItems, db }) {
 
     const [ type, setType ] = useState(view);
     const [ name, setName ] = useState('Enter item name');
-    // 
+    
+    const InboxItems = db.Inbox;
+    //console.log(InboxItems);
 
     function reset(){
         setType(INBOX_ITEM);
@@ -55,13 +61,15 @@ function NewItem({ submitFunction, view, updateExp, changeItemID }) {
 
     function submitNewItem(event) {
         if(name !== 'Enter item name' && name !== '' ){
-            console.log('name is set')
+            //console.log('name is set')
             let i = new Item(name);
-            InboxItems.unshift(i);
             console.log(i)
+            InboxItems.unshift(i);
+            console.log("new inbox: ", InboxItems)
             updateExp(5);
+            shipItems(i)
             changeItemID(i.id);
-            // submitFunction(event);
+            submitFunction(event);
             reset();
             event.preventDefault();
         }
