@@ -3,12 +3,13 @@ import { combineReducers } from 'redux';
 import { 
     CHANGE_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, 
     RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, 
-    RETRIEVE_DB, REFRESH_DB 
+    RETRIEVE_DB, REFRESH_DB, HOME, MISSIONS
 } from "./constants"
 
 import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_ITEMS, DELIVER_ITEMS } from './actions';
 
 const initialState = {
+    title: HOME, 
     itemID: 0,
     previousItemID: 0,
     exp: 0,

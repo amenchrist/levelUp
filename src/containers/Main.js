@@ -51,16 +51,16 @@ function Main(props) {
     const { view, itemID, onTouch, changeItemID, previousView, updateExp, exp, retrieveDB, db, refreshDB, record } = props;
     console.log(record)
 
-    let dbCombined = [];
+    // let dbCombined = [];
 
-    if(!record.isFetching){
-        if (db.Inbox !== undefined) {
-            //console.log('db.inbox = ',db.Inbox);
-            dbCombined = db.Inbox.concat(db.Projects, db.Tasks);
-            //console.log(dbCombined);
-        }
-        console.log(dbCombined)
-    }
+    // if(!record.isFetching){
+    //     if (db.Inbox !== undefined) {
+    //         //console.log('db.inbox = ',db.Inbox);
+    //         dbCombined = db.Inbox.concat(db.Projects, db.Tasks);
+    //         //console.log(dbCombined);
+    //     }
+    //     console.log(dbCombined)
+    // }
     
     let type;
 
@@ -106,6 +106,7 @@ function Main(props) {
     }
 
     const views = [ NEW_ITEM, PROJECTS, TASKS, INBOX, TODAY, DAILY, REFERENCES ];
+    const titles = [ HOME, MISSIONS, TASKS, INBOX, STATS, REFERENCES, DUE_TODAY ]
 
     if(!record.isFetching){
 

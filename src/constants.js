@@ -11,7 +11,8 @@ export const RETRIEVE_DB = 'RETRIEVE_DB';
 export const REFRESH_DB = 'REFRESH_DB';
 
 //
-
+export const HOME = 'HOME';
+export const MISSIONS = 'MISSIONS';
 export const OVERVIEW = 'OVERVIEW';
 export const PROJECTS = 'PROJECTS';
 export const STATS = 'STATS';
