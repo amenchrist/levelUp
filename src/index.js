@@ -19,8 +19,9 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunkMiddleware))
 //   .dispatch(fetchPostsIfNeeded('reactjs'))
 //   .then(() => console.log(store.getState()))
 
-store.dispatch(SelectRecord('reactjs')) 
-store.dispatch(FetchItems('reactjs')).then(() => console.log(store.getState()))
+store.dispatch(SelectRecord('reactjs')) ;
+store.dispatch(FetchItems('reactjs'));
+
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,8 +1,7 @@
 import React from 'react';
 import { TODAY } from '../constants';
-//import { TaskList } from '../TaskList';
 
-function TodaysMission({ touchFunction }) {
+export default function TodaysMission({ touchFunction }) {
 
     return (
         <div className='flex items-center justify-center h-100 w-100 center bg-white pa1' title={TODAY} onClick={touchFunction}>
@@ -10,5 +9,3 @@ function TodaysMission({ touchFunction }) {
         </div>
     );
 }
-
-export default TodaysMission;

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { selectView, selectItem, UpdateExp, RetrieveDB, RefreshDB } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, NEW_ITEM, TASK, MISSION, TODAY, DAILY, REFERENCES, OVERVIEW } from '../constants';
+import { selectItem, UpdateExp, selectTitle } from '../actions';
+import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, DUE_TODAY, NEW } from '../constants';
 import List from '../components/List';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
@@ -9,61 +9,41 @@ import NewItem from '../components/NewItem';
 import Details from './Details';
 import Home from './Home';
 import Stats from './Stats';
+import { passTitle } from '../functions';
 
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        previousView: state.selectViewReducer.previousView,
-        itemID: state.selectItemReducer.itemID,
+        title: state.values.title,
+        view: state.values.view,
+        itemID: state.values.itemID,
+        previousView: state.values.previousView,
         exp: state.UpdateExpReducer.exp,
         recordState: state.items.record.isFetching,
-        db: state.items.record.items, //state.RetrieveDBReducer.db
+        db: state.items.record.items,
         record: state.items.record
     }
 }
 
-
-
 const mapDispatchToProps = (dispatch) => {
     return {
-        onTouch: (title) => {
-            return dispatch(selectView(title))
-        },
         changeItemID: (id) => {
             return dispatch(selectItem(id))
         },
+        changeTitle: (title) => {
+            return dispatch(selectTitle(title))
+        },
         updateExp: (exp) => {
             return dispatch(UpdateExp(exp))
-        },
-        retrieveDB: (db) => {
-            return dispatch(RetrieveDB(db))
-        },
-        refreshDB: () => {
-            return dispatch(RefreshDB())
         }
     }
 }
 
-
 function Main(props) {
 
-    const { view, itemID, onTouch, changeItemID, previousView, updateExp, exp, retrieveDB, db, refreshDB, record } = props;
-    console.log(record)
-
-    // let dbCombined = [];
-
-    // if(!record.isFetching){
-    //     if (db.Inbox !== undefined) {
-    //         //console.log('db.inbox = ',db.Inbox);
-    //         dbCombined = db.Inbox.concat(db.Projects, db.Tasks);
-    //         //console.log(dbCombined);
-    //     }
-    //     console.log(dbCombined)
-    // }
+    const { changeTitle, title, view, itemID, changeItemID, previousView, updateExp, exp, db, record } = props;
     
     let type;
-
     switch(previousView) {
         case TASKS:
             type = TASK;
@@ -72,118 +52,102 @@ function Main(props) {
             type = MISSION;
         break;
         default:
-    }
-    
-    //const db = ProjectList.concat(TaskList, ReferenceList);
-    
-    function passKey(e) {
-        //Takes the events target and checks for title attribute 
-        //If no title attribute, check parent node for title attribute
-        //If not found, repeat step 2
-        let targ = e.target;
-        checkForID(targ);
-        function checkForID (t) {
-            if (t.id) {
-                changeItemID(t.id);
-            } else {
-                t = t.parentNode;
-                checkForID (t);   
-            }
-        }
+    } 
+
+    function handleEvent(e){
+        passTitle(e, changeTitle);
     }
 
-    function passTitle(e) {
-        let targ = e.target;
-        checkForTitle(targ)
-        function checkForTitle (t) {
-            if (t.title) {
-                 onTouch(t.title);
-            } else {
-                t = t.parentNode;
-                checkForTitle (t);   
-            }
-        }
-    }
+    const lists = [ PROJECTS, TASKS, INBOX, REFERENCES, DUE_TODAY, DAILY ];
 
-    const views = [ NEW_ITEM, PROJECTS, TASKS, INBOX, TODAY, DAILY, REFERENCES ];
-    const titles = [ HOME, MISSIONS, TASKS, INBOX, STATS, REFERENCES, DUE_TODAY ]
+    console.log('Title: ', title)
+    console.log('Item ID: ', itemID)
+    console.log('View: ', view)
 
-    if(!record.isFetching){
+    if(record.isFetching){
+        return <div className="f5 fw4 white">Loading...</div>;
+    } else {
 
-        switch( true) {
-            case (view === STATS):
+        let content;
+        switch(title) {
+            case TASKS:
+                content = db.Tasks;
+            break;
+            case PROJECTS:
+                content = db.Projects;
+            break;
+            case INBOX:
+                content = db.Inbox;
+                break;
+            default:
+                content = []
+        } 
+
+        switch( true ) {
+            case parseInt(itemID) !== 0:
+                return (
+                    <div className='h-100 pa2 '>
+                        <div className='h-10'>
+                            <h5>EXP: {exp}</h5>
+                        </div>
+                        <div className='h-90 pa1'>
+                            <Details selectAnother={changeItemID} />
+                        </div>
+                    </div>
+                )
+            case (title === STATS):
                 return (
                     <Stats />
                 )
-            case (view === OVERVIEW && parseInt(itemID) !== 0 ):
-                return (
-                    <div className='h-100 pa2 '>
+            case (lists.indexOf(title) !== -1) && view === 'LIST' :
+                if (parseInt(itemID) !== 0){
+                    return (
+                        <div className='h-100 pa2 '>
                             <div className='h-10'>
                                 <h5>EXP: {exp}</h5>
                             </div>
                             <div className='h-90 pa1'>
-                                <Details content={dbCombined} itemID={itemID} selectAnother={changeItemID} />
+                                <Details selectAnother={changeItemID} />
                             </div>
                         </div>
-                )
-            case views.indexOf(view) !== -1 :
-                if (itemID === "0" || itemID === 0) { // Imagine the id for list component = 0
-                    if (view === NEW_ITEM) {
-                        return (
-                            <div className='h-100 pa2'>
-                                <div className=' h-10'>
-                                    <h5>EXP: {exp}</h5>
-                                </div>
-                                <div className='h-90'>
-                                    <NewItem submitFunction={passTitle} view={type} updateExp={updateExp} />
-                                </div>
+                    )
+                } else {
+                    return (
+                        <div className='h-100'>
+                            <div className='h-10'>
+                                <h5>EXP: {exp}</h5>
                             </div>
-                        )
-                    } else {
-                        return (
-                            <div className='h-100'>
-                                <div className='h-10'>
-                                    <h5>EXP: {exp}</h5>
-                                </div>
-                                <div className='h-90 pa1'>
-                                    <div className='h-100 w-100 center pa1'>
-                                        <h1 className='tc b gold ma0 pb2'>{view}</h1>
-                                        <div className=' h-80 '>
-                                            <List content={dbCombined} filter={view} touchFunction={passKey}/>
-                                        </div>
-                                        <div className='h-10 flex w-100 content-end pa2'>
-                                            <NewItemButton touchFunction={passTitle} />
-                                        </div>
+                            <div className='h-90 pa1'>
+                                <div className='h-100 w-100 center pa1'>
+                                    <h1 className='tc b gold ma0 pb2'>{title}</h1>
+                                    <div className=' h-80 '>
+                                        <List content={content} />
+                                    </div>
+                                    <div className='h-10 flex w-100 content-end pa2'>
+                                        <NewItemButton touchFunction={handleEvent} />
                                     </div>
                                 </div>
                             </div>
-                            
-                        )
-                    }
-                } else {
-                    return (
-                        <div className='h-100 pa2 '>
-                                <div className='h-10'>
-                                    <h5>EXP: {exp}</h5>
-                                </div>
-                                <div className='h-90 pa1'>
-                                    <Details content={dbCombined} itemID={itemID} selectAnother={changeItemID} />
-                                </div>
-                            </div>
+                        </div>   
                     )
                 }
+            case view === NEW:
+                return (
+                    <div className='h-100 pa2'>
+                        <div className=' h-10'>
+                            <h5>EXP: {exp}</h5>
+                        </div>
+                        <div className='h-90'>
+                            <NewItem submitFunction={handleEvent} view={type} updateExp={updateExp} />
+                        </div>
+                    </div>
+                )
             default:
                 return (
                     <Home />
                 );
         }
-    } else {
-        return <div className="f5 fw4 white">Loading...</div>;
-      } 
-
+      }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
-
-
-//https://cdn.internetmultimediaonline.org/241F21/loveworldlive/ixilrao9.m3u8

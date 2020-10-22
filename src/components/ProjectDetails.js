@@ -7,9 +7,9 @@ import { TaskList } from '../TaskList';
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        previousView: state.selectViewReducer.previousView,
-        itemID: state.selectItemReducer.itemID,
+        view: state.values.view,
+        previousView: state.values.previousView,
+        itemID: state.values.itemID,
         exp: state.UpdateExpReducer.exp,
         previousState: state.RestorePreviousStateReducer.previousState
     }

@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
 
 import { 
-    CHANGE_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, 
-    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, 
-    RETRIEVE_DB, REFRESH_DB, HOME, MISSIONS
+    SELECT_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, TASKS, INBOX, REFERENCES, DUE_TODAY,
+    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, PROJECTS, LIST, NEW_ITEM, NEW
 } from "./constants"
 
 import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_ITEMS, DELIVER_ITEMS } from './actions';
@@ -11,26 +10,65 @@ import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_IT
 const initialState = {
     title: HOME, 
     itemID: 0,
-    previousItemID: 0,
-    exp: 0,
     view: OVERVIEW,
+    previousTitle: HOME,
+    previousItemID: 0,
     previousView: OVERVIEW,
     previousState: {},
     taskStatus: '',
     agent: '',
     record: {
-      isFetching: false,
-      didInvalidate: false,
-      receivedAt: 0,
-      items: {}
+        isFetching: false,
+        didInvalidate: false,
+        receivedAt: 0,
+        items: {}
     },
     latestUpdate: {
         items: {},
         isShipping: false,
         deliveredAt: 0
     },
+    exp: 0,
     db: { lastUpdated: 0}
 }
+
+// const selectTitleReducer = (state=initialState, action={}) => {
+//     switch(action.type){
+//         case SELECT_TITLE:
+//             let lists = [ PROJECTS, TASKS, INBOX, REFERENCES, DUE_TODAY]
+//             let view = OVERVIEW;
+//             if (lists.indexOf(action.payload) !== -1) {
+//                 view = LIST;
+//             }
+//             return Object.assign({}, state, {title: action.payload, view: view, previousTitle: state.title, previousState: state});
+//         default:
+//             return state;
+//     }
+// }
+
+
+const values = (state=initialState, action={}) => {
+    switch(action.type){
+        case SELECT_TITLE:
+            let lists = [ PROJECTS, TASKS, INBOX, REFERENCES, DUE_TODAY ]
+            let view = OVERVIEW;
+            let ID = 0;
+            if (lists.indexOf(action.payload) !== -1) {
+                view = LIST;
+            } 
+            if (((lists.indexOf(action.payload) !== -1) && state.view === NEW) || (action.payload === NEW_ITEM) ) {
+                view = "NEW"
+            }
+            return Object.assign({}, state, {title: action.payload, view: view, itemID:ID, previousTitle: state.title, previousState: state});
+        case SELECT_ITEM:
+            return Object.assign({}, state, {itemID: action.payload, previousItemID: state.itemID, previousState: state});
+        case SELECT_VIEW:
+            return Object.assign({}, state, {view: action.payload, previousView: state.view, previousState: state});
+        default:
+            return state;
+    }
+}
+
 
 const RestorePreviousStateReducer = (state=initialState, action={}) => {
     switch(action.type){
@@ -44,32 +82,6 @@ const RestorePreviousStateReducer = (state=initialState, action={}) => {
             return state;
     }
 }
-
-const selectViewReducer = (state=initialState, action={}) => {
-    switch(action.type){
-        case CHANGE_VIEW:
-            // state.previousView.unshift(state.view);
-            return Object.assign({}, state, {view: action.payload, previousView: state.view, previousState: state});
-        default:
-            return state;
-    }
-}
-
-// const initialItemViewState = {
-//     project: 0,
-//     task: 0,
-//     itemID: 0 
-// }
-
-const selectItemReducer = (state=initialState, action={}) => {
-    switch(action.type){
-        case SELECT_ITEM:
-            return Object.assign({}, state, {itemID: action.payload, previousItemID: state.itemID, previousState: state});
-        default:
-            return state;
-    }
-}
-
 
 const UpdateExpReducer = (state=initialState, action={}) => {
     switch(action.type){
@@ -106,7 +118,7 @@ const SetActiveTaskReducer = (state=initialActiveTask, action={}) => {
 
 
 
-let serverLink = "http://localhost:5000";// "https://secret-citadel-16777.herokuapp.com/"
+//let serverLink = "http://localhost:5000";// "https://secret-citadel-16777.herokuapp.com/"
 
 
 //////////////////////////////////////////////// 17.10.2020 async app upgrade
@@ -169,8 +181,7 @@ function items(
 }
 
 const rootReducer = combineReducers({                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-    selectViewReducer, selectItemReducer, 
-    UpdateExpReducer, RestorePreviousStateReducer, 
+    values, UpdateExpReducer, RestorePreviousStateReducer, 
     UpdateTaskStatusReducer, SetActiveTaskReducer, 
     SelectRecordReducer, items
 });

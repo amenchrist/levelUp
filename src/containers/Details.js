@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { PROJECT, TASK, INBOX_ITEM, REFERENCE } from '../constants';
 import NewItemButton from '../components/NewItemButton';
 import ItemDetails from '../components/ItemDetails';
@@ -8,26 +9,45 @@ import BackButton from '../components/BackButton';
 import PrevItemButton from '../components/PrevItemButton';
 import NextItemButton from '../components/NextItemButton';
 import ReferenceDetails from '../components/ReferenceDetails';
+import { selectItem } from '../actions';
+
+const mapStateToProps = state => {
+    return {
+        view: state.values.view,
+        title: state.values.title,
+        itemID: state.values.itemID,
+        exp: state.UpdateExpReducer.exp,
+        db: state.items.record.items 
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeItemID: (id) => {
+            return dispatch(selectItem(id))
+        }
+    }
+}
 
 
-export default function Details( { content, itemID, touchFunction, updateExp, selectAnother }){
+function Details( { db, itemID, touchFunction, updateExp, selectAnother }){
     let itemType, item;
     let prev = itemID;
     let next = itemID;
-    let db = content;
     const id = parseInt(itemID);
+    let content = db.Inbox.concat(db.Projects, db.Tasks)
 
-    for (let i=0; i<db.length; i++){
+    for (let i=0; i<content.length; i++){
 
-        if (db[i].id === id){
-        itemType = db[i].type;
-        item = db[i];
+        if (content[i].id === id){
+        itemType = content[i].type;
+        item = content[i];
 
-        if((db[i-1]) && db[i-1].type === itemType){
-            prev = db[i-1].id;
+        if((content[i-1]) && content[i-1].type === itemType){
+            prev = content[i-1].id;
         }
-        if((db[i+1]) && db[i+1].type === itemType){
-            next = db[i+1].id;
+        if((content[i+1]) && content[i+1].type === itemType){
+            next = content[i+1].id;
         }
         break;
         }
@@ -90,3 +110,5 @@ export default function Details( { content, itemID, touchFunction, updateExp, se
             )
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details);

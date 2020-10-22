@@ -1,13 +1,25 @@
 import { 
-    CHANGE_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_ITEM, 
+    SELECT_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_TITLE, SELECT_ITEM, 
     UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, 
     SET_ACTIVE_TASK, RETRIEVE_DB, REFRESH_DB 
 } from './constants';
 
-export const selectView = (item) => {
-    return {
-    type: CHANGE_VIEW,
-    payload: item
+export const selectTitle = (title) => {
+  return {
+  type: SELECT_TITLE,
+  payload: title
+}};
+
+export const selectItem = (itemID) => {
+  return {
+  type: SELECT_ITEM,
+  payload: itemID
+}};
+
+export const selectView = (view) => {
+  return {
+  type: SELECT_VIEW,
+  payload: view
 }};
 
 export const selectProject = (projectID) => {
@@ -20,12 +32,6 @@ export const selectTask = (taskID) => {
     return {
     type: SELECT_TASK,
     payload: taskID
-}};
-
-export const selectItem = (itemID) => {
-    return {
-    type: SELECT_ITEM,
-    payload: itemID
 }};
 
 export const UpdateExp = (exp) => {
@@ -174,9 +180,9 @@ export function DeliverItems(agent, json) { // record/agent/destination
   }
 }
 
-const testItem = {
-  content: "this is a test item fom the front end"
-}
+// const testItem = {
+//   content: "this is a test item fom the front end"
+// }
 
 const agent1 = "amen"
 

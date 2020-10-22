@@ -1,7 +1,6 @@
 import React from 'react';
-//import { TaskList } from '../TaskList';
 
-function TaskOverview({ touchFunction, tasks }) {
+export default function TaskOverview({ touchFunction, tasks }) {
 
     return (
         <article className="h-100 center bg-white ba b--black-10" title="TASKS" onClick={touchFunction}> 
@@ -12,5 +11,3 @@ function TaskOverview({ touchFunction, tasks }) {
         </article>
     );
 }
-
-export default TaskOverview;

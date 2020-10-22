@@ -1,5 +1,6 @@
 // Actions
-export const CHANGE_VIEW = 'CHANGE_VIEW';
+export const SELECT_VIEW = 'SELECT_VIEW';
+export const SELECT_TITLE = 'SELECT_TITLE';
 export const UPDATE_EXP = 'UPDATE_EXP';
 export const SELECT_PROJECT = 'SELECT_PROJECT';
 export const SELECT_TASK = 'SELECT_TASK';
@@ -13,8 +14,8 @@ export const REFRESH_DB = 'REFRESH_DB';
 //
 export const HOME = 'HOME';
 export const MISSIONS = 'MISSIONS';
-export const OVERVIEW = 'OVERVIEW';
 export const PROJECTS = 'PROJECTS';
+export const DUE_TODAY = 'DUE_TODAY';
 export const STATS = 'STATS';
 export const SKILLS = 'SKILLS';
 export const TASKS = 'TASKS';
@@ -25,6 +26,18 @@ export const INBOX_ITEM = 'INBOX_ITEM';
 export const NEW_ITEM = 'NEW_ITEM';
 export const REFERENCES = 'REFERENCES';
 export const REFERENCE = 'REFERENCE';
+
+//VIEWS
+export const OVERVIEW = 'OVERVIEW';
+export const LIST = 'LIST';
+export const DETAILS = 'DETAILS';
+export const NEW = 'NEW';
+
+//Actions to push
+export const ADD = 'ADD';
+export const REMOVE = 'REMOVE';
+export const UPDATE = 'UPDATE';
+
 
 // Status constants
 //STARTED, ONGOING, NOT_STARTED, COMPLETED, UNPLANNED, UNFINISHED

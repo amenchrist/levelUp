@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID
+        view: state.values.view,
+        itemID: state.values.itemID
     }
 }
 

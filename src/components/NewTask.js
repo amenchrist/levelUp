@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { PENDING, LOW, TASK, MEDIUM, HIGH } from '../constants';
 import { TaskList } from '../TaskList';
 import { selectView, selectItem } from '../actions';
-import { connect } from 'react-redux';
+
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID
+        view: state.values.view,
+        itemID: state.values.itemID
     }
 }
 

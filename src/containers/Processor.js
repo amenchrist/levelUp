@@ -5,7 +5,7 @@ import QuestionandInput from '../components/QuestionAndInput';
 //import { ProjectList } from '../ProjectList';
 //import { TaskList } from '../TaskList';
 import { ReferenceList } from '../ReferenceList';
-import { PROJECT, UNPLANNED, PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE } from '../constants';
+import { PROJECT, UNPLANNED, PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE, ADD, UPDATE, REMOVE } from '../constants';
 import { selectView, selectItem } from '../actions';
 import { connect } from 'react-redux';
 import { ShipItems } from '../actions';
@@ -15,9 +15,9 @@ import { ShipItems } from '../actions';
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID,
-        db: state.items.record.items //state.RetrieveDBReducer.db
+        view: state.values.view,
+        itemID: state.values.itemID,
+        db: state.items.record.items
     }
 }
 
@@ -100,6 +100,16 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     const [ step, setStep ] = useState(0);
     const [ nextID, setNextID ] = useState(0);
 
+    function pushChanges(action, item, list){
+        let state = {
+            action: action,
+            list: list,
+            item: item,
+            pushDate: (new Date()).getTime()
+        }
+        shipItems(state);
+    }
+
     function processNextItem(e){
         setStep(0);
         //touchFunction(e);
@@ -108,9 +118,10 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     function makeNewProject(){
         let proj = new Project( action, outcome );
         ProjectList.unshift(proj);
-        shipItems();
+        pushChanges(ADD, proj, "Projects");
         updateStatus();
         InboxItems.splice(itemIndex,1);
+        pushChanges(REMOVE, item, "Inbox");
         setNextID(proj.id);
     }
 
@@ -118,15 +129,17 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         let task = new Task( action, outcome, isDelegatable, requiredContext);
         TaskList.unshift(task);
         console.log("new task = ",task);
-        //updateStatus();
+        pushChanges(ADD, task, "Tasks");
+        updateStatus();
         InboxItems.splice(itemIndex,1);
+        pushChanges(REMOVE, item, "Inbox");
         setNextID(task.id);
         
     }
 
     function updateStatus() {
         item.status = PROCESSED;
-        shipItems(item);
+        pushChanges(UPDATE, item, "Inbox");
     }
 
     function proceed() {
@@ -146,6 +159,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         updateStatus();
         InboxItems.splice(itemIndex,1);
         ReferenceList.unshift(item);
+        pushChanges(ADD, item, "References");
     }
 
     switch(true) {

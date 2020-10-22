@@ -4,10 +4,10 @@ import { selectView, selectItem, RestorePreviousState } from '../actions';
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        previousView: state.selectViewReducer.previousView,
-        itemID: state.selectItemReducer.itemID,
-        previousItemID: state.selectItemReducer.previousItemID,
+        view: state.values.view,
+        previousView: state.values.previousView,
+        itemID: state.values.itemID,
+        previousItemID: state.values.previousItemID,
         exp: state.UpdateExpReducer.exp,
         previousState: state.RestorePreviousStateReducer.previousState
     }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { selectView } from './actions';
 import NavBar from './containers/NavBar';
@@ -14,10 +14,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 function App2(props) {
-
-    useEffect(() => {
-        
-    })
 
     const { onTouch } = props;
 

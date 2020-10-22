@@ -8,9 +8,9 @@ import TaskControls from './TaskControls';
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        previousView: state.selectViewReducer.previousView,
-        itemID: state.selectItemReducer.itemID,
+        view: state.values.view,
+        previousView: state.values.previousView,
+        itemID: state.values.itemID,
         exp: state.UpdateExpReducer.exp,
         status: state.UpdateTaskStatusReducer.taskStatus,
         activeTask: state.SetActiveTaskReducer.activeTask,

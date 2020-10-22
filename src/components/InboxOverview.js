@@ -1,24 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-const mapStateToProps = state => {
-    return {
-        view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID,
-        exp: state.UpdateExpReducer.exp,
-        db: state.items.record.items //state.RetrieveDBReducer.db
-    }
-}
-
-function InboxOverview({ touchFunction , db }) {
-
-    
-    //console.log('inbox tile = ', db);
-    let inbox = [];
-    if (db.Inbox) {
-        inbox = db.Inbox;
-    }
-
+export default function InboxOverview({ touchFunction , inbox }) {
 
     return (
         <article className="h-100 center bg-white br1 ba b--black-10" title="INBOX" onClick={touchFunction}>
@@ -29,5 +11,3 @@ function InboxOverview({ touchFunction , db }) {
         </article>
     );
 }
-
-export default connect(mapStateToProps)(InboxOverview);

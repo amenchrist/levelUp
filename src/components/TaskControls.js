@@ -6,7 +6,7 @@ import { DONE, ACTIVE, PAUSED, PENDING } from '../constants';
 
 const mapStateToProps = state => {
     return {
-        itemID: state.selectItemReducer.itemID,
+        itemID: state.values.itemID,
         exp: state.UpdateExpReducer.exp,
         status: state.UpdateTaskStatusReducer.taskStatus,
         activeTask: state.SetActiveTaskReducer.activeTask,

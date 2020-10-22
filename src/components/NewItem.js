@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION } from '../constants';
+import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION, PROJECTS, TASKS } from '../constants';
 //import  InboxItems  from '../InboxItems'
 import NewTask from './NewTask';
 import NewMission from './NewMission';
-import { selectView, selectItem, ShipItems } from '../actions';
+import { selectItem, ShipItems, selectTitle } from '../actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        itemID: state.selectItemReducer.itemID,
+        view: state.values.view,
+        title: state.values.title,
+        itemID: state.values.itemID,
         db: state.items.record.items
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onTouch: (title) => {
-            return dispatch(selectView(title))
+        changeTitle: (title) => {
+            return dispatch(selectTitle(title))
         },
         changeItemID: (id) => {
             return dispatch(selectItem(id))
@@ -31,16 +32,16 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
 
 
-function NewItem({ submitFunction, view, updateExp, changeItemID, shipItems, db }) {
+function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db, changeTitle }) {
 
-    const [ type, setType ] = useState(view);
+    // const [ type, setType ] = useState(title);
     const [ name, setName ] = useState('Enter item name');
     
     const InboxItems = db.Inbox;
     //console.log(InboxItems);
 
     function reset(){
-        setType(INBOX_ITEM);
+        changeTitle(INBOX);
         setName('Enter item name');
         // setDescription('');
     }
@@ -78,9 +79,9 @@ function NewItem({ submitFunction, view, updateExp, changeItemID, shipItems, db 
     
     function displayTypeForm(){
         switch(true) {
-            case type === TASK:
+            case title === TASKS:
                 return <NewTask updateExp={updateExp} />
-            case type === MISSION:
+            case title === PROJECTS:
                 return <NewMission updateExp={updateExp} />
             default:
                 return (
@@ -98,11 +99,11 @@ function NewItem({ submitFunction, view, updateExp, changeItemID, shipItems, db 
 
     return (
         <div className='pa1 w-100'>
-            <button className="button w-20" onClick={(e)=> setType(INBOX)}>INBOX</button>
-            <button className="button w-20" onClick={(e)=> setType(TASK)}>TASK</button>
-            <button className="button w-20" onClick={(e)=> setType(MISSION)}>MISSION</button>
-            <button className="button w-20" onClick={(e)=> setType(e.target.value)}>REF</button>
-            <button className="button w-20" onClick={(e)=> setType(e.target.value)}>FINANCE</button>
+            <button className="button w-20" onClick={(e)=> changeTitle(INBOX)}>INBOX</button>
+            <button className="button w-20" onClick={(e)=> changeTitle(TASKS)}>TASK</button>
+            <button className="button w-20" onClick={(e)=> changeTitle(PROJECTS)}>MISSION</button>
+            <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>REF</button>
+            <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>FINANCE</button>
             {displayTypeForm()}
             {/* <label htmlFor="type" className=''>Type:</label>
             <select id="type" value={type} onChange={(e)=> setType(e.target.value)}>
