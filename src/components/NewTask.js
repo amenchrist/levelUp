@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { PENDING, LOW, TASK, MEDIUM, HIGH } from '../constants';
 import { TaskList } from '../TaskList';
-import { selectView, selectItem } from '../actions';
+import { selectView, selectItem,ShipItems } from '../actions';
 
 
 const mapStateToProps = state => {
@@ -19,11 +19,14 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeItemID: (id) => {
             return dispatch(selectItem(id))
+        },
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
         }
     }
 }
 
-function NewTask({ changeItemID, updateExp }) {
+function NewTask({ changeItemID, updateExp, shipItems }) {
 
     let today = new Date().toISOString().substr(0, 10);
 
@@ -64,10 +67,21 @@ function NewTask({ changeItemID, updateExp }) {
         }
     }
 
+    function pushChanges(action, item, list){
+        let state = {
+            action: action,
+            list: list,
+            item: item,
+            pushDate: (new Date()).getTime()
+        }
+        shipItems(state);
+    }
+
     function submitNewItem(event) {
         let t = new Task();
         console.log(t);
         TaskList.unshift(t);
+        pushChanges("ADD", t, "Tasks");
         updateExp(5);
         changeItemID(t.id);
         event.preventDefault();

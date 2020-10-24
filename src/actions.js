@@ -1,9 +1,15 @@
 import { 
     SELECT_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_TITLE, SELECT_ITEM, 
     UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, 
-    SET_ACTIVE_TASK, RETRIEVE_DB, REFRESH_DB 
-} from './constants';
+    SET_ACTIVE_TASK, RETRIEVE_DB, REFRESH_DB, CHANGE_NAV
+  } from './constants';
 
+export const ChangeNav = (navObj) => {
+  return {
+    type: CHANGE_NAV,
+    payload: navObj
+  }
+}
 export const selectTitle = (title) => {
   return {
   type: SELECT_TITLE,

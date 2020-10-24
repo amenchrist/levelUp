@@ -4,63 +4,44 @@ import StatsOverview from '../components/StatsOverview';
 import TaskOverview from '../components/TasksOverview';
 import ProjectsOverview from '../components/ProjectsOverview';
 import InboxOverview from '../components/InboxOverview';
-import { selectTitle, selectView, selectItem } from '../actions';
-import { INBOX, INBOX_ITEM, UNPROCESSED, DAILY } from '../constants';
+import { ChangeNav } from '../actions';
+import {  CALENDAR, DAILY } from '../constants';
 import './Home.css';
 import NewItemTile from '../components/NewItemTile';
 import TodaysMission from '../components/TodaysMission';
-import { passTitle } from '../functions';
+import { setNavValues  } from '../functions';
 
 
 const mapStateToProps = state => {
     return {
         view: state.values.view,
-        title: state.values.title,
+        // title: state.values.title,
         itemID: state.values.itemID,
         exp: state.UpdateExpReducer.exp,
-        db: state.items.record.items
+        db: state.items.record.items,
+        state: state.values
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeTitle: (title) => {
-            return dispatch(selectTitle(title))
-        },
-        changeView: (view) => {
-            return dispatch(selectView(view))
-        },
-        changeItemID: (id) => {
-            return dispatch(selectItem(id))
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
 
 function Home(props) {
     
-    const { changeTitle, changeView, changeItemID, exp, db } = props;
+    const { changeItemID, exp, db, changeNav, state } = props;
 
-    function selectItem(){
-    
-        for (let i=0; i<db.length; i++){
-            if (db[i].type === INBOX_ITEM && db[i].status === UNPROCESSED) {
-                changeItemID(db[i].id);
-                changeView(INBOX)
-                break;
-            } else {
-                changeItemID(0);
-                changeView(INBOX)
-            }
-        }
-    }
-
-    function handleEvent(e){
-        passTitle(e, changeTitle);
+    function handleEvent(e) {
+        setNavValues(e, changeNav, state);
     }
 
     return (
         <div className='h-100 pa1' >
-            <div className='pa1 ph1 h-40'>
+            <div className='pa1 ph1 h-40 ba' title="STATS">
                 <StatsOverview touchFunction={handleEvent} exp={exp} />
             </div>
             <div className="flex justify-center h-20 ">
@@ -75,26 +56,33 @@ function Home(props) {
                 <NewItemTile touchFunction={handleEvent} />
             </div>
             <div className="flex justify-center h-30">
-                <div className=' w-50 h-100 pa1'>
-                   <TodaysMission touchFunction={handleEvent} gotoItem={changeItemID} />
+                <div className='w-50 h-100 pa1'>
+                    <div className=' w-100 h-50 pb1'>
+                        <TodaysMission touchFunction={handleEvent} gotoItem={changeItemID} />
+                    </div>
+                    <div className=' w-100 h-50 pt1'>
+                        <div className='flex items-center justify-center h-100 w-100 center bg-white pa1' title={DAILY} onClick={handleEvent}>
+                            <h2 className='tc'>Daily<br />Exercises</h2>
+                        </div>
+                    </div>
                 </div>
                 <div className=' w-50 h-100'>
                     <div className=' w-100 h-50'>
                         <div className=' h-50 pa1'>
-                            <div className='flex items-center justify-center h-100 w-100 center bg-white ' title={DAILY} onClick={handleEvent} >
-                                <h4 className='tc'>Daily Exercises</h4>
+                            <div className='flex items-center justify-center h-100 w-100 center bg-white ' title={"SOMEDAY"} onClick={handleEvent} >
+                                <h4 className='tc'>Someday</h4>
                             </div>
                         </div>
                         <div className='h-50 pa1'>
-                            <div className='flex items-center justify-center h-100 w-100 center bg-white 'title='REFERENCES' onClick={handleEvent}>
+                            <div className='flex items-center justify-center h-100 w-100 center bg-white ' title={'REFERENCES'} onClick={handleEvent}>
                                 <h4 className='tc'>References</h4>
                             </div>
                         </div>
                     </div>
                     <div className='w-100 h-50 flex'>
-                        <div className='w-50 h-100 pa1' onClick={selectItem}>
-                            <div className='flex items-center justify-center h-100 w-100 center bg-white pa1'>
-                                <h4 className='tc'>Process<br />Inbox</h4>
+                        <div className='w-50 h-100 pa1' >
+                            <div className='flex items-center justify-center h-100 w-100 center bg-white pa1' title={CALENDAR} onClick={handleEvent}>
+                                <h4 className='tc'>Calendar</h4>
                             </div>
                         </div>
                         <div className='w-50 h-100 pa1'>

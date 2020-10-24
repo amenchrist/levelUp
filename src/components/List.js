@@ -1,16 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectItem } from '../actions';
+import { selectItem, ChangeNav } from '../actions';
 import ListItem from './ListItem';
 import Scroll from './Scroll';
 import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES } from '../constants';
-//import { passKey } from '../functions';
+import { setNavValues  } from '../functions';
 
 const mapStateToProps = state => {
     return {
         title: state.values.title,
         itemID: state.values.itemID,
-        db: state.items.record.items
+        db: state.items.record.items,
+        state: state.values
     }
 }
 
@@ -18,48 +19,41 @@ const mapDispatchToProps = (dispatch) => {
     return {
         changeItemID: (id) => {
             return dispatch(selectItem(id))
+        },
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
 
-function List({ content, changeItemID, title }) {
-    console.log(content)
 
-    function passKey(e, changeIDFunction) {
-        //Takes the events target and checks for title attribute 
-        //If no title attribute, check parent node for title attribute
-        //If not found, repeat step 2
-        let targ = e.target;
-        checkForID(targ);
-        function checkForID (t) {
-            if (t.id) {
-                changeIDFunction(t.id);
-            } else {
-                t = t.parentNode;
-                checkForID (t);   
-            }
-        }
-    }
+
+/////////////////////////////////////////////////
+
+
+function List({ content, changeItemID, title, state, changeNav }) {
+
+    // function passKey(e, changeIDFunction) {
+    //     //Takes the events target and checks for title attribute 
+    //     //If no title attribute, check parent node for title attribute
+    //     //If not found, repeat step 2
+    //     let targ = e.target;
+    //     checkForID(targ);
+    //     function checkForID (t) {
+    //         if (t.id) {
+    //             changeIDFunction(t.id);
+    //         } else {
+    //             t = t.parentNode;
+    //             checkForID (t);   
+    //         }
+    //     }
+    // }
 
     function handleEvent(e ) {
-        passKey(e, changeItemID);
+        //passKey(e, changeItemID);
+        setNavValues(e, changeNav, state);
     }
-    // let content = [];
-    // switch ( title ) {
-    //     case 'PROJECTS':
-    //         content = db.Projects;
-    //         console.log('List content: ', content)
-    //         break;
-    //     case 'TASKS':
-    //         content = db.Tasks;
-    //         break;
-    //     case 'DUE_TODAY':
-    //         content = db.Tasks;
-    //         break;
-    //     default:
-    //         content = db.Inbox;
-    // }
-    //console.log(content);
+
 
     // A Mission's Tasklist
     const missionTasks = content.map((entry,i ) => {

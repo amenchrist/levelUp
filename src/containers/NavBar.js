@@ -5,47 +5,31 @@ import ProjectsButton from '../components/ProjectsButton';
 import TasksButton from '../components/TasksButton';
 import InboxButton from '../components/InboxButton';
 import StatsButton from '../components/StatsButton';
-import { selectTitle } from '../actions';
-import { passTitle } from '../functions';
+import { ChangeNav } from '../actions';
+import { setNavValues } from '../functions';
 
 const mapStateToProps = state => {
     return {
-        view: state.values.view
+        view: state.values.view,
+        state: state.values
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeTitle: (title) => {
-            return dispatch(selectTitle(title))
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
 
 function NavBar(props) {
 
-    const { changeTitle } = props;
+    const { changeNav, state } = props;
 
     function handleEvent(e){
-        passTitle(e, changeTitle);
+        setNavValues(e, changeNav, state);
     }
-
-    // function passTitle(e) {
-    //     //Takes the events target and checks for title attribute 
-    //     //If no title attribute, check parent node for title attribute
-    //     //If not found, repeat step 2
-    //     let targ = e.target;
-    //     checkForTitle(targ)
-    //     function checkForTitle(t) {
-    //         if (t.title) {
-    //             changeView(t.title);
-    //             changeItemID(0);
-    //         } else {
-    //             t = t.parentNode;
-    //             checkForTitle(t);   
-    //         }
-    //     }
-    // }
 
     return (
         <div className='navbar center flex'>

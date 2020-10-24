@@ -41,7 +41,7 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
     //console.log(InboxItems);
 
     function reset(){
-        changeTitle(INBOX);
+        //changeTitle(INBOX);
         setName('Enter item name');
         // setDescription('');
     }
@@ -66,15 +66,25 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
             let i = new Item(name);
             console.log(i)
             InboxItems.unshift(i);
+            pushChanges("ADD", i, "Inbox");
             console.log("new inbox: ", InboxItems)
             updateExp(5);
-            shipItems(i)
             changeItemID(i.id);
-            submitFunction(event);
+            //submitFunction(event);
             reset();
             event.preventDefault();
         }
         event.preventDefault();
+    }
+
+    function pushChanges(action, item, list){
+        let state = {
+            action: action,
+            list: list,
+            item: item,
+            pushDate: (new Date()).getTime()
+        }
+        shipItems(state);
     }
     
     function displayTypeForm(){

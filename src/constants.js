@@ -10,12 +10,13 @@ export const UPDATE_TASK_STATUS = 'UPDATE_TASK_STATUS';
 export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK';
 export const RETRIEVE_DB = 'RETRIEVE_DB';
 export const REFRESH_DB = 'REFRESH_DB';
+export const CHANGE_NAV = 'CHANGE_NAV';
 
 //
 export const HOME = 'HOME';
 export const MISSIONS = 'MISSIONS';
 export const PROJECTS = 'PROJECTS';
-export const DUE_TODAY = 'DUE_TODAY';
+export const TODAY = 'TODAY';
 export const STATS = 'STATS';
 export const SKILLS = 'SKILLS';
 export const TASKS = 'TASKS';
@@ -26,12 +27,21 @@ export const INBOX_ITEM = 'INBOX_ITEM';
 export const NEW_ITEM = 'NEW_ITEM';
 export const REFERENCES = 'REFERENCES';
 export const REFERENCE = 'REFERENCE';
+export const MISSION = 'MISSION';
+export const CALENDAR = 'CALENDAR';
+export const REMINDERS = 'REMINDERS';
+export const SOMEDAY = 'SOMEDAY';
+export const TRASH = 'TRASH';
 
 //VIEWS
 export const OVERVIEW = 'OVERVIEW';
 export const LIST = 'LIST';
 export const DETAILS = 'DETAILS';
 export const NEW = 'NEW';
+
+//TITLES
+// export const INBOX = 'INBOX';
+// export const TASKS = 'TASKS';
 
 //Actions to push
 export const ADD = 'ADD';
@@ -57,8 +67,7 @@ export const ACTIVE = 'ACTIVE';
 export const LOW = 'LOW';
 export const MEDIUM = 'MEDIUM';
 export const HIGH = 'HIGH';
-export const MISSION = 'MISSION';
-export const TODAY = 'TODAY';
+
 
 
 //For frequency/recurring

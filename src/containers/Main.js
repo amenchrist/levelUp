@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectItem, UpdateExp, selectTitle } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, DUE_TODAY, NEW } from '../constants';
+import { selectItem, UpdateExp, selectTitle,ChangeNav } from '../actions';
+import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR } from '../constants';
 import List from '../components/List';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
@@ -9,7 +9,7 @@ import NewItem from '../components/NewItem';
 import Details from './Details';
 import Home from './Home';
 import Stats from './Stats';
-import { passTitle } from '../functions';
+import { setNavValues } from '../functions';
 
 
 const mapStateToProps = state => {
@@ -21,7 +21,8 @@ const mapStateToProps = state => {
         exp: state.UpdateExpReducer.exp,
         recordState: state.items.record.isFetching,
         db: state.items.record.items,
-        record: state.items.record
+        record: state.items.record,
+        state: state.values
     }
 }
 
@@ -35,13 +36,16 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateExp: (exp) => {
             return dispatch(UpdateExp(exp))
-        }
+        },
+        changeNav: (navObj => {
+            return dispatch(ChangeNav(navObj))
+        })
     }
 }
 
 function Main(props) {
 
-    const { changeTitle, title, view, itemID, changeItemID, previousView, updateExp, exp, db, record } = props;
+    const { state, title, view, itemID, changeItemID, previousView, updateExp, exp, db, record, changeNav } = props;
     
     let type;
     switch(previousView) {
@@ -55,10 +59,10 @@ function Main(props) {
     } 
 
     function handleEvent(e){
-        passTitle(e, changeTitle);
+        setNavValues(e, changeNav, state);
     }
 
-    const lists = [ PROJECTS, TASKS, INBOX, REFERENCES, DUE_TODAY, DAILY ];
+    const lists = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY, DAILY, SOMEDAY, CALENDAR ];
 
     console.log('Title: ', title)
     console.log('Item ID: ', itemID)
@@ -138,7 +142,7 @@ function Main(props) {
                             <h5>EXP: {exp}</h5>
                         </div>
                         <div className='h-90'>
-                            <NewItem submitFunction={handleEvent} view={type} updateExp={updateExp} />
+                            <NewItem submitFunction={""} view={type} updateExp={updateExp} />
                         </div>
                     </div>
                 )

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
 import { 
-    SELECT_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, TASKS, INBOX, REFERENCES, DUE_TODAY,
-    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, PROJECTS, LIST, NEW_ITEM, NEW
+    SELECT_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, TASKS, INBOX, REFERENCES, TODAY,
+    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, PROJECTS, LIST, NEW_ITEM, NEW, CHANGE_NAV
 } from "./constants"
 
 import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_ITEMS, DELIVER_ITEMS } from './actions';
@@ -50,7 +50,7 @@ const initialState = {
 const values = (state=initialState, action={}) => {
     switch(action.type){
         case SELECT_TITLE:
-            let lists = [ PROJECTS, TASKS, INBOX, REFERENCES, DUE_TODAY ]
+            let lists = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY ]
             let view = OVERVIEW;
             let ID = 0;
             if (lists.indexOf(action.payload) !== -1) {
@@ -60,6 +60,8 @@ const values = (state=initialState, action={}) => {
                 view = "NEW"
             }
             return Object.assign({}, state, {title: action.payload, view: view, itemID:ID, previousTitle: state.title, previousState: state});
+        case CHANGE_NAV:
+            return Object.assign({}, state, {title: action.payload.title, view: action.payload.view, itemID:action.payload.ID, previousTitle: state.title, previousState: state});
         case SELECT_ITEM:
             return Object.assign({}, state, {itemID: action.payload, previousItemID: state.itemID, previousState: state});
         case SELECT_VIEW:

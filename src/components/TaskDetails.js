@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 //import { TaskList } from '../TaskList';
 import { connect } from 'react-redux';
-import { selectView, selectItem, UpdateExp, UpdateTaskStatus } from '../actions';
+import { selectView, selectItem, UpdateExp, UpdateTaskStatus, ShipItems } from '../actions';
 import DatePicker from './DatePicker';
 import Timer from './Timer';
 import TaskControls from './TaskControls';
+import { pushChanges  } from '../functions';
+import { UPDATE } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -32,6 +34,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateTaskStatus: (status) => {
             return dispatch(UpdateTaskStatus(status))
+        },
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
         }
     }
 }
@@ -39,7 +44,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(TaskDetails);
 
 
-function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, activeSince, activeTask, db }) {
+function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, activeSince, activeTask, db, shipItems }) {
 
     const tasks = db.Tasks;
     let task = {};
@@ -89,13 +94,18 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
     //     setlastUpdated(db.lastUpdated);
     // }
 
-    function updateDB(oldValue,newValue) {
-        if (oldValue !== newValue){
-            oldValue = newValue;
-            console.log("old time: ", lastUpdated);
-            db.lastUpdated = (new Date()).getTime();
-            setlastUpdated(db.lastUpdated);
-        }
+    function updateDB(change) {
+        console.log("changes")
+     
+        pushChanges(UPDATE, task, "Tasks", shipItems);
+        // if (oldValue !== newValue){
+        //     oldValue = newValue;
+        //     console.log(oldValue)
+        //     console.log("old time: ", lastUpdated);
+        //     db.lastUpdated = (new Date()).getTime();
+        //     setlastUpdated(db.lastUpdated);
+            
+        // }
     }
 
     return (
@@ -104,13 +114,13 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
                 <div className='w-100 pa2 pb3' >
                     {/* <h3 className='fw7 b white pb2'>{task.name}</h3>
                     <h4 className='fw1 white'>{task.requiredContext}</h4> */}
-                    <input type='text' onChange={(e)=> {setName(e.target.value);} } onBlur={() =>updateDB(task.name, name) } value={name} className='bn fw7 b white bg-transparent' />
-                    <input type='text' onChange={(e)=> {setrequiredContext(e.target.value);} } onBlur={() =>{ updateDB(task.requiredContext, requiredContext) }} value={requiredContext} className='fw1 white bn bg-transparent' />
+                    <input type='text' onChange={(e)=> {setName(e.target.value);} } onBlur={() => {task.name = name; updateDB();} } value={name} className='bn fw7 b white bg-transparent' />
+                    <input type='text' onChange={(e)=> {setrequiredContext(e.target.value);} } onBlur={() =>{ task.requiredContext = requiredContext; updateDB(); }} value={requiredContext} className='fw1 white bn bg-transparent' />
                 </div>
                 <div className='w-100 pl2 pb3'>
                     <h5 className='fw3 white'>Outcome: </h5>
                     {/* <h5 className='fw3 white'>{task.outcome} </h5> */}
-                    <textarea rows="2" cols="45" onChange={(e)=> {setoutcome(e.target.value);} } onBlur={() =>{ updateDB(task.outcome, outcome) }} value={outcome} className='w-80 fw3 white bn bg-transparent' />
+                    <textarea rows="2" cols="45" onChange={(e)=> {setoutcome(e.target.value);} } onBlur={() =>{ task.outcome = outcome; updateDB(); }} value={outcome} className='w-80 fw3 white bn bg-transparent' />
                 </div>
                 <div className='w-100 pl2 pb3 flex justify-between'>
                     {/* <h5 className='fw3 white'>Due: {task.dueDate} </h5> */}
@@ -128,7 +138,7 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
                 <h5 className='bb b--white pa2 fw3 white b' >NOTE</h5>
                 <div className='pa2'>
                     {/* <p className='fw3 white'>{task.note}</p> */}
-                    <textarea rows="4" cols="45" onChange={(e)=> {setnote(e.target.value);} } onBlur={ () =>{ updateDB(task.note,note) }} value={note} className='fw3 white bn bg-transparent' />
+                    <textarea rows="4" cols="45" onChange={(e)=> {setnote(e.target.value);} } onBlur={ () =>{ updateDB(); task.note = note }} value={note} className='fw3 white bn bg-transparent' />
                 </div>
                 <TaskControls task={task} position={position} />
                 {/* <button className="button" onClick={startTimer}>START</button>
