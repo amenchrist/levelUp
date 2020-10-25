@@ -129,9 +129,9 @@ export function ReceiveItems(record, json) {
 export function FetchItems(record) {
   return dispatch => {
     dispatch(RequestItems(record))
-    return fetch(`http://localhost:5000`)
+    return fetch(`https://secret-citadel-16777.herokuapp.com/`) //https://secret-citadel-16777.herokuapp.com/
       .then(response => response.json())
-      .then(json => dispatch(ReceiveItems(record, json)))
+      .then(json => { console.log(json); dispatch(ReceiveItems(record, json))})
   }
 }
 
@@ -197,7 +197,7 @@ export function ShipItems(items, agent, record) {
   return dispatch => {
     dispatch(PackItems(items))
     console.log("packed items: ", items)
-    return fetch(`http://localhost:5000/${agent1}`, {
+    return fetch(`https://secret-citadel-16777.herokuapp.com/${agent1}`, { //http://localhost:5000/
       method: 'POST',
       mode: 'cors',
       headers: {
