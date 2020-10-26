@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION, PROJECTS, TASKS } from '../constants';
+import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION, PROJECTS, TASKS, DETAILS } from '../constants';
 //import  InboxItems  from '../InboxItems'
 import NewTask from './NewTask';
 import NewMission from './NewMission';
-import { selectItem, ShipItems, selectTitle } from '../actions';
+import { selectItem, ShipItems, selectTitle, ChangeNav } from '../actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -25,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         shipItems: (items, agent, record) => {
             return dispatch(ShipItems(items, agent, record))
+        },
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
@@ -32,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
 
 
-function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db, changeTitle, itemID }) {
+function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db, changeTitle, itemID, changeNav }) {
 
     // const [ type, setType ] = useState(title);
     const [ name, setName ] = useState('Enter item name');
@@ -69,7 +72,7 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
             pushChanges("ADD", i, "Inbox");
             console.log("new inbox: ", InboxItems)
             updateExp(5);
-            changeItemID(i.id);
+            changeNavigation(i.id);
             //submitFunction(event);
             reset();
             event.preventDefault();
@@ -85,6 +88,15 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
             pushDate: (new Date()).getTime()
         }
         shipItems(state);
+    }
+
+    function changeNavigation(id){
+        let nav = {
+                title: INBOX,
+                view: DETAILS,
+                ID: id
+            }
+        changeNav(nav);
     }
     
     function displayTypeForm(){
