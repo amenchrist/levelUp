@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectItem, UpdateExp, selectTitle,ChangeNav } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS } from '../constants';
 import List from '../components/List';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
@@ -88,7 +88,7 @@ function Main(props) {
         } 
 
         switch( true ) {
-            case parseInt(itemID) !== 0:
+            case view === DETAILS:
                 return (
                     <div className='h-100 pa2 '>
                         <div className='h-10'>

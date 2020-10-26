@@ -1,7 +1,7 @@
 import {TASK, PENDING, PROJECT, UNPLANNED } from './constants';
 
 export class Task{
-    constructor(name,outcome, isDelegatable, requiredContext) {
+    constructor(name,outcome, isDelegatable, requiredContext, associatedProjectID) {
         const d = new Date();
         this.type = TASK;
         this.id = d.getTime();
@@ -17,8 +17,9 @@ export class Task{
         this.note = '';
         this.dueDate = (new Date()).toISOString().substr(0, 10);
         this.timeRequired = 0;
+        this.timeRemaining = 0;
         this.requirements = '';
-        this.associatedProject = {};
+        this.associatedProjectID = 0;
         this.exp = 10;
         this.isDelegatable = isDelegatable;
         this.description = '';
@@ -28,14 +29,12 @@ export class Task{
 }
 
 export class Project{
-    constructor(name, goal, outcome) {
+    constructor(outcome, description) {
         const d = new Date();
         this.type = PROJECT;        
         this.id = d.getTime();
-        this.name = name;
+        this.name = outcome;
         this.description = '';
-        this.goal = goal;
-        this.outcome = outcome;
         this.outputRecordID = null;
         this.dueDate = (new Date((d.getTime() + 7776000000))).toISOString().substr(0, 10); // 3 months from the date the project is planned 
         this.timeRequired = 7776000000;

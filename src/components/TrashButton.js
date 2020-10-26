@@ -98,11 +98,11 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
         switch (action) {
             case REMOVE:
                 list.splice(itemndx, 1);
-                //pushChanges(REMOVE, item, dbList);
+                pushChanges(REMOVE, item, dbList);
             break;
             case ADD:
                 list.unshift(item);
-                //pushChanges(ADD, item, dbList);
+                pushChanges(ADD, item, dbList);
             break;
             default:
         }

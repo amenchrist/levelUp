@@ -78,7 +78,7 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother }){
                         <BackButton id={0} />
                         <TrashButton />
                     </div>
-                    <h1 className='tc b gold'>Task</h1>
+                    <h2 className='tc b gold f3'>Task</h2>
                     <TaskDetails id={parseInt(itemID)} />
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
@@ -93,7 +93,7 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother }){
                         <BackButton id={0} />
                         <TrashButton />
                     </div>
-                    <h1 className='tc b gold'>Inbox Item</h1>
+                    <h2 className='tc b gold f3'>Inbox Item</h2>
                     <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} selectAnother={selectAnother} prevID={prev} nextID={next} />
                 </div>        
             )

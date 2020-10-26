@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState} from 'react';
 import List from './List';
 import { MISSION } from '../constants';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, RestorePreviousState } from '../actions';
-import { TaskList } from '../TaskList';
+// import { TaskList } from '../TaskList';
 
 const mapStateToProps = state => {
     return {
@@ -11,7 +11,8 @@ const mapStateToProps = state => {
         previousView: state.values.previousView,
         itemID: state.values.itemID,
         exp: state.UpdateExpReducer.exp,
-        previousState: state.RestorePreviousStateReducer.previousState
+        previousState: state.RestorePreviousStateReducer.previousState,
+        db: state.items.record.items
     }
 }
 
@@ -34,8 +35,10 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
 
-function ProjectDetails({ project, view, changeItemID }) {
-    
+function ProjectDetails({ project, view, changeItemID, db }) {
+    console.log('project: ', project);
+
+    const TaskList = db.Tasks;
 
     function passKey(e) {
         //Takes the events target and checks for title attribute 
@@ -71,6 +74,13 @@ function ProjectDetails({ project, view, changeItemID }) {
 
     const projectTasks = getTasks();
 
+    const [ name, setName ] = useState(project.name);
+    const [ requiredContext, setrequiredContext ] = useState(project.description);
+    const [ outcome, setoutcome ] = useState(project.description);
+    const [ dueDate, setdueDate ] = useState(project.dueDate);
+    const [ timeRequired, settimeRequired ] = useState(project.timeRequired);
+    const [ lastUpdated, setlastUpdated ] = useState(db.lastUpdated);
+
     return (
         <div>
             <div className='w-100 pa2 pb3' >
@@ -78,8 +88,8 @@ function ProjectDetails({ project, view, changeItemID }) {
                 <h4 className='fw1 white'>{project.type}</h4>
             </div>
             <div className='w-100 pl2 pb3'>
-                <h5 className='fw3 white'>Outcome: </h5>
-                <h5 className='fw3 white'>{project.outcome} </h5>
+                <h5 className='fw3 white'>Description: </h5>
+                <h5 className='fw3 white'>{project.description} </h5>
             </div>
             <div className='w-100 pl2 pb3'>
                 <h5 className='fw3 white'>Purpose: </h5>

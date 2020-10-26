@@ -46,6 +46,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(TaskDetails);
 
 function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, activeSince, activeTask, db, shipItems }) {
 
+    const ProjectList = db.Projects;
     const tasks = db.Tasks;
     let task = {};
     let position;
@@ -59,6 +60,21 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
         }
     }
 
+    let associatedProject;
+    if(task.associatedProjectID === 0){
+        associatedProject.name = "Getting Things Done";
+    } else if (task.associatedProjectID > 0){
+        for(let i=0; i<ProjectList.length; i++){
+            if(parseInt(task.associatedProjectID) === parseInt(ProjectList[i].id)){
+                associatedProject = ProjectList[i];
+                console.log('associated project name: ', associatedProject.name)
+                break;
+            }
+        }
+    }
+    // console.log(task)
+    // console.log('associated project ID: ', task.associatedProjectID)
+    // console.log('associated project name: ', associatedProject.name)
 
     const [ name, setName ] = useState(task.name);
     const [ requiredContext, setrequiredContext ] = useState(task.requiredContext);
@@ -67,16 +83,8 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
   //  const [ timeRequired, settimeRequired ] = useState(task.timeRequired);
     const [ note, setnote ] = useState(task.note);
     const [ lastUpdated, setlastUpdated ] = useState(db.lastUpdated);
+    //const [ associatedProjectName, setAssociatedProjectName ] = useState(associatedProject.name);
 
-    //const dateNow = (new Date()).getTime();
-
-    // if (task.id === activeTask.id) {
-    //     console.log(task.timeSpent)
-    //     console.log(dateNow)
-    //     task.timeSpent = task.timeSpent + (dateNow - activeSince)
-    //     console.log('aft '+ task.timeSpent)
-    //     console.log(dateNow)
-    // }
 
     useEffect(() => {
         setName(task.name);
@@ -87,12 +95,7 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
         console.log("Last Updated: ", db.lastUpdated)
     }, [task.name, task.requiredContext, task.outcome, task.note, task.dueDate, task.timeSpent, activeSince, activeTask, task.id, db.lastUpdated ])
 
-    //console.log(task.id)
-    
-    // function markDate() {
-    //     db.lastUpdated = (new Date()).getTime();
-    //     setlastUpdated(db.lastUpdated);
-    // }
+
 
     function updateDB(change) {
         console.log("changes")
@@ -114,9 +117,20 @@ function TaskDetails({ id , changeItemID, updateExp, status, updateTaskStatus, a
                 <div className='w-100 pa2 pb3' >
                     {/* <h3 className='fw7 b white pb2'>{task.name}</h3>
                     <h4 className='fw1 white'>{task.requiredContext}</h4> */}
-                    <input type='text' onChange={(e)=> {setName(e.target.value);} } onBlur={() => {task.name = name; updateDB();} } value={name} className='bn fw7 b white bg-transparent' />
-                    <input type='text' onChange={(e)=> {setrequiredContext(e.target.value);} } onBlur={() =>{ task.requiredContext = requiredContext; updateDB(); }} value={requiredContext} className='fw1 white bn bg-transparent' />
+
+                    <input type='text' onChange={(e)=> {setName(e.target.value);} } onBlur={() => {task.name = name; updateDB();} } 
+                    value={name} className='bn fw7 b white bg-transparent' />
+
+                    <h4 className='fw1 white'>{associatedProject.name}</h4>
                 </div>
+
+                <div className='w-100 pl2 pb3'>
+                    <h5 className='fw3 white'>Location: </h5>
+                    <input type='text' onChange={(e)=> {setrequiredContext(e.target.value);} } 
+                    onBlur={() =>{ task.requiredContext = requiredContext; updateDB(); }} 
+                    value={requiredContext} className='fw1 white bn bg-transparent' />
+                </div>
+
                 <div className='w-100 pl2 pb3'>
                     <h5 className='fw3 white'>Outcome: </h5>
                     {/* <h5 className='fw3 white'>{task.outcome} </h5> */}
