@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function DatePicker({ item, dueDate }){
+    
     const [ date, setdate ] = useState((new Date(dueDate)).toISOString().substr(0, 10));
     const [ changeDate, setchangeDate ] = useState(false);
     const changeD = false;
@@ -19,6 +20,16 @@ export default function DatePicker({ item, dueDate }){
                 </div>
                 )
         default:
+            if (dueDate === "ASAP"){
+                return (
+                    <div>
+                        <h5 className='fw3 white' onClick={() => setchangeDate(true)}>Due: {dueDate} </h5>
+                        <div>
+                            <button className="button" onClick={() => { setdate("ASAP"); }}>DUE ASAP</button>
+                        </div>
+                    </div>
+                    )
+            }
             return (
             <h5 className='fw3 white' onClick={() => setchangeDate(true)}>Due: {new Date(item.dueDate).toISOString().substr(0, 10)} </h5>
             )

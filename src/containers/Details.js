@@ -10,6 +10,7 @@ import PrevItemButton from '../components/PrevItemButton';
 import NextItemButton from '../components/NextItemButton';
 import ReferenceDetails from '../components/ReferenceDetails';
 import { selectItem } from '../actions';
+import TrashButton from '../components/TrashButton';
 
 const mapStateToProps = state => {
     return {
@@ -58,7 +59,10 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother }){
         case PROJECT:
             return (
                 <div className='w-100 center br1 pa3 ba b--black-10'>
-                    <BackButton id={0} />
+                    <div className='flex justify-between items-center'>
+                        <BackButton id={0} />
+                        <TrashButton />
+                    </div>
                     <ProjectDetails project={item} touchFunction={touchFunction} updateExp={updateExp}/>
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
@@ -70,7 +74,10 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother }){
         case TASK:
             return (
                 <div className='h-100 w-100 center br1 ba b--black-10 '>
-                    <BackButton id={0} />
+                    <div className='flex justify-between items-center'>
+                        <BackButton id={0} />
+                        <TrashButton />
+                    </div>
                     <h1 className='tc b gold'>Task</h1>
                     <TaskDetails id={parseInt(itemID)} />
                     <div className='flex justify-between self-end'>
@@ -82,7 +89,10 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother }){
         case INBOX_ITEM:
             return (
                 <div className='h-100 w-100 center br1 ba b--black-10'>
-                    <BackButton id={0} />
+                    <div className='flex justify-between items-center'>
+                        <BackButton id={0} />
+                        <TrashButton />
+                    </div>
                     <h1 className='tc b gold'>Inbox Item</h1>
                     <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} selectAnother={selectAnother} prevID={prev} nextID={next} />
                 </div>        
@@ -90,7 +100,10 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother }){
         case REFERENCE:
             return (
                 <div className='h-100 w-100 center br1 ba b--black-10'>
-                    <BackButton id={0} />
+                    <div className='flex justify-between items-center'>
+                        <BackButton id={0} />
+                        <TrashButton />
+                    </div>
                     <h1 className='tc b gold'>REFERENCE</h1>
                     <ReferenceDetails id={parseInt(itemID)} />
                     <div className='flex justify-between self-end'>
