@@ -79,7 +79,7 @@ function NewMission({ changeItemID, updateExp }) {
 
     return (
         <div className='h-100 w-100 center br1 pa3 ba b--black-10 '>
-            <h1 className='tc'>New Mission</h1>
+            <h1 className='tc b gold f3'>NEW MISSION</h1>
             <form onSubmit={submitNewItem} className='flex flex-column' title={MISSION}>
                 <input type='text' placeholder='Name' value={name} onChange={(e)=> setName(e.target.value)} />
                 <input type='text' placeholder='Outcome' value={outcome} onChange={(e) => setOutcome(e.target.value)} />

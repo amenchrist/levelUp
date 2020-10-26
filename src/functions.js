@@ -1,6 +1,6 @@
 /// For all the extra functions required in multiple places
 
-import { CALENDAR, DAILY, DETAILS, HOME, INBOX, PROJECTS, REFERENCES, REMINDERS, SOMEDAY, STATS, TASKS, TODAY, TRASH } from "./constants";
+import { CALENDAR, COMPLETED, DAILY, DETAILS, HOME, INBOX, PROJECTS, REFERENCES, REMINDERS, SOMEDAY, STATS, TASKS, TODAY, TRASH } from "./constants";
 
 export function passTitle(e, ChangeTitleFunction) {
     let targ = e.target;
@@ -79,13 +79,11 @@ export function setNavValues(e, navChanger, state){
     let navView;
     navTitle === "STATS" ? navView = "OVERVIEW" : navView = "LIST";
     navTitle === "NEW_ITEM" ? navView = "NEW" : navView = "LIST";
-    console.log("Nav ID is a ", typeof navID)
-    console.log("Nav ID parsed= ", parseInt(navID))
-   
-    //typeof navID !== "number" ? navID = 0 : navID = navID;
-    !(parseInt(navID) >= 0) ? navID = 0 : navID = navID;
 
-    const titles = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY, DAILY, SOMEDAY, TRASH, CALENDAR, REMINDERS, STATS, HOME ]
+   
+    !(parseInt(navID) >= 0) ? navID = 0 : console.log("");
+
+    const titles = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY, DAILY, SOMEDAY, TRASH, CALENDAR, REMINDERS, STATS, HOME, COMPLETED ]
     if (titles.indexOf(navTitle) === -1){
         navTitle = state.title;
     }
@@ -113,4 +111,19 @@ export function pushChanges(action, item, list, shippingFunction){
         pushDate: (new Date()).getTime()
     }
     shippingFunction(state);
+}
+
+//time spent calc
+
+export function calculateTime(timeSpent){
+    let s = timeSpent;
+    let ms = s % 1000;
+    s = (s - ms) / 1000;
+    let seconds = s % 60;
+    s = (s - seconds) / 60;
+    let minutes = s % 60;
+    let hours = (s - minutes) / 60;
+    return `${hours.toLocaleString(undefined,{minimumIntegerDigits: 2})}:
+    ${minutes.toLocaleString(undefined,{minimumIntegerDigits: 2})}:
+    ${seconds.toLocaleString(undefined,{minimumIntegerDigits: 2})}` 
 }

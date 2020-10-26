@@ -3,12 +3,12 @@ import QuestionAndOptions from '../components/QuestionAndOptions';
 import QuestionandInput from '../components/QuestionAndInput';
 import { Task, Project } from '../classes';
 import { ReferenceList } from '../ReferenceList';
-import { PROJECT, UNPLANNED, PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE, ADD, UPDATE, REMOVE, CALENDAR, REFERENCES, SOMEDAY, PROJECTS, TASKS } from '../constants';
+import {  PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE, ADD, UPDATE, REMOVE, REFERENCES, SOMEDAY, PROJECTS, TASKS } from '../constants';
 import { selectView, selectItem, ChangeNav } from '../actions';
 import { connect } from 'react-redux';
 import { ShipItems } from '../actions';
 import DatePicker from '../components/DatePicker';
-import NewTask from '../components/NewTask';
+import { pushChanges  } from '../functions';
 
 
 //shipItems(items, agent, record)
@@ -58,22 +58,22 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     const [ step, setStep ] = useState(0);
     const [ nextID, setNextID ] = useState(0);
     const [ isDoneInaYear, setIsDoneInaYear ] = useState(null);
-    const [ newProjectID, setNewProjectID ] = useState(0);
+    //const [ newProjectID, setNewProjectID ] = useState(0);
     const [ newTaskID, setNewTaskID ] = useState(0);
     const [ newProject, setNewProject ] = useState(null);
     const [ newTask, setNewTask ] = useState(null);
     const [ assignedAgent, setAssignedAgent ] = useState(null);
     const [ dueDate, setDueDate ] = useState(null);
 
-    function pushChanges(action, item, list){
-        let state = {
-            action: action,
-            list: list,
-            item: item,
-            pushDate: (new Date()).getTime()
-        }
-        shipItems(state);
-    }
+    // function pushChanges(action, item, list){
+    //     let state = {
+    //         action: action,
+    //         list: list,
+    //         item: item,
+    //         pushDate: (new Date()).getTime()
+    //     }
+    //     shipItems(state);
+    // }
 
     function processNextItem(e){
         setStep(0);
@@ -92,7 +92,8 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     }
 
     function makeNewTask(name){
-        let theOutcome, asProjID;
+        let asProjID;
+        let theOutcome = outcome;
         if (isMultistep === true) {
             theOutcome = '';
             asProjID = newProject.id;
@@ -132,11 +133,11 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         switch (action) {
             case REMOVE:
                 list.splice(itemndx, 1);
-                pushChanges(REMOVE, item, dbList);
+                pushChanges(REMOVE, item, dbList, shipItems);
             break;
             case ADD:
                 list.unshift(item);
-                pushChanges(ADD, item, dbList);
+                pushChanges(ADD, item, dbList, shipItems);
             break;
             default:
         }
@@ -145,9 +146,11 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
 
     function updateStatus() {
         item.status = PROCESSED;
-        pushChanges(UPDATE, item, "Inbox");
         ProcessedItems.unshift(item);
         InboxItems.splice(itemIndex,1);
+        pushChanges(UPDATE, item, "Inbox", shipItems);
+        pushChanges(ADD, item, "Processed", shipItems);
+        pushChanges(REMOVE, item, "Inbox", shipItems);
     }
 
     function proceed() {
@@ -167,13 +170,13 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         updateStatus();
         InboxItems.splice(itemIndex,1);
         ReferenceList.unshift(item);
-        pushChanges(ADD, item, "References");
+        pushChanges(ADD, item, "References", shipItems);
     }
 
     function addToSomedayList(){
         InboxItems.splice(itemIndex,1);
         ReferenceList.unshift(item);
-        pushChanges(ADD, item, "References");
+        pushChanges(ADD, item, "References", shipItems);
     }
 
     // if ( step === 10 ){
@@ -188,7 +191,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             view: "DETAILS",
             ID: newProject.id
         }
-    } else if(isMultistep === false){
+    } else if(isMultistep === false && step >4){
         nav = {
             title: TASKS,
             view: "DETAILS",

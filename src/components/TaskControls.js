@@ -1,8 +1,9 @@
 import React from 'react';
 //import { TaskList } from '../TaskList';
 import { connect } from 'react-redux';
-import { selectItem, UpdateExp, UpdateTaskStatus, SetActiveTask } from '../actions';
-import { DONE, ACTIVE, PAUSED, PENDING } from '../constants';
+import { selectItem, UpdateExp, UpdateTaskStatus, SetActiveTask, ShipItems, ChangeNav } from '../actions';
+import { DONE, ACTIVE, PAUSED, PENDING, UPDATE, ADD, REMOVE, COMPLETED } from '../constants';
+import { pushChanges  } from '../functions';
 
 const mapStateToProps = state => {
     return {
@@ -10,7 +11,8 @@ const mapStateToProps = state => {
         exp: state.UpdateExpReducer.exp,
         status: state.UpdateTaskStatusReducer.taskStatus,
         activeTask: state.SetActiveTaskReducer.activeTask,
-        activeSince: state.SetActiveTaskReducer.activeSince
+        activeSince: state.SetActiveTaskReducer.activeSince,
+        db: state.items.record.items 
     }
 }
 
@@ -27,19 +29,26 @@ const mapDispatchToProps = (dispatch) => {
         },
         setActiveTask: (task) => {
             return dispatch(SetActiveTask(task))
+        },
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
+        },
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskControls);
 
-function TaskControls({ task, status, updateTaskStatus, updateExp, changeItemID, setActiveTask, activeSince, activeTask }){
+function TaskControls({ task, position, changeNav, updateExp, changeItemID, setActiveTask, activeSince, activeTask, shipItems, db }){
 
     const prevTimeSpent = task.timeSpent;
 
     function startTimer(){
         setActiveTask(task);
         task.status = ACTIVE;
+        
     }
 
     function pauseTask(){
@@ -47,15 +56,26 @@ function TaskControls({ task, status, updateTaskStatus, updateExp, changeItemID,
         setActiveTask({});
         task.status = PAUSED;
         task.timeSpent = prevTimeSpent + (dateNow - activeSince);
+        console.log("previos time spent:, ", prevTimeSpent)
+        console.log("time spent:, ", task.timeSpent)
     }
 
     function markAsDone(){
         const dateNow = (new Date()).getTime();
         task.status = DONE;
         task.timeSpent = prevTimeSpent + (dateNow - activeSince);
-        //TaskList.splice(position,1);
         updateExp(task.exp);
-        changeItemID(task.id);
+        pushChanges(UPDATE, task, "Tasks", shipItems);
+        db.Completed.unshift(task);
+        pushChanges(ADD, task, "Completed", shipItems);
+        db.Tasks.splice(position,1);
+        pushChanges(REMOVE, task, "Tasks", shipItems);
+        const nav = {
+            title: COMPLETED,
+            view: "DETAILS",
+            ID: task.id
+        }
+        changeNav(nav);
     }
 
     switch(task.status){

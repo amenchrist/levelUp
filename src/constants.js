@@ -32,6 +32,8 @@ export const CALENDAR = 'CALENDAR';
 export const REMINDERS = 'REMINDERS';
 export const SOMEDAY = 'SOMEDAY';
 export const TRASH = 'TRASH';
+export const COMPLETED = 'COMPLETED';
+
 
 //VIEWS
 export const OVERVIEW = 'OVERVIEW';

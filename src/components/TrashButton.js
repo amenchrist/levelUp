@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ShipItems, ChangeNav } from '../actions';
 import trashCan from '../assets/trash1600.png';
-import { INBOX, PROJECTS, REMOVE, TASKS, REFERENCES, SOMEDAY, ADD } from '../constants';
+import { INBOX, PROJECTS, REMOVE, TASKS, REFERENCES, SOMEDAY, ADD, PROCESSED, COMPLETED } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -32,6 +32,10 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
     const InboxItems = db.Inbox;
     const ProjectList = db.Projects;
     const TaskList = db.Tasks;
+    const References = db.References;
+    const SomedayList = db.Someday;
+    const ProcessedList = db.Process;
+    const Completed = db.Completed;
     const Trash = db.Trash;
 
     
@@ -47,6 +51,18 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
         break;
         case INBOX:
             currentlist = InboxItems;
+        break;
+        case REFERENCES:
+            currentlist = References;
+        break;
+        case SOMEDAY:
+            currentlist = SomedayList;
+        break;
+        case PROCESSED:
+            currentlist = ProcessedList;
+        break;
+        case COMPLETED:
+            currentlist = Completed;
         break;
         default:
     }

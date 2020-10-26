@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectItem, UpdateExp, selectTitle,ChangeNav } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, DONE, PROCESSED, TRASH, COMPLETED } from '../constants';
 import List from '../components/List';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
@@ -62,7 +62,7 @@ function Main(props) {
         setNavValues(e, changeNav, state);
     }
 
-    const lists = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY, DAILY, SOMEDAY, CALENDAR ];
+    const lists = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY, DAILY, SOMEDAY, CALENDAR, COMPLETED, PROCESSED, TRASH ];
 
     console.log('Title: ', title)
     console.log('Item ID: ', itemID)
@@ -82,7 +82,19 @@ function Main(props) {
             break;
             case INBOX:
                 content = db.Inbox;
-                break;
+            break;
+            case COMPLETED:
+                content = db.Completed;
+            break;
+            case PROCESSED:
+                content = db.Processed;
+            break;
+            case REFERENCES:
+                content = db.References;
+            break;
+            case TRASH:
+                content = db.Trash;
+            break;
             default:
                 content = []
         } 

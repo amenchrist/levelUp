@@ -1,9 +1,12 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import List from './List';
 import { MISSION } from '../constants';
 import { connect } from 'react-redux';
-import { selectView, selectItem, UpdateExp, RestorePreviousState } from '../actions';
-// import { TaskList } from '../TaskList';
+import { selectView, selectItem, UpdateExp, RestorePreviousState, ShipItems } from '../actions';
+import { pushChanges  } from '../functions';
+import { UPDATE } from '../constants';
+import DatePicker from './DatePicker';
+import NewItemButton from './NewItemButton';
 
 const mapStateToProps = state => {
     return {
@@ -29,16 +32,19 @@ const mapDispatchToProps = (dispatch) => {
         },
         restorePreviousState: (previousState) => {
             return dispatch(RestorePreviousState(previousState))
+        },
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
         }
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
 
-function ProjectDetails({ project, view, changeItemID, db }) {
+function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
     console.log('project: ', project);
 
-    const TaskList = db.Tasks;
+    const TaskList = db.Tasks.concat(db.Completed);
 
     function passKey(e) {
         //Takes the events target and checks for title attribute 
@@ -75,36 +81,86 @@ function ProjectDetails({ project, view, changeItemID, db }) {
     const projectTasks = getTasks();
 
     const [ name, setName ] = useState(project.name);
-    const [ requiredContext, setrequiredContext ] = useState(project.description);
-    const [ outcome, setoutcome ] = useState(project.description);
+    const [ purpose, setPurpose ] = useState(project.purpose);
+    const [ description, setDescription ] = useState(project.description);
     const [ dueDate, setdueDate ] = useState(project.dueDate);
-    const [ timeRequired, settimeRequired ] = useState(project.timeRequired);
+    const [ timeRequired, setTimeRequired ] = useState(project.timeRequired);
     const [ lastUpdated, setlastUpdated ] = useState(db.lastUpdated);
 
+    useEffect(() => {
+        setName(project.name);
+        setTimeRequired(project.timeRequired);
+        setPurpose(project.purpose);
+        setDescription(project.description);
+        setdueDate(project.dueDate);
+        console.log("Last Updated: ", db.lastUpdated)
+    }, [project.name, project.timeRequired, project.purpose, project.dueDate, project.description, db.lastUpdated ])
+
+    function updateDB(change) {
+        console.log("changes")
+     
+        pushChanges(UPDATE, project, "Projects", shipItems);
+        // if (oldValue !== newValue){
+        //     oldValue = newValue;
+        //     console.log(oldValue)
+        //     console.log("old time: ", lastUpdated);
+        //     db.lastUpdated = (new Date()).getTime();
+        //     setlastUpdated(db.lastUpdated);
+            
+        // }
+    }
+
     return (
-        <div>
-            <div className='w-100 pa2 pb3' >
-                <h3 className='fw7 b white pb2'>{project.name}</h3>
+        <div className='h-80 ba bw1 b--white'>
+            <div className='w-100 h-10 pa2 pb3' >
+
+                <input type='text' 
+                className='bn fw7 b white bg-transparent'
+                value={name} 
+                onChange={(e)=> {setName(e.target.value);} } 
+                onBlur={() => {project.name = name; updateDB();} }  
+                />
+
                 <h4 className='fw1 white'>{project.type}</h4>
             </div>
-            <div className='w-100 pl2 pb3'>
-                <h5 className='fw3 white'>Description: </h5>
-                <h5 className='fw3 white'>{project.description} </h5>
+
+            <div className='w-100 h-20 pl2 pt3'>
+                <div className='w-100 pl2 pb1'>
+                    <h5 className='fw3 white'>Description: </h5>
+                    <textarea rows="2" cols="100" 
+                    className='w-80 fw3 white bn bg-transparent' 
+                    value={description} 
+                    onChange={(e)=> {setDescription(e.target.value);} } 
+                    onBlur={() =>{ project.description = description; updateDB(); }} 
+                    />
+                </div>
             </div>
-            <div className='w-100 pl2 pb3'>
+            <div className='w-100 h-10 pl2 pb2'>
                 <h5 className='fw3 white'>Purpose: </h5>
-                <h5 className='fw3 white'>{project.purpose} </h5>
+                {/* <h5 className='fw3 white'>{project.purpose} </h5> */}
+
+                <input type='text' 
+                className='bn fw3 b white bg-transparent' 
+                value={purpose} 
+                onChange={(e)=> {setPurpose(e.target.value);} } 
+                onBlur={() => {project.purpose = purpose; updateDB();} } 
+                />
+
             </div>
-            <div className='w-100 pl2 pb3 flex justify-between'>
-                <h5 className='fw3 white'>Due: {project.dueDate} </h5>
-                <h5 className='fw3 white'>Time Required: {project.timeRequired}</h5>
+            <div className='w-100 h-10 pl2 pb2 flex justify-between'>
+                {/* <h5 className='fw3 white'>Due: {project.dueDate} </h5> */}
+                <DatePicker item={project} dueDate={dueDate} />
+                {/* <h5 className='fw3 white'>Time Required: {project.timeRequired}</h5> */}
             </div>
-            <div className='w-100 pl2 pb3 flex justify-between'>
+            <div className='w-100 h-10 pl2 pb3 flex justify-between'>
                 <h5 className='fw3 white'>Status: {project.status}</h5>
-                <h5 className='fw3 white'>Time Remaining: 12:34:50 </h5>
+                {/* <h5 className='fw3 white'>Time Remaining: 12:34:50 </h5> */}
             </div>
-            <h5 className='bb b--white pa2 fw3 white b' >TASKS</h5>
-            <div className='pa2'>
+            <div className='flex justify-between items-center'>
+                <h5 className='bb b--white pa2 fw3 white b' >TASKS</h5>
+                <NewItemButton />
+            </div> 
+            <div className='pa2 h-30'>
                 <List content={projectTasks} filter={MISSION} touchFunction={passKey} />
             </div>
             

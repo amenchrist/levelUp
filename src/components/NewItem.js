@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
 
 
-function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db, changeTitle }) {
+function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db, changeTitle, itemID }) {
 
     // const [ type, setType ] = useState(title);
     const [ name, setName ] = useState('Enter item name');
@@ -91,8 +91,10 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
         switch(true) {
             case title === TASKS:
                 return <NewTask updateExp={updateExp} />
-            case title === PROJECTS:
+            case title === PROJECTS && itemID == 0:
                 return <NewMission updateExp={updateExp} />
+            case title === PROJECTS && itemID != 0:
+                return <NewTask updateExp={updateExp} />
             default:
                 return (
                     <div className='h-100 w-100 center ba b--black-10 '>

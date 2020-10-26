@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { selectItem, ChangeNav } from '../actions';
 import ListItem from './ListItem';
 import Scroll from './Scroll';
-import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES } from '../constants';
+import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES, COMPLETED } from '../constants';
 import { setNavValues  } from '../functions';
 
 const mapStateToProps = state => {
@@ -77,21 +77,33 @@ function List({ content, changeItemID, title, state, changeNav }) {
 
     // Project, Task, Inbox and Reference Lists 
     let type = '';
+    let status;
+    let filteredContent = []
     switch(title){
         case TASKS:
             type = TASK;
+            filteredContent = content.filter((entry) => (entry.type === type));
         break;
         case PROJECTS:
             type = PROJECT;
+            filteredContent = content.filter((entry) => (entry.type === type));
             break;
         case REFERENCES:
             type = REFERENCE;
-            break;
+            filteredContent = content.filter((entry) => (entry.type === type));
+        break;
+        case COMPLETED:
+            status = DONE;
+            filteredContent = content.filter((entry) => (entry.status === status));
+        break;
         default:
             type = INBOX_ITEM;
+            filteredContent = content.filter((entry) => (entry.type === type));
     }
 
-    const filteredContent = content.filter((entry) => (entry.type === type))
+    console.log("filtered COntent: ", filteredContent);
+    console.log("COntent: ", content);
+     
 
     const ListItems = filteredContent.map((entry,i) => {
         return <ListItem item={filteredContent[i]} touchFunction={handleEvent} key={content[i].id}/>
