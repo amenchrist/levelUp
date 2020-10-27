@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { UpdateTaskStatus, SetActiveTask, selectItem } from '../actions';
+import { UpdateTaskStatus, SetActiveTask, selectItem, ChangeNav } from '../actions';
+import { DETAILS, TASKS } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -21,13 +22,16 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeItemID: (id) => {
             return dispatch(selectItem(id))
+        },
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveTaskTimer);
 
-function ActiveTaskTimer({changeItemID, activeSince, activeTask}) {
+function ActiveTaskTimer({changeItemID, activeSince, activeTask, changeNav}) {
     const dateNow = (new Date()).getTime();
     const timeSpent = activeTask.timeSpent + (dateNow - activeSince);
 
@@ -70,7 +74,13 @@ function ActiveTaskTimer({changeItemID, activeSince, activeTask}) {
 
     function goToTask(event){
         event.stopPropagation();
-        changeItemID(activeTask.id)
+        // changeItemID(activeTask.id)
+        let nav = {
+            title: TASKS,
+            view: DETAILS,
+            ID: activeTask.id
+        }
+        changeNav(nav);     
     }
 
     switch(activeTask.id){

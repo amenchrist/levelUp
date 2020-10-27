@@ -127,3 +127,32 @@ export function calculateTime(timeSpent){
     ${minutes.toLocaleString(undefined,{minimumIntegerDigits: 2})}:
     ${seconds.toLocaleString(undefined,{minimumIntegerDigits: 2})}` 
 }
+
+
+export function convertDateToMilliseconds(d) {
+    let m,y;
+    [y, m, d] = d.split("-"); //Split the string
+     ;
+     return new Date(...[y, m - 1, d]).getTime() //Return as an array with y,m,d sequence
+  }
+/* 
+
+function changeNavigation(id, navChanger){
+    let nav;
+    if(title === PROJECTS) {
+        nav = {
+            title: PROJECTS,
+            view: "DETAILS",
+            ID: itemID
+        }
+    } else {
+        nav = {
+            title: title,
+            view: "DETAILS",
+            ID: id
+        }
+    }
+    changeNav(nav);
+}
+
+*/

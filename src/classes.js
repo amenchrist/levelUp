@@ -1,7 +1,7 @@
-import {TASK, PENDING, PROJECT, UNPLANNED } from './constants';
+import {TASK, PENDING, PROJECT, UNPLANNED, ASAP } from './constants';
 
 export class Task{
-    constructor(name,outcome, requiredContext, associatedProjectID, dueDate) {
+    constructor(name,outcome, requiredContext, associatedProjectID = 0, dueDate = ASAP) {
         const d = new Date();
         this.type = TASK;
         this.id = d.getTime();

@@ -140,23 +140,23 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
         <div className='h-100 w-100 center br1 pa3 ba b--black-10 '>
             <h1 className='tc b gold f3'>NEW TASK</h1>
             <form onSubmit={submitNewItem} className='flex flex-column' title={TASK}>
-                <input type='text' placeholder='Name' value={name} onChange={(e)=> setName(e.target.value)} />
-                <input type='text' placeholder='Outcome' value={outcome} onChange={(e) => setOutcome(e.target.value)} />
-                <textarea placeholder='Required Context' value={requiredContext} onChange={(e) => setRequiredContext(e.target.value)} />
-                <textarea placeholder='Note' value={note} onChange={(e) => setNote(e.target.value)} />
-                <label htmlFor="due date" className=''>Due Date:</label>
-                <input id='due date' type='date' min={today} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
-                <select id="priority" value={priority} onChange={(e)=> setPriority(e.target.value)}>
+                <input className='pa2 mb1' type='text' autoFocus placeholder='Name' value={name} onChange={(e)=> setName(e.target.value)} />
+                <input  className='pa2 mb1'type='text' placeholder='Outcome' value={outcome} onChange={(e) => setOutcome(e.target.value)} />
+                <textarea  className='pa2 mb1' placeholder='Required Context' value={requiredContext} onChange={(e) => setRequiredContext(e.target.value)} />
+                <textarea  className='pa2 mb1' placeholder='Note' value={note} onChange={(e) => setNote(e.target.value)} />
+                <label className='fw4 white' htmlFor="due date" >Due Date:</label>
+                <input className='pa2 mb1' id='due date' type='date' min={today} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+                <select className='pa2 mb1' id="priority" value={priority} onChange={(e)=> setPriority(e.target.value)}>
                     <option value="" disabled defaultValue>Priority</option>
                     <option value={LOW}>Low</option>
                     <option value={MEDIUM}>Medium</option>
                     <option value={HIGH}>High</option>
                 </select>
-                <textarea placeholder='Requirements' value={requirements} onChange={(e) => setRequirements(e.target.value)} />
-                <input type='text' placeholder='Assigned Agent' value={agent} onChange={(e)=> setAgent(e.target.value)} />
+                <textarea className='pa2 mb1' placeholder='Requirements' value={requirements} onChange={(e) => setRequirements(e.target.value)} />
+                <input className='pa2 mb1' type='text' placeholder='Assigned Agent' value={agent} onChange={(e)=> setAgent(e.target.value)} />
                 {/* <input type='text' placeholder='Frequency' value={frequency} onChange={(e) => setFrequency(e.target.value)} />
                 <input type='text' placeholder='Associated project name' value={associatedProject} onChange={(e) => setAssociatedProject(e.target.value)} /> */}
-                <input type='submit' value='submit' />
+                <input className='pa2 mb1' type='submit' value='submit' />
             </form>
         </div>
     )

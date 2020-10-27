@@ -105,7 +105,7 @@ const UpdateTaskStatusReducer = (state=initialState, action={}) => {
 
 const initialActiveTask = {
     activeTask: {},
-    activeSince: null,
+    activeSince: 0,
     timeNow: (new Date()).getTime()
 }
 

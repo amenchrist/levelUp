@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { selectItem, ChangeNav } from '../actions';
 import ListItem from './ListItem';
 import Scroll from './Scroll';
-import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES, COMPLETED } from '../constants';
+import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES, COMPLETED, INBOX, ASAP } from '../constants';
 import { setNavValues  } from '../functions';
 
 const mapStateToProps = state => {
@@ -33,24 +33,8 @@ const mapDispatchToProps = (dispatch) => {
 
 function List({ content, changeItemID, title, state, changeNav }) {
 
-    // function passKey(e, changeIDFunction) {
-    //     //Takes the events target and checks for title attribute 
-    //     //If no title attribute, check parent node for title attribute
-    //     //If not found, repeat step 2
-    //     let targ = e.target;
-    //     checkForID(targ);
-    //     function checkForID (t) {
-    //         if (t.id) {
-    //             changeIDFunction(t.id);
-    //         } else {
-    //             t = t.parentNode;
-    //             checkForID (t);   
-    //         }
-    //     }
-    // }
-
+  console.log("first contetn: ", content)
     function handleEvent(e ) {
-        //passKey(e, changeItemID);
         setNavValues(e, changeNav, state);
     }
 
@@ -62,8 +46,9 @@ function List({ content, changeItemID, title, state, changeNav }) {
 
     // Today's Mission
     const dueToday = content.filter((entry) => ( 
-        ( entry.dueDate === new Date().toISOString().substr(0, 10) ) && entry.status !== DONE ) );
-    const todaysTasks = dueToday.map((entry,i ) => {
+        (entry.dueDate != ASAP) && ( new Date(entry.dueDate).toISOString().substr(0, 10) === new Date().toISOString().substr(0, 10) ) && entry.status !== DONE ) );
+    
+        const todaysTasks = dueToday.map((entry,i ) => {
         return <ListItem item={dueToday[i]} touchFunction={handleEvent} key={content[i].id}/>
     })
     /////
@@ -96,9 +81,12 @@ function List({ content, changeItemID, title, state, changeNav }) {
             status = DONE;
             filteredContent = content.filter((entry) => (entry.status === status));
         break;
-        default:
+        case INBOX:
             type = INBOX_ITEM;
             filteredContent = content.filter((entry) => (entry.type === type));
+        break;
+        default:
+            filteredContent = content;
     }
 
     console.log("filtered COntent: ", filteredContent);

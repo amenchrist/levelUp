@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectItem, UpdateExp, selectTitle,ChangeNav } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, DONE, PROCESSED, TRASH, COMPLETED } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, DONE, PROCESSED, TRASH, COMPLETED, REMINDERS } from '../constants';
 import List from '../components/List';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
@@ -62,7 +62,7 @@ function Main(props) {
         setNavValues(e, changeNav, state);
     }
 
-    const lists = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY, DAILY, SOMEDAY, CALENDAR, COMPLETED, PROCESSED, TRASH ];
+    const lists = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY, DAILY, SOMEDAY, CALENDAR, COMPLETED, PROCESSED, TRASH, REMINDERS ];
 
     console.log('Title: ', title)
     console.log('Item ID: ', itemID)
@@ -83,6 +83,9 @@ function Main(props) {
             case INBOX:
                 content = db.Inbox;
             break;
+            case TODAY:
+                content = db.Tasks;
+            break;
             case COMPLETED:
                 content = db.Completed;
             break;
@@ -100,7 +103,7 @@ function Main(props) {
         } 
 
         switch( true ) {
-            case view === DETAILS:
+            case view === DETAILS && itemID !== 0:
                 return (
                     <div className='h-100 pa2 '>
                         <div className='h-10'>

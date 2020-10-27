@@ -33,6 +33,8 @@ export const REMINDERS = 'REMINDERS';
 export const SOMEDAY = 'SOMEDAY';
 export const TRASH = 'TRASH';
 export const COMPLETED = 'COMPLETED';
+export const WAITING_FOR = 'WAITING_FOR';
+export const ASAP = 'ASAP';
 
 
 //VIEWS

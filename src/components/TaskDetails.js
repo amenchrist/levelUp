@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 //import { TaskList } from '../TaskList';
 import { connect } from 'react-redux';
-import { selectView, selectItem, UpdateExp, UpdateTaskStatus, ShipItems } from '../actions';
+import { selectView, selectItem, UpdateExp, UpdateTaskStatus, ShipItems,ChangeNav } from '../actions';
 import DatePicker from './DatePicker';
 import Timer from './Timer';
 import TaskControls from './TaskControls';
 import { pushChanges  } from '../functions';
-import { COMPLETED, UPDATE } from '../constants';
+import { COMPLETED, DETAILS, PROJECTS, UPDATE } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -38,6 +38,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         shipItems: (items, agent, record) => {
             return dispatch(ShipItems(items, agent, record))
+        },
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
@@ -45,7 +48,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(TaskDetails);
 
 
-function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSince, activeTask, db, shipItems }) {
+function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSince, activeTask, db, shipItems, changeNav }) {
 
     const ProjectList = db.Projects;
     const tasks = db.Tasks;
@@ -112,6 +115,16 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
         // }
     }
 
+    function changeNavigation(id, title){
+       
+        let nav = {
+            title: title,
+            view: DETAILS,
+            ID: id
+        }
+        changeNav(nav);        
+    }
+
     switch (title){
         case COMPLETED:
             
@@ -134,7 +147,8 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
         
                         <div className='w-100 pl2 pb3'>
                             <h5 className='fw3 white'>Mission: </h5>
-                            <h4 className='fw5 white'>{associatedProject.name}</h4>
+                            <h4 className='fw5 white' onClick={() => {
+                                if(task.associatedProjectID != 0){changeNavigation(task.associatedProjectID, PROJECTS)}}} >{associatedProject.name}</h4>
                         </div>
         
                         <div className='w-100 pl2 pb3'>

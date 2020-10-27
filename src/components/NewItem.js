@@ -112,9 +112,9 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
                     <div className='h-100 w-100 center ba b--black-10 '>
                         <h1 className='tc gold b'>NEW ITEM</h1>
                         <form onSubmit={submitNewItem} className='flex flex-column' title={INBOX}>
-                            <input type='text' onChange={(e)=> setName(e.target.value)} placeholder='Enter item name...' className='pa2 mb2' />
+                            <input className='pa2 mb2' type='text' autoFocus onChange={(e)=> setName(e.target.value)} placeholder='Enter item name...'  />
                             {/* <textarea value={description} onChange={(e) => setDescription(e.target.value)} /> */}
-                            <input type='submit' value='submit' />
+                            <input className='pa2 mb1' type='submit' value='submit' />
                         </form>
                     </div>
                 )
@@ -123,21 +123,14 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
 
     return (
         <div className='pa1 w-100'>
-            <button className="button w-20" onClick={(e)=> changeTitle(INBOX)}>INBOX</button>
-            <button className="button w-20" onClick={(e)=> changeTitle(TASKS)}>TASK</button>
-            <button className="button w-20" onClick={(e)=> changeTitle(PROJECTS)}>MISSION</button>
-            <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>REF</button>
-            <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>FINANCE</button>
-            {displayTypeForm()}
-            {/* <label htmlFor="type" className=''>Type:</label>
-            <select id="type" value={type} onChange={(e)=> setType(e.target.value)}>
-                <option value="INBOX_ITEM">INBOX</option>
-                <option value="TASK">TASK</option>
-                <option value="MISSION">MISSION</option>
-                <option value="REFERENCE">REFERENCE</option>
-                <option value="EXPENSE">EXPENSE</option>
-                <option value="INCOME">INCOME</option>
-            </select> */}
+            <div className='pa1 w-100 flex justify-center'>
+                <button className="button w-30" onClick={(e)=> changeTitle(INBOX)}>INBOX</button>
+                <button className="button w-30" onClick={(e)=> changeTitle(TASKS)}>TASK</button>
+                <button className="button w-30" onClick={(e)=> changeTitle(PROJECTS)}>MISSION</button>
+                {/* <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>REF</button>
+                <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>FINANCE</button> */}
+            </div>
+                {displayTypeForm()}
         </div>
     )
 }

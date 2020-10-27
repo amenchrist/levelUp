@@ -55,7 +55,7 @@ function TaskControls({ task, position, changeNav, updateExp, changeItemID, setA
         const dateNow = (new Date()).getTime();
         setActiveTask({});
         task.status = PAUSED;
-        task.timeSpent = prevTimeSpent + (dateNow - activeSince);
+        task.timeSpent = prevTimeSpent + (dateNow - parseInt(activeSince));
         console.log("previos time spent:, ", prevTimeSpent)
         console.log("time spent:, ", task.timeSpent)
     }
@@ -63,7 +63,8 @@ function TaskControls({ task, position, changeNav, updateExp, changeItemID, setA
     function markAsDone(){
         const dateNow = (new Date()).getTime();
         task.status = DONE;
-        task.timeSpent = prevTimeSpent + (dateNow - activeSince);
+        prevTimeSpent == 0 ? task.timeSpent = 0 : task.timeSpent = prevTimeSpent + (dateNow - parseInt(activeSince));
+        setActiveTask({});
         updateExp(task.exp);
         pushChanges(UPDATE, task, "Tasks", shipItems);
         db.Completed.unshift(task);
