@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/levelUp/static/css/main.6a07c761.chunk.css",
-    "main.js": "/levelUp/static/js/main.eeb0eb8e.chunk.js",
-    "main.js.map": "/levelUp/static/js/main.eeb0eb8e.chunk.js.map",
+    "main.js": "/levelUp/static/js/main.37467b17.chunk.js",
+    "main.js.map": "/levelUp/static/js/main.37467b17.chunk.js.map",
     "runtime-main.js": "/levelUp/static/js/runtime-main.4602af5c.js",
     "runtime-main.js.map": "/levelUp/static/js/runtime-main.4602af5c.js.map",
     "static/css/2.07548e1c.chunk.css": "/levelUp/static/css/2.07548e1c.chunk.css",
-    "static/js/2.ad4820ae.chunk.js": "/levelUp/static/js/2.ad4820ae.chunk.js",
-    "static/js/2.ad4820ae.chunk.js.map": "/levelUp/static/js/2.ad4820ae.chunk.js.map",
+    "static/js/2.9ca79d3d.chunk.js": "/levelUp/static/js/2.9ca79d3d.chunk.js",
+    "static/js/2.9ca79d3d.chunk.js.map": "/levelUp/static/js/2.9ca79d3d.chunk.js.map",
     "index.html": "/levelUp/index.html",
-    "precache-manifest.9a9c2d9e7db117f8a58cdeab6bff70b6.js": "/levelUp/precache-manifest.9a9c2d9e7db117f8a58cdeab6bff70b6.js",
+    "precache-manifest.86a3d99169ae3b0a0fbd78f58181bcab.js": "/levelUp/precache-manifest.86a3d99169ae3b0a0fbd78f58181bcab.js",
     "service-worker.js": "/levelUp/service-worker.js",
     "static/css/2.07548e1c.chunk.css.map": "/levelUp/static/css/2.07548e1c.chunk.css.map",
     "static/css/main.6a07c761.chunk.css.map": "/levelUp/static/css/main.6a07c761.chunk.css.map",
-    "static/js/2.ad4820ae.chunk.js.LICENSE.txt": "/levelUp/static/js/2.ad4820ae.chunk.js.LICENSE.txt",
+    "static/js/2.9ca79d3d.chunk.js.LICENSE.txt": "/levelUp/static/js/2.9ca79d3d.chunk.js.LICENSE.txt",
     "static/media/trash1600.png": "/levelUp/static/media/trash1600.4a1c4989.png"
   },
   "entrypoints": [
     "static/js/runtime-main.4602af5c.js",
     "static/css/2.07548e1c.chunk.css",
-    "static/js/2.ad4820ae.chunk.js",
+    "static/js/2.9ca79d3d.chunk.js",
     "static/css/main.6a07c761.chunk.css",
-    "static/js/main.eeb0eb8e.chunk.js"
+    "static/js/main.37467b17.chunk.js"
   ]
 }
