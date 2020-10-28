@@ -4,9 +4,8 @@ import QuestionandInput from '../components/QuestionAndInput';
 import { Task, Project } from '../classes';
 import { ReferenceList } from '../ReferenceList';
 import {  PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE, ADD, UPDATE, REMOVE, REFERENCES, SOMEDAY, PROJECTS, TASKS } from '../constants';
-import { selectView, selectItem, ChangeNav } from '../actions';
+import { selectView, selectItem, ChangeNav, ShipItems } from '../actions';
 import { connect } from 'react-redux';
-import { ShipItems } from '../actions';
 import DatePicker from '../components/DatePicker';
 import { pushChanges  } from '../functions';
 
@@ -107,8 +106,8 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         setNextID(task.id);  
 
         //ADD TASK TO TASK LIST AND 
-        TaskList.unshift(task);
-        pushChanges(ADD, task, "Tasks", shipItems);
+        //TaskList.unshift(task);
+        //pushChanges(ADD, task, "Tasks", shipItems);
 
         // InboxItems.splice(itemIndex,1);
         // pushChanges(REMOVE, item, "Inbox");

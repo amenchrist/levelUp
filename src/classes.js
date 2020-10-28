@@ -28,15 +28,17 @@ export class Task{
 }
 
 export class Project{
-    constructor(outcome, purpose, description) {
+    constructor(outcome ='', purpose ='', description = '', dueDate = 0, requirements = '', priority, frequency = '' ) {
         const d = new Date();
         this.type = PROJECT;        
         this.id = d.getTime();
+        this.entryDate = d.getTime();
         this.name = outcome;
-        this.description = '';
+        this.description = description;
         this.outputRecordID = null;
-        this.dueDate = (new Date(parseInt((d.getTime() + 7776000000)))).toISOString().substr(0, 10); // 3 months from the date the project is planned 
+        this.dueDate = dueDate //(new Date(parseInt((d.getTime() + 7776000000)))).toISOString().substr(0, 10); // 3 months from the date the project is planned 
         this.timeRequired = 7776000000;
+        this.timeSpent = 0;
         this.timeRemaining = setInterval(()=> {
             let timeNow = (new Date()).getTime();
             return (this.dueDate - timeNow)
@@ -45,6 +47,11 @@ export class Project{
         this.nextAction = {};
         this.taskList = [];
         this.principles = '';
-        this.requirements = '';
+        this.requirements = requirements;
+        this.exp = 50;
+        this.purpose = purpose;
+        this.priority = priority;
+        this.frequency = frequency;
+        this.note = '';
     }
 }

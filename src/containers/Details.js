@@ -35,10 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, changeItemID }){
     
-    let content = db.Inbox
-    const ProjectList = db.Projects
-
-    console.log("type of item id: ", typeof itemID)
+    let content;
 
     // DETERMINE CONTENT LIST
     switch(title) {
@@ -85,7 +82,6 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
     console.log("content list from details: ", content)
 
     // FIND ITEM
-    let itemType;
     let item = {};
     let prev = itemID;
     let next = itemID;
@@ -93,7 +89,6 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
     for (let i=0; i<content.length; i++){
         
         if (content[i].id === id){
-            itemType = content[i].type;
             item = content[i];
             console.log("item from loop: ", item)
 

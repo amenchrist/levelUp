@@ -132,6 +132,10 @@ export function FetchItems(record) {
     return fetch(serverLink) //https://secret-citadel-16777.herokuapp.com/
       .then(response => response.json())
       .then(json => { console.log(json); dispatch(ReceiveItems(record, json))})
+      .catch((error) => {
+        console.log("Error: ", error);
+        setTimeout(dispatch(FetchItems(record)), 5000);
+      })
   }
 }
 
@@ -209,9 +213,10 @@ export function ShipItems(items, agent, record) {
       .then(json => dispatch(DeliverItems(agent, json)))
       .catch((error) => {
         console.log("Error: ", error);
+        setTimeout(ShipItems(items, agent), 5000);
       })
   }
 }
 
-const serverLink = "https://secret-citadel-16777.herokuapp.com/";
+const serverLink = "http://localhost:5000/" //"https://secret-citadel-16777.herokuapp.com/";
 //const serverLink2 = "http://localhost:5000/";

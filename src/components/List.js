@@ -33,33 +33,15 @@ const mapDispatchToProps = (dispatch) => {
 
 function List({ content, changeItemID, title, state, changeNav }) {
 
-  console.log("first contetn: ", content)
+    //console.log("first contetn: ", content)
     function handleEvent(e ) {
         setNavValues(e, changeNav, state);
     }
 
-
-    // A Mission's Tasklist
-    const missionTasks = content.map((entry,i ) => {
-        return <ListItem item={content[i]} touchFunction={handleEvent} key={content[i].id}/>
-    })
-
-    // Today's Mission
-    const dueToday = content.filter((entry) => ( 
-        (entry.dueDate != ASAP) && ( new Date(entry.dueDate).toISOString().substr(0, 10) === new Date().toISOString().substr(0, 10) ) && entry.status !== DONE ) );
+    let missionTasks, dueToday, todaysTasks, dailyEx, dailyTasks;
     
-        const todaysTasks = dueToday.map((entry,i ) => {
-        return <ListItem item={dueToday[i]} touchFunction={handleEvent} key={content[i].id}/>
-    })
-    /////
 
-    // Daily exercises
-    const dailyEx = content.filter((entry) => (entry.frequency === DAILY ));
-    const dailyTasks = dailyEx.map((entry, i) => {
-        return <ListItem item={dailyEx[i]} touchFunction={handleEvent} key={content[i].id}/>
-    })
-    ///////
-
+    
     // Project, Task, Inbox and Reference Lists 
     let type = '';
     let status;
@@ -67,12 +49,37 @@ function List({ content, changeItemID, title, state, changeNav }) {
     switch(title){
         case TASKS:
             type = TASK;
-            filteredContent = content.filter((entry) => (entry.type === type));
+            filteredContent = content
         break;
         case PROJECTS:
             type = PROJECT;
             filteredContent = content.filter((entry) => (entry.type === type));
-            break;
+            // A Mission's Tasklist
+            missionTasks = content.map((entry,i ) => {
+                return <ListItem item={content[i]} touchFunction={handleEvent} key={content[i].id}/>
+            })
+        break;
+        case TODAY:
+            type = TASK;
+            filteredContent = content.filter((entry) => (entry.type === type));
+
+            // Today's Mission
+            dueToday = content.filter((entry) => ( 
+                (entry.dueDate != ASAP) && ( new Date(entry.dueDate).toISOString().substr(0, 10) === new Date().toISOString().substr(0, 10) ) && entry.status !== DONE ) );
+            
+                const todaysTasks = dueToday.map((entry,i ) => {
+                return <ListItem item={dueToday[i]} touchFunction={handleEvent} key={content[i].id}/>
+            })
+        break;
+        case DAILY:
+            type = TASK;
+            filteredContent = content.filter((entry) => (entry.type === type));
+            // Daily exercises
+            dailyEx = content.filter((entry) => (entry.frequency === DAILY ));
+            dailyTasks = dailyEx.map((entry, i) => {
+                return <ListItem item={dailyEx[i]} touchFunction={handleEvent} key={content[i].id}/>
+            })
+        break;
         case REFERENCES:
             type = REFERENCE;
             filteredContent = content.filter((entry) => (entry.type === type));
@@ -89,8 +96,8 @@ function List({ content, changeItemID, title, state, changeNav }) {
             filteredContent = content;
     }
 
-    console.log("filtered COntent: ", filteredContent);
-    console.log("COntent: ", content);
+    //console.log("filtered COntent: ", filteredContent);
+    //console.log("COntent: ", content);
      
 
     const ListItems = filteredContent.map((entry,i) => {

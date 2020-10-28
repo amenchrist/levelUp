@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { UpdateExp, ChangeNav, ShipItems } from '../actions';
-import { DETAILS, LIST, PROJECTS } from '../constants';
+import { DETAILS, PROJECTS } from '../constants';
 import { calculateTime } from '../functions';
 
 

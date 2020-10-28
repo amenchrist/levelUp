@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { PENDING, LOW, MEDIUM, HIGH, MISSION, PROJECT } from '../constants';
-import { ProjectList } from '../ProjectList';
-import { selectView, selectItem } from '../actions';
 import { connect } from 'react-redux';
+import { PENDING, LOW, MEDIUM, HIGH, MISSION, PROJECT, ADD, PROJECTS, DETAILS } from '../constants';
+import { selectView, selectItem, ChangeNav, ShipItems } from '../actions';
+import { Project as Mission } from '../classes';
+import { pushChanges  } from '../functions';
 
 const mapStateToProps = state => {
     return {
         view: state.values.view,
-        itemID: state.values.itemID
+        itemID: state.values.itemID,
+        db: state.items.record.items
     }
 }
 
@@ -16,62 +18,45 @@ const mapDispatchToProps = (dispatch) => {
         onTouch: (title) => {
             return dispatch(selectView(title))
         },
-        changeItemID: (id) => {
-            return dispatch(selectItem(id))
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
+        },
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
 
-function NewMission({ changeItemID, updateExp }) {
+function NewMission({ updateExp, shipItems, changeNav, db }) {
+
+    const ProjectList = db.Projects;
 
     let today = new Date().toISOString().substr(0, 10);
 
-    const [ name, setName ] = useState('');
     const [ purpose, setPurpose ] = useState('');
     const [ outcome, setOutcome ] = useState('');
-    const [ note, setNote ] = useState('');
+    const [ description, setDescription ] = useState('');
     const [ dueDate, setDueDate ] = useState(today);
     const [ priority, setPriority ] = useState('');
-    const [ frequency, setFrequency ] = useState(0);
     const [ requirements, setRequirements ] = useState('');
-    //const [ taskList, setTaskList ] = useState([]);
 
-
-    class Mission{
-        constructor() {
-            const d= new Date();
-
-            this.type = PROJECT;
-            this.id = d.getTime();
-            this.entryDate = d.getTime();
-            this.status = PENDING;
-            this.priority = priority;
-            this.frequency = frequency;
-            this.timeSpent = 0;
-            this.outcomeRecordID = 0;
-            this.name = name;
-            this.purpose = purpose;
-            this.outcome = outcome;
-            this.principles = '';
-            this.note = note;
-            this.dueDate = dueDate;
-            this.timeRequired = 0;
-            this.requirements = requirements;
-            this.taskList = [];
-            this.exp = 50;
-        }
-    }
 
     function submitNewItem(event) {
         
-        let m = new Mission();
+        let m = new Mission(outcome, purpose, description, dueDate, requirements, priority);
         console.log(m);
-        // console.log(m.id);
         ProjectList.unshift(m);
+        pushChanges(ADD, m, "Projects", shipItems);
         updateExp(5);
-        changeItemID(m.id);
         event.preventDefault();
-        setFrequency(0);
+
+        const nav = {
+            title: PROJECTS,
+            view: DETAILS,
+            ID: m.id
+        }
+
+        changeNav(nav);
     }
 
     
@@ -81,10 +66,10 @@ function NewMission({ changeItemID, updateExp }) {
         <div className='h-100 w-100 center br1 pa3 ba b--black-10 '>
             <h1 className='tc b gold f3'>NEW MISSION</h1>
             <form onSubmit={submitNewItem} className='flex flex-column' title={MISSION}>
-                <input className='pa2 mb1' autoFocus type='text' placeholder='Name' value={name} onChange={(e)=> setName(e.target.value)} />
-                <input className='pa2 mb1' type='text' placeholder='Outcome' value={outcome} onChange={(e) => setOutcome(e.target.value)} />
+                {/* <input className='pa2 mb1' autoFocus type='text' placeholder='Name' value={name} onChange={(e)=> setName(e.target.value)} /> */}
+                <input className='pa2 mb1' autoFocus type='text' placeholder='Outcome' value={outcome} onChange={(e) => setOutcome(e.target.value)} />
+                <textarea className='pa2 mb1' placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)} />
                 <textarea className='pa2 mb1' placeholder='What is the purpose of the mission?' value={purpose} onChange={(e) => setPurpose(e.target.value)} />
-                <textarea className='pa2 mb1' placeholder='Note' value={note} onChange={(e) => setNote(e.target.value)} />
                 <label className='fw4 white' htmlFor="due date" >Due Date:</label>
                 <input className='pa2 mb1' id='due date' type='date' min={today} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
                 <select className='pa2 mb1' id="priority" value={priority} onChange={(e)=> setPriority(e.target.value)}>

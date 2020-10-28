@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectItem, UpdateExp, selectTitle,ChangeNav } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, DONE, PROCESSED, TRASH, COMPLETED, REMINDERS } from '../constants';
+import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, PROCESSED, TRASH, COMPLETED, REMINDERS, LIST } from '../constants';
 import List from '../components/List';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
@@ -62,8 +62,6 @@ function Main(props) {
         setNavValues(e, changeNav, state);
     }
 
-    const lists = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY, DAILY, SOMEDAY, CALENDAR, COMPLETED, PROCESSED, TRASH, REMINDERS ];
-
     console.log('Title: ', title)
     console.log('Item ID: ', itemID)
     console.log('View: ', view)
@@ -86,6 +84,12 @@ function Main(props) {
             case TODAY:
                 content = db.Tasks;
             break;
+            case DAILY:
+                content = db.Tasks;
+            break;
+            case CALENDAR:
+                content = db.Tasks.concat(db.Reminders);
+            break;
             case COMPLETED:
                 content = db.Completed;
             break;
@@ -95,6 +99,12 @@ function Main(props) {
             case REFERENCES:
                 content = db.References;
             break;
+            case SOMEDAY:
+                content = db.Someday;
+            break;
+            case REMINDERS:
+                content = db.Reminders;
+            break;
             case TRASH:
                 content = db.Trash;
             break;
@@ -103,6 +113,10 @@ function Main(props) {
         } 
 
         switch( true ) {
+            case (title === STATS):
+                return (
+                    <Stats />
+                )
             case view === DETAILS && itemID !== 0:
                 return (
                     <div className='h-100 pa2 '>
@@ -114,42 +128,25 @@ function Main(props) {
                         </div>
                     </div>
                 )
-            case (title === STATS):
+            case view === LIST && parseInt(itemID) === 0:
                 return (
-                    <Stats />
-                )
-            case (lists.indexOf(title) !== -1) && view === 'LIST' :
-                if (parseInt(itemID) !== 0){
-                    return (
-                        <div className='h-100 pa2 '>
-                            <div className='h-10'>
-                                <h5>EXP: {exp}</h5>
-                            </div>
-                            <div className='h-90 pa1'>
-                                <Details selectAnother={changeItemID} />
-                            </div>
+                    <div className='h-100'>
+                        <div className='h-10'>
+                            <h5>EXP: {exp}</h5>
                         </div>
-                    )
-                } else {
-                    return (
-                        <div className='h-100'>
-                            <div className='h-10'>
-                                <h5>EXP: {exp}</h5>
-                            </div>
-                            <div className='h-90 pa1'>
-                                <div className='h-100 w-100 center pa1'>
-                                    <h1 className='tc b gold ma0 pb2'>{title}</h1>
-                                    <div className=' h-80 '>
-                                        <List content={content} />
-                                    </div>
-                                    <div className='h-10 flex w-100 content-end pa2'>
-                                        <NewItemButton touchFunction={handleEvent} />
-                                    </div>
+                        <div className='h-90 pa1'>
+                            <div className='h-100 w-100 center pa1'>
+                                <h1 className='tc b gold ma0 pb2'>{title}</h1>
+                                <div className=' h-80 '>
+                                    <List content={content} />
+                                </div>
+                                <div className='h-10 flex w-100 content-end pa2'>
+                                    <NewItemButton touchFunction={handleEvent} />
                                 </div>
                             </div>
-                        </div>   
-                    )
-                }
+                        </div>
+                    </div>   
+                )
             case view === NEW:
                 return (
                     <div className='h-100 pa2'>
