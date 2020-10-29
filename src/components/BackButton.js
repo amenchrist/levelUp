@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectView, selectItem, RestorePreviousState } from '../actions';
+import { selectView, selectItem, RestorePreviousState, ChangeNav } from '../actions';
+import { LIST, MISSION_TASKS, PROJECTS } from '../constants';
 
 const mapStateToProps = state => {
     return {
+        title: state.values.title,
         view: state.values.view,
-        previousView: state.values.previousView,
         itemID: state.values.itemID,
+        previousTitle: state.values.previousTitle,
+        previousView: state.values.previousView,
         previousItemID: state.values.previousItemID,
         exp: state.UpdateExpReducer.exp,
         previousState: state.RestorePreviousStateReducer.previousState
@@ -23,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         restorePreviousState: (previousState) => {
             return dispatch(RestorePreviousState(previousState))
+        },
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
         }
     }
 }
@@ -31,11 +37,19 @@ export default connect(mapStateToProps, mapDispatchToProps)(BackButton);
 
 
 
-function BackButton({ restorePreviousState, previousState, changeItemID, onTouch, previousView, previousItemID, id }) {
+function BackButton({ changeItemID, changeNav, id, title, previousTitle, previousView, previousItemID }) {
 
     function goBack(){
-        //onTouch(previousView)
-        changeItemID(id);
+
+        if(title === MISSION_TASKS) {title = PROJECTS};
+
+        let nav = {
+            title: title,
+            view: LIST,
+            ID: 0
+        }
+        //changeItemID(id);
+        changeNav(nav);
         
     }
     return (

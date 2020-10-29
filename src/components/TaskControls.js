@@ -43,8 +43,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(TaskControls);
 
 function TaskControls({ task, position, changeNav, updateExp, changeItemID, setActiveTask, activeSince, activeTask, shipItems, db }){
 
-    const prevTimeSpent = task.timeSpent;
-
+    let prevTimeSpent = task.timeSpent;
+    console.log("on entrering task cont, prevtime: ", prevTimeSpent)
     function startTimer(){
         setActiveTask(task);
         task.status = ACTIVE;
@@ -62,8 +62,13 @@ function TaskControls({ task, position, changeNav, updateExp, changeItemID, setA
 
     function markAsDone(){
         const dateNow = (new Date()).getTime();
+        if (task.status === ACTIVE) {
+            pauseTask();
+        }
         task.status = DONE;
-        prevTimeSpent == 0 ? task.timeSpent = 0 : task.timeSpent = prevTimeSpent + (dateNow - parseInt(activeSince));
+        console.log("timespent from task controls: ", prevTimeSpent)
+        //parseInt(prevTimeSpent) === 0 ? task.timeSpent = 0 : task.timeSpent = prevTimeSpent + (dateNow - parseInt(activeSince));
+        console.log("timespent from task controls after: ", task.timeSpent)
         setActiveTask({});
         updateExp(task.exp);
         pushChanges(UPDATE, task, "Tasks", shipItems);

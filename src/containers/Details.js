@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { REFERENCE, COMPLETED, PROCESSED, INBOX, TRASH, REFERENCES, PROJECTS, TASKS, CALENDAR, SOMEDAY, WAITING_FOR, REMINDERS, TODAY, ASAP } from '../constants';
+import { REFERENCE, COMPLETED, PROCESSED, INBOX, TRASH, REFERENCES, PROJECTS, TASKS, CALENDAR, SOMEDAY, WAITING_FOR, REMINDERS, TODAY, ASAP, MISSION_TASKS } from '../constants';
 import NewItemButton from '../components/NewItemButton';
 import ItemDetails from '../components/ItemDetails';
 import TaskDetails from '../components/TaskDetails';
@@ -21,6 +21,9 @@ const mapStateToProps = state => {
         title: state.values.title,
         itemID: state.values.itemID,
         exp: state.UpdateExpReducer.exp,
+        missionID: state.values.missionID,
+        previousItemID: state.values.previousItemID,
+        previousTitle: state.values.previousTitle,
         db: state.items.record.items 
     }
 }
@@ -34,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, changeItemID }){
+function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, changeItemID, previousItemID, previousTitle, missionID  }){
     
     let content;
 
@@ -80,12 +83,47 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
             content = []
     }
 
+    //SPECIAL CONDITION FOR MISSION'S LIST
+    if(title === MISSION_TASKS) {
+
+        content = getTasks(getproject(parseInt(missionID)), db.Tasks);
+
+        function getproject(projID){
+            console.log("proj id: ", projID)
+            let proj = {};
+            for (let x=0; x < db.Projects.length; x++){
+                if (db.Projects[x].id === projID){
+                    proj = db.Projects[x];
+                }
+            }
+            console.log("proj = ", proj)
+            return proj;
+            
+        }
+        function getTasks(project, TaskList){
+            console.log("proj tasks: ", project.taskList)
+            let tasks = [];
+            if(project.taskList !== []){
+                for(let i=0; i<project.taskList.length; i++){
+                    for(let j=0; j<TaskList.length; j++){
+                        if(project.taskList[i] === TaskList[j].id ){
+                            tasks.push(TaskList[j]);
+                            break;
+                        }
+                    }
+                }
+            }
+            console.log(tasks);
+            return tasks;
+        }
+    }
+
     console.log("content list from details: ", content)
 
     // FIND ITEM
     let item = {};
-    let prev = itemID;
-    let next = itemID;
+    let prev;
+    let next;
     const id = parseInt(itemID);
     for (let i=0; i<content.length; i++){
         //console.log("entering loop. Iteration: ", i)
@@ -127,6 +165,21 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                         <TrashButton />
                     </div>
                     <h2 className='tc b gold f3'>TASK</h2>
+                    <TaskDetails id={parseInt(itemID)} />
+                    <div className='flex justify-between self-end'>
+                        <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
+                        <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
+                    </div>
+                </div>
+            )
+        case MISSION_TASKS:
+            return (
+                <div className='h-100 w-100 center br1 ba b--black-10 content-between '>
+                    <div className='flex justify-between items-center'>
+                        <BackButton id={0} />
+                        <TrashButton />
+                    </div>
+                    <h2 className='tc b gold f3'>MISSION TASKS</h2>
                     <TaskDetails id={parseInt(itemID)} />
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />

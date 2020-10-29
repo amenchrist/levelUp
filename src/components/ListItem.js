@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PROJECT, TASK, INBOX_ITEM, TASKS, DONE, COMPLETED, DETAILS, PROJECTS, INBOX, TRASH, CALENDAR } from '../constants';
+import { PROJECT, TASK, INBOX_ITEM, TASKS, DONE, COMPLETED, DETAILS, PROJECTS, INBOX, TRASH, CALENDAR, MISSION_TASKS } from '../constants';
 import { displayDays } from '../functions';
 
 const mapStateToProps = state => {
@@ -41,7 +41,7 @@ function ListItem( { touchFunction, item, title }){
         case item.type === TASK && !item.isTrashed:
             let nextTitle;
             item.status === DONE ? nextTitle = COMPLETED : nextTitle = TASKS;
-            item.isTrashed ? nextTitle = TRASH : nextTitle = TASKS;
+            if(title === PROJECTS){nextTitle = MISSION_TASKS};
             console.log(nextTitle);
             return (
                 <div className='ba pa2 listItem w-100 flex justify-between items-center b--grey min-h-50' data-view={DETAILS}  title={nextTitle} id={item.id} onClick={touchFunction}>

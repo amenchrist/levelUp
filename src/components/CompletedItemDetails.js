@@ -84,7 +84,7 @@ function CompletedItemDetails({ ProjectList, changeNav,  item }) {
                 </div>
                 <div className='w-100 pl2 pb3 flex justify-between'>
                     <h5 className='fw3 white'>Time Spent: {calculateTime(item.timeSpent)}</h5>
-                    <h5 className='fw3 white'>Due Date: {item.dueDate} </h5>
+                    <h5 className='fw3 white'>Due Date: {new Date(item.dueDate).toDateString()} </h5>
                 </div>
                 <div className='w-100 pl2 pb3 flex justify-between'>                    
                     {/* <h5 className='fw3 white'>Time Required: {task.timeRequired}</h5>

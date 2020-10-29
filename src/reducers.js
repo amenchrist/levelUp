@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import { 
     SELECT_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, TASKS, INBOX, REFERENCES, TODAY,
-    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, PROJECTS, LIST, NEW_ITEM, NEW, CHANGE_NAV
+    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, PROJECTS, LIST, NEW_ITEM, NEW, CHANGE_NAV, MISSION_TASKS
 } from "./constants"
 
 import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_ITEMS, DELIVER_ITEMS } from './actions';
@@ -11,6 +11,7 @@ const initialState = {
     title: HOME, 
     itemID: 0,
     view: OVERVIEW,
+    missionID: 0,
     previousTitle: HOME,
     previousItemID: 0,
     previousView: OVERVIEW,
@@ -61,10 +62,13 @@ const values = (state=initialState, action={}) => {
             }
             return Object.assign({}, state, {title: action.payload, view: view, itemID:ID, previousTitle: state.title, previousState: state});
         case CHANGE_NAV:
-            return Object.assign({}, state, {title: action.payload.title, view: action.payload.view, itemID:action.payload.ID, previousTitle: state.title, previousState: state});
+            if(action.payload.title === PROJECTS){state.missionID = action.payload.ID}
+            return Object.assign({}, state, {title: action.payload.title, view: action.payload.view, itemID:action.payload.ID, previousTitle: state.title, previousItemID: state.itemID, previousView: state.view, missionID : state.missionID, previousState: state});
         case SELECT_ITEM:
+            //action.payload.title === PROJECTS ? state.missionID = action.payload.ID : state.missionID = 0;
             return Object.assign({}, state, {itemID: action.payload, previousItemID: state.itemID, previousState: state});
         case SELECT_VIEW:
+            //action.payload.title === PROJECTS ? state.missionID = action.payload.ID : state.missionID = 0;
             return Object.assign({}, state, {view: action.payload, previousView: state.view, previousState: state});
         default:
             return state;

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ShipItems, ChangeNav } from '../actions';
 import trashCan from '../assets/trash1600.png';
-import { INBOX, PROJECTS, REMOVE, TASKS, REFERENCES, SOMEDAY, ADD, PROCESSED, COMPLETED } from '../constants';
+import { INBOX, PROJECTS, REMOVE, TASKS, REFERENCES, SOMEDAY, ADD, PROCESSED, COMPLETED, MISSION_TASKS } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -63,6 +63,9 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
         break;
         case COMPLETED:
             currentlist = Completed;
+        break;
+        case MISSION_TASKS:
+            currentlist = TaskList;
         break;
         default:
     }

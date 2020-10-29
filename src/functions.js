@@ -85,7 +85,7 @@ export function pushChanges(action, item, list, shippingFunction){
 export function calculateTime(timeSpent){
 
     //CALCULATE TIME SPENT
-
+    console.log("timespent from calcTime: ", timeSpent)
     let s = timeSpent;
     let ms = s % 1000;
     s = (s - ms) / 1000;

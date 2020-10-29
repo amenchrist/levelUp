@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { INBOX_ITEM, TASK, INBOX, UNPROCESSED, MISSION, PROJECTS, TASKS, DETAILS } from '../constants';
-//import  InboxItems  from '../InboxItems'
+import { INBOX, PROJECTS, TASKS, DETAILS } from '../constants';
+import { Item } from '../classes';
 import NewTask from './NewTask';
 import NewMission from './NewMission';
 import { selectItem, ShipItems, selectTitle, ChangeNav } from '../actions';
@@ -49,20 +49,6 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
         // setDescription('');
     }
 
-    class Item{
-        constructor(name,description='None') {
-            const d= new Date();
-    
-            this.type = INBOX_ITEM;
-            this.id = d.getTime();
-            this.entryDate = d.getTime();
-            this.name = name;
-            this.description = '';
-            this.status = UNPROCESSED;
-    
-        }
-    }
-
     function submitNewItem(event) {
         if(name !== 'Enter item name' && name !== '' ){
             //console.log('name is set')
@@ -103,9 +89,9 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
         switch(true) {
             case title === TASKS:
                 return <NewTask updateExp={updateExp} />
-            case title === PROJECTS && itemID == 0:
+            case title === PROJECTS && parseInt(itemID) === 0:
                 return <NewMission updateExp={updateExp} />
-            case title === PROJECTS && itemID != 0:
+            case title === PROJECTS && parseInt(itemID) !== 0:
                 return <NewTask updateExp={updateExp} />
             default:
                 return (

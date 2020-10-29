@@ -1,4 +1,18 @@
-import {TASK, PENDING, PROJECT, UNPLANNED, ASAP } from './constants';
+import {TASK, PENDING, PROJECT, UNPLANNED, ASAP, UNPROCESSED, INBOX_ITEM } from './constants';
+
+export class Item{
+    constructor(name,description='None') {
+        const d= new Date();
+
+        this.type = INBOX_ITEM;
+        this.id = d.getTime();
+        this.entryDate = d.getTime();
+        this.name = name;
+        this.description = '';
+        this.status = UNPROCESSED;
+
+    }
+}
 
 export class Task{
     constructor(name,outcome, requiredContext, associatedProjectID = 0, dueDate = ASAP) {

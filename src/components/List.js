@@ -52,12 +52,13 @@ function List({ content, changeItemID, title, state, changeNav }) {
             filteredContent = content
         break;
         case PROJECTS:
-            type = PROJECT;
-            filteredContent = content.filter((entry) => (entry.type === type));
+            //type = PROJECT;
+            filteredContent = content;
+            //filteredContent = content.filter((entry) => (entry.type === type));
             // A Mission's Tasklist
-            missionTasks = content.map((entry,i ) => {
-                return <ListItem item={content[i]} touchFunction={handleEvent} key={content[i].id}/>
-            })
+            // missionTasks = content.map((entry,i ) => {
+            //     return <ListItem item={content[i]} touchFunction={handleEvent} key={content[i].id}/>
+            // })
         break;
         case TODAY:
             type = TASK;
@@ -121,12 +122,12 @@ function List({ content, changeItemID, title, state, changeNav }) {
                     {dailyTasks}
                 </Scroll>
             )
-        case PROJECTS:
-            return (
-                <Scroll>
-                    {missionTasks}
-                </Scroll>
-            )
+        // case PROJECTS:
+        //     return (
+        //         <Scroll>
+        //             {missionTasks}
+        //         </Scroll>
+        //     )
         default:
             return (
                 <Scroll>

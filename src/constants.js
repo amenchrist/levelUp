@@ -36,6 +36,7 @@ export const TRASH = 'TRASH';
 export const COMPLETED = 'COMPLETED';
 export const WAITING_FOR = 'WAITING_FOR';
 export const ASAP = 'ASAP';
+export const MISSION_TASKS = 'MISSION_TASKS';
 
 
 //VIEWS
