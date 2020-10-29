@@ -105,6 +105,23 @@ export function convertDateToMilliseconds(d) {
      ;
      return new Date(...[y, m - 1, d]).getTime() //Return as an array with y,m,d sequence
   }
+
+
+export function displayDays(dueDate){
+    let days = Math.ceil((dueDate - new Date().getTime()) / (1000*60*60*24));
+    switch(true){
+        case days <= -1:
+            return `${Math.abs(days)} days ago`;
+        case days > 1:
+            return `${days} days `;
+        case days === 1:
+            return `${days} day `;
+        case Math.abs(days) === 0:
+            return `TODAY `;
+        default:
+            return `${days} days `;
+    }
+}
 /* 
 
 function changeNavigation(id, navChanger){

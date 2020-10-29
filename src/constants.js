@@ -22,6 +22,7 @@ export const SKILLS = 'SKILLS';
 export const TASKS = 'TASKS';
 export const INBOX = 'INBOX';
 export const PROJECT = 'PROJECT';
+export const REMINDER = 'REMINDER';
 export const TASK = 'TASK';
 export const INBOX_ITEM = 'INBOX_ITEM';
 export const NEW_ITEM = 'NEW_ITEM';

@@ -121,7 +121,7 @@ function Main(props) {
                 return (
                     <div className='h-100 pa2 '>
                         <div className='h-10'>
-                            <h5>EXP: {exp}</h5>
+                            <h5 className='fw3 white'>EXP: {exp}</h5>
                         </div>
                         <div className='h-90 pa1'>
                             <Details selectAnother={changeItemID} />
@@ -130,9 +130,9 @@ function Main(props) {
                 )
             case view === LIST && parseInt(itemID) === 0:
                 return (
-                    <div className='h-100'>
+                    <div className='h-100 pa2'>
                         <div className='h-10'>
-                            <h5>EXP: {exp}</h5>
+                            <h5 className='fw3 white'>EXP: {exp}</h5>
                         </div>
                         <div className='h-90 pa1'>
                             <div className='h-100 w-100 center pa1'>
@@ -151,7 +151,7 @@ function Main(props) {
                 return (
                     <div className='h-100 pa2'>
                         <div className=' h-10'>
-                            <h5>EXP: {exp}</h5>
+                            <h5 className='fw3 white'>EXP: {exp}</h5>
                         </div>
                         <div className='h-90'>
                             <NewItem submitFunction={""} view={type} updateExp={updateExp} />

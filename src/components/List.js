@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { selectItem, ChangeNav } from '../actions';
 import ListItem from './ListItem';
 import Scroll from './Scroll';
-import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES, COMPLETED, INBOX, ASAP } from '../constants';
+import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES, COMPLETED, INBOX, ASAP, CALENDAR } from '../constants';
 import { setNavValues  } from '../functions';
 
 const mapStateToProps = state => {
@@ -65,9 +65,9 @@ function List({ content, changeItemID, title, state, changeNav }) {
 
             // Today's Mission
             dueToday = content.filter((entry) => ( 
-                (entry.dueDate != ASAP) && ( new Date(entry.dueDate).toISOString().substr(0, 10) === new Date().toISOString().substr(0, 10) ) && entry.status !== DONE ) );
+                ((entry.dueDate != ASAP) && ( new Date(entry.dueDate).toISOString().substr(0, 10) === new Date().toISOString().substr(0, 10) )) && entry.status !== DONE ) );
             
-                const todaysTasks = dueToday.map((entry,i ) => {
+            todaysTasks = dueToday.map((entry,i ) => {
                 return <ListItem item={dueToday[i]} touchFunction={handleEvent} key={content[i].id}/>
             })
         break;
@@ -91,6 +91,9 @@ function List({ content, changeItemID, title, state, changeNav }) {
         case INBOX:
             type = INBOX_ITEM;
             filteredContent = content.filter((entry) => (entry.type === type));
+        break;
+        case CALENDAR:
+            filteredContent = content.filter((entry) => (entry.dueDate !== ASAP));
         break;
         default:
             filteredContent = content;

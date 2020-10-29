@@ -133,6 +133,8 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
 
     function deleteItem() {
         console.log('delete button clicked');
+        currentItem.isTrashed = true;
+        currentItem.trashedDate = new Date().getTime();
         ammendList(ADD, Trash, currentItem, indx);
         ammendList(REMOVE, currentlist, currentItem, indx);
         changeNav(nav);

@@ -3,7 +3,7 @@ import List from './List';
 import { MISSION } from '../constants';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, RestorePreviousState, ShipItems } from '../actions';
-import { pushChanges  } from '../functions';
+import { pushChanges, displayDays  } from '../functions';
 import { UPDATE } from '../constants';
 import DatePicker from './DatePicker';
 import NewItemButton from './NewItemButton';
@@ -42,7 +42,6 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
 
 function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
-    console.log('project: ', project);
 
     const TaskList = db.Tasks.concat(db.Completed);
 
@@ -111,7 +110,7 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
     }
 
     return (
-        <div className='h-80 ba bw1 b--white'>
+        <div className='h-80'>
             <div className='w-100 h-10 pa2 pb3' >
 
                 <input type='text' 
@@ -121,7 +120,7 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
                 onBlur={() => {project.name = name; updateDB();} }  
                 />
 
-                <h4 className='fw1 white'>{project.type}</h4>
+                <h4 className='fw1 white'>{displayDays(project.dueDate)}</h4>
             </div>
 
             <div className='w-100 h-20 pl2 pt3'>

@@ -12,6 +12,7 @@ import ReferenceDetails from '../components/ReferenceDetails';
 import { selectItem } from '../actions';
 import TrashButton from '../components/TrashButton';
 import CompletedItemDetails from '../components/CompletedItemDetails';
+import TrashedItemDetails from '../components/TrashedItemDetails';
 
 
 const mapStateToProps = state => {
@@ -87,10 +88,11 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
     let next = itemID;
     const id = parseInt(itemID);
     for (let i=0; i<content.length; i++){
+        //console.log("entering loop. Iteration: ", i)
         
         if (content[i].id === id){
             item = content[i];
-            console.log("item from loop: ", item)
+            //console.log("item from loop: ", item)
 
             // ASSIGN THE PREV AND NEXT ITEM IDS
             i === 0 ? prev = content[i].id : prev = content[i-1].id;
@@ -108,6 +110,7 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                         <BackButton id={0} />
                         <TrashButton />
                     </div>
+                    <h2 className='tc b gold f3'>PROJECT</h2>
                     <ProjectDetails project={item} touchFunction={touchFunction} updateExp={updateExp}/>
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={changeItemID} prevID={prev} currentID={itemID} />
@@ -123,7 +126,7 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                         <BackButton id={0} />
                         <TrashButton />
                     </div>
-                    <h2 className='tc b gold f3'>Task</h2>
+                    <h2 className='tc b gold f3'>TASK</h2>
                     <TaskDetails id={parseInt(itemID)} />
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
@@ -169,7 +172,6 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                 </div>
             )
         case COMPLETED:
-            
             return (
                 <div className='h-100 w-100 center br1 ba b--black-10 content-between '>
                     <div className='flex justify-between items-center'>
@@ -178,6 +180,20 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                     </div>
                     <h2 className='tc b gold f3'>COMPLETED</h2>
                     <CompletedItemDetails item={item} ProjectList={db.Projects}/>
+                    <div className='flex justify-between self-end'>
+                        <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
+                        <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
+                    </div>
+                </div>
+            );
+        case TRASH:
+            return (
+                <div className='h-100 w-100 center br1 ba b--black-10 content-between '>
+                    <div className='flex justify-between'>
+                        <BackButton id={0} />
+                    </div>
+                    <h2 className='tc b gold f3'>TRASHED</h2>
+                    <TrashedItemDetails item={item} />
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />

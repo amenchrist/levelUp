@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { PENDING, LOW, MEDIUM, HIGH, MISSION, PROJECT, ADD, PROJECTS, DETAILS } from '../constants';
 import { selectView, selectItem, ChangeNav, ShipItems } from '../actions';
 import { Project as Mission } from '../classes';
-import { pushChanges  } from '../functions';
+import { pushChanges, convertDateToMilliseconds  } from '../functions';
 
 const mapStateToProps = state => {
     return {
@@ -43,7 +43,7 @@ function NewMission({ updateExp, shipItems, changeNav, db }) {
 
     function submitNewItem(event) {
         
-        let m = new Mission(outcome, purpose, description, dueDate, requirements, priority);
+        let m = new Mission(outcome, purpose, description, convertDateToMilliseconds(dueDate), requirements, priority);
         console.log(m);
         ProjectList.unshift(m);
         pushChanges(ADD, m, "Projects", shipItems);
