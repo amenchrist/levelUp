@@ -1,16 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { ASAP } from '../constants';
-import { convertDateToMilliseconds } from '../functions';
+import { ASAP, PROJECTS } from '../constants';
+import { convertDateToMilliseconds, pushChanges } from '../functions';
+import {UpdateExp, ShipItems,ChangeNav } from '../actions';
+import { connect } from 'react-redux';
 
-export default function DatePicker({ item, dueDate }){
+const mapStateToProps = state => {
+    return {
+        title: state.values.title,
+        view: state.values.view,
+        itemID: state.values.itemID,
+        previousView: state.values.previousView,
+        exp: state.UpdateExpReducer.exp,
+        status: state.UpdateTaskStatusReducer.taskStatus,
+        activeTask: state.SetActiveTaskReducer.activeTask,
+        activeSince: state.SetActiveTaskReducer.activeSince,
+        db: state.items.record.items 
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateExp: (exp) => {
+            return dispatch(UpdateExp(exp))
+        },
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
+        },
+        changeNav: (navObj) => {
+            return dispatch(ChangeNav(navObj))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DatePicker);
+
+function DatePicker({ item, dueDate, db, shipItems, title }){
+
+    let DbList = ''
+    switch (title) {
+        case PROJECTS:
+
+    }
+
+    //pushChanges(UPDATE, item, "Inbox", shipItems);
 
     // REASSIGN DUE DATE TO FIX "ASAP" DATE FORMAT ISSUES
     let dateValue;
-    dueDate === ASAP ?dateValue = new Date().getTime() : dateValue = dueDate;
+    dueDate === ASAP ? dateValue = new Date().getTime() : dateValue = dueDate;
 
     // CONVERT DATE STRING TO MILLISECONDS
-    
-      
     const [ date, setdate ] = useState((new Date(dateValue)).toISOString().substr(0, 10));
     const [ changeDate, setchangeDate ] = useState(false);
     const [ isASAP, setIsASAP ] = useState(false);
@@ -19,10 +57,12 @@ export default function DatePicker({ item, dueDate }){
     //   console.log(prepareDate(str));
 
     useEffect(() => {
-        // setdate((new Date(dateValue)).toISOString().substr(0, 10));
+        setdate((new Date(dateValue)).toISOString().substr(0, 10));
         // setchangeDate(false);
         if (dueDate === ASAP){
             setIsASAP(true)
+        } else {
+            setIsASAP(false)
         }
     }, [dueDate, ASAP])
 
@@ -36,8 +76,14 @@ export default function DatePicker({ item, dueDate }){
                     onBlur={() =>{}} 
                     />
                     <div>
-                        <button className="button" onClick={() => { item.dueDate = ASAP; setIsASAP(true); setchangeDate(false) }}>A.S.A.P</button>
-                        <button className="button" onClick={() => { item.dueDate=convertDateToMilliseconds(date); setchangeDate(false); setIsASAP(false) }}>Save</button>
+                        <button className="button" onClick={() => { 
+                            item.dueDate = ASAP; setIsASAP(true); 
+                            setchangeDate(false) 
+                        }}>A.S.A.P</button>
+                        <button className="button" onClick={() => { 
+                            item.dueDate=convertDateToMilliseconds(date); 
+                            setchangeDate(false); setIsASAP(false) 
+                        }}>Save</button>
                     </div>
                 </div>
             )
@@ -50,7 +96,7 @@ export default function DatePicker({ item, dueDate }){
                     )
             }
             return (
-                <h5 className='fw4 white' onClick={() => setchangeDate(true)}>Due: {(new Date(dateValue)).toISOString().substr(0, 10)} </h5>
+                <h5 className='fw4 white' onClick={() => setchangeDate(true)}>Due: {date} </h5>
             )
     }
 }

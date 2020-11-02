@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem, RestorePreviousState, ChangeNav } from '../actions';
-import { LIST, MISSION_TASKS, PROJECTS } from '../constants';
+import { DETAILS, LIST, MISSION_TASKS, PROJECTS } from '../constants';
 
 const mapStateToProps = state => {
     return {
         title: state.values.title,
         view: state.values.view,
         itemID: state.values.itemID,
+        missionID: state.values.missionID,
         previousTitle: state.values.previousTitle,
         previousView: state.values.previousView,
         previousItemID: state.values.previousItemID,
@@ -37,16 +38,23 @@ export default connect(mapStateToProps, mapDispatchToProps)(BackButton);
 
 
 
-function BackButton({ changeItemID, changeNav, id, title, previousTitle, previousView, previousItemID }) {
+function BackButton({ changeItemID, changeNav, missionID, title, previousTitle, previousView, previousItemID }) {
 
     function goBack(){
 
-        if(title === MISSION_TASKS) {title = PROJECTS};
+        let navID = 0;
+        let navView = LIST;
+
+        if(title === MISSION_TASKS) {
+            title = PROJECTS;
+            navID = missionID;
+            navView = DETAILS;
+        };
 
         let nav = {
             title: title,
-            view: LIST,
-            ID: 0
+            view: navView,
+            ID: navID
         }
         //changeItemID(id);
         changeNav(nav);

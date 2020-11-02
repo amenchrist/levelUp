@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { REFERENCE, COMPLETED, PROCESSED, INBOX, TRASH, REFERENCES, PROJECTS, TASKS, CALENDAR, SOMEDAY, WAITING_FOR, REMINDERS, TODAY, ASAP, MISSION_TASKS } from '../constants';
+import { REFERENCE, COMPLETED, PROCESSED, INBOX, TRASH, REFERENCES, PROJECTS, TASKS, CALENDAR, SOMEDAY, WAITING_FOR, REMINDERS, TODAY, ASAP, MISSION_TASKS, TASK, PROJECT, REMINDER } from '../constants';
 import NewItemButton from '../components/NewItemButton';
 import ItemDetails from '../components/ItemDetails';
 import TaskDetails from '../components/TaskDetails';
@@ -13,6 +13,7 @@ import { selectItem } from '../actions';
 import TrashButton from '../components/TrashButton';
 import CompletedItemDetails from '../components/CompletedItemDetails';
 import TrashedItemDetails from '../components/TrashedItemDetails';
+import ReminderDetails from '../components/ReminderDetails';
 
 
 const mapStateToProps = state => {
@@ -71,13 +72,16 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
             content = db.WaitingFor
         break;
         case SOMEDAY:
-            content = db.Tasks.concat(db.Projects)
+            content = db.Someday;
         break;
         case REMINDERS:
-            content = db.Reminders
+            content = db.Reminders;
+        break;
+        case PROCESSED:
+            content = db.Processed;
         break;
         case TRASH:
-            content = db.Trash
+            content = db.Trash;
         break;
         default:
             content = []
@@ -198,18 +202,24 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                     <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} selectAnother={selectAnother} prevID={prev} nextID={next} />
                 </div>        
             )
-        case (PROCESSED):
+        case PROCESSED:
             return (
                 <div className='h-100 w-100 center br1 ba b--black-10'>
                     <div className='flex justify-between items-center'>
                         <BackButton id={0} />
                         <TrashButton />
                     </div>
-                    <h2 className='tc b gold f3'>Inbox Item</h2>
-                    <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} selectAnother={selectAnother} prevID={prev} nextID={next} />
+                    <h2 className='tc b gold f3'>PROCESSED</h2>
+                        <h5 className='white b pb2'>Name: {item.name}</h5>
+                        <h5 className='white pb2'>Processed: {(new Date(item.processedDate)).toLocaleString()} </h5>
+                        {/* <h5 className='white pb2'>Status: {item.status} </h5> */}
+                    <div className='flex justify-between self-end'>
+                        <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
+                        <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
+                    </div>
                 </div>        
             )
-        case REFERENCE:
+        case REFERENCES:
             return (
                 <div className='h-100 w-100 center br1 ba b--black-10'>
                     <div className='flex justify-between items-center'>
@@ -217,13 +227,63 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                         <TrashButton />
                     </div>
                     <h1 className='tc b gold'>REFERENCE</h1>
-                    <ReferenceDetails id={parseInt(itemID)} />
+                    <ReferenceDetails id={parseInt(itemID)} reference={item} />
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
                     </div>
                 </div>
             )
+        case REMINDERS:
+            return (
+                <div className='h-100 w-100 center br1 ba b--black-10'>
+                    <div className='flex justify-between items-center'>
+                        <BackButton id={0} />
+                        <TrashButton />
+                    </div>
+                    <h1 className='tc b gold'>REMINDER</h1>
+                    <ReminderDetails id={parseInt(itemID)} item={item} />
+                    <div className='flex justify-between self-end'>
+                        <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
+                        <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
+                    </div>
+                </div>
+            )
+        case SOMEDAY:
+            if (item.type === TASK){
+                console.log("someday item is a task")
+                return (
+                    <div className='h-100 w-100 center br1 ba b--black-10 content-between '>
+                        <div className='flex justify-between items-center'>
+                            <BackButton id={0} />
+                            <TrashButton />
+                        </div>
+                        <h2 className='tc b gold f3'>TASK</h2>
+                        <TaskDetails id={parseInt(itemID)} />
+                        <div className='flex justify-between self-end'>
+                            <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
+                            <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
+                        </div>
+                    </div>
+                )
+            } else if (item.type === PROJECT) {
+                console.log("someday item is this project = ", item)
+                return (
+                    <div className='w-100 h-100 center br1 pa2 ba b--black-10'>
+                        <div className='flex justify-between items-center'>
+                            <BackButton id={0} />
+                            <TrashButton />
+                        </div>
+                        <h2 className='tc b gold f3'>PROJECT</h2>
+                        <ProjectDetails project={item} touchFunction={touchFunction} updateExp={updateExp}/>
+                        <div className='flex justify-between self-end'>
+                            <PrevItemButton selectAnother={changeItemID} prevID={prev} currentID={itemID} />
+                            <NextItemButton selectAnother={changeItemID} nextID={next} currentID={itemID} />
+                        </div>
+                        
+                    </div>
+                )
+            }
         case COMPLETED:
             return (
                 <div className='h-100 w-100 center br1 ba b--black-10 content-between '>

@@ -1,14 +1,17 @@
-import React from 'react';
-import { ReferenceList } from '../ReferenceList';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { selectView, selectItem, UpdateExp } from '../actions';
+import { selectView, selectItem, UpdateExp, ShipItems } from '../actions';
+import { UPDATE } from '../constants';
+import { pushChanges  } from '../functions';
 
 const mapStateToProps = state => {
     return {
-        view: state.selectViewReducer.view,
-        previousView: state.selectViewReducer.previousView,
-        itemID: state.selectItemReducer.itemID,
-        exp: state.UpdateExpReducer.exp
+        title: state.values.title,
+        view: state.values.view,
+        itemID: state.values.itemID,
+        previousView: state.values.previousView,
+        exp: state.UpdateExpReducer.exp,
+        db: state.items.record.items 
     }
 }
 
@@ -22,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateExp: (exp) => {
             return dispatch(UpdateExp(exp))
+        },
+        shipItems: (items, agent, record) => {
+            return dispatch(ShipItems(items, agent, record))
         }
     }
 }
@@ -29,32 +35,45 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ReferenceDetails);
 
 
-function ReferenceDetails({ id , changeItemID, updateExp }) {
+function ReferenceDetails({ id , changeItemID, updateExp, db, shipItems, reference }) {
 
-    const db = ReferenceList;
-    let reference = {};
+    const ReferenceList = db.Reference;
+    // let reference = {};
     //let position;
 
-    for (let i=0; i<db.length; i++){
+    // for (let i=0; i<ReferenceList.length; i++){
 
-        if (db[i].id === id){
-           reference = db[i];
-           //position = i;
-           break;
-        }
+    //     if (ReferenceList[i].id === id){
+    //        reference = ReferenceList[i];
+    //        //position = i;
+    //        break;
+    //     }
+    // }
+
+    console.log("reference: ", reference)
+
+    const [ details, setDetails ] = useState(reference.details);
+
+    function updateDB(change) {
+        console.log("changes")
+     
+        pushChanges(UPDATE, reference, "References", shipItems);
+
     }
-
 
     return (
         <div >
             <div>
                 <div className='w-100 pa2 pb3' >
                     <h3 className='fw7 b white pb2'>{reference.name}</h3>
-                    <h5 className='fw3 white'>Status: {reference.status}</h5>
+                    <h5 className='fw3 white'>{reference.type}</h5>
                 </div>
-                <h5 className='bb b--white pa2 fw3 white b' >Description</h5>
                 <div className='pa2'>
-                    <p className='fw3 white'>{reference.description}</p>
+                    <textarea rows="4" cols="45" 
+                    onChange={(e)=> {setDetails(e.target.value);} } 
+                    onBlur={ () =>{ updateDB(); reference.details = details }} 
+                    value={details} 
+                    className='fw3 white bn bg-transparent' />
                 </div>
             </div>
         </div>

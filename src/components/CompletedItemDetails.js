@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { UpdateExp, ChangeNav, ShipItems } from '../actions';
-import { DETAILS, PROJECTS } from '../constants';
+import { ASAP, DETAILS, PROJECTS } from '../constants';
 import { calculateTime } from '../functions';
 
 
@@ -9,8 +9,8 @@ const mapStateToProps = state => {
     return {
         title: state.values.title,
         view: state.values.view,
-        previousView: state.values.previousView,
         itemID: state.values.itemID,
+        previousView: state.values.previousView,
         exp: state.UpdateExpReducer.exp,
         status: state.UpdateTaskStatusReducer.taskStatus,
         activeTask: state.SetActiveTaskReducer.activeTask,
@@ -62,6 +62,8 @@ function CompletedItemDetails({ ProjectList, changeNav,  item }) {
         }
         changeNav(nav);        
     }
+
+    console.log("completed" ,item)
     
     return (
         <div className='' >
@@ -84,9 +86,12 @@ function CompletedItemDetails({ ProjectList, changeNav,  item }) {
                 </div>
                 <div className='w-100 pl2 pb3 flex justify-between'>
                     <h5 className='fw3 white'>Time Spent: {calculateTime(item.timeSpent)}</h5>
-                    <h5 className='fw3 white'>Due Date: {new Date(item.dueDate).toDateString()} </h5>
+                    <h5 className='fw3 white'>Due Date: {item.dueDate === ASAP ? ASAP : new Date(item.dueDate).toDateString()} </h5>
                 </div>
-                <div className='w-100 pl2 pb3 flex justify-between'>                    
+                <div className='w-100 pl2 pb3 flex justify-between'>
+                    <h5 className='fw3 white'>COMPLETED: {new Date(item.doneDate).toLocaleString()} </h5>
+                </div>
+                <div className='w-100 pl2 pb3 flex justify-between'>           
                     {/* <h5 className='fw3 white'>Time Required: {task.timeRequired}</h5>
                     <h5 className='fw3 white'>Time Remaining: 12:34:50 </h5> */}
                 </div>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-//import { TaskList } from '../TaskList';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, UpdateTaskStatus, ShipItems,ChangeNav } from '../actions';
 import DatePicker from './DatePicker';
 import Timer from './Timer';
 import TaskControls from './TaskControls';
 import { pushChanges  } from '../functions';
-import { COMPLETED, DETAILS, PROJECTS, UPDATE } from '../constants';
+import { COMPLETED, DETAILS, PROJECTS, SOMEDAY, UPDATE } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -18,7 +17,7 @@ const mapStateToProps = state => {
         status: state.UpdateTaskStatusReducer.taskStatus,
         activeTask: state.SetActiveTaskReducer.activeTask,
         activeSince: state.SetActiveTaskReducer.activeSince,
-        db: state.items.record.items //state.RetrieveDBReducer.db
+        db: state.items.record.items 
     }
 }
 
@@ -53,12 +52,14 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
     const ProjectList = db.Projects;
     const tasks = db.Tasks;
     let task = {};
-    let position;
+    let position, relevantList;
 
-    for (let i=0; i<tasks.length; i++){
+    title === SOMEDAY ? relevantList = db.Someday : relevantList = db.Tasks;
 
-        if (tasks[i].id === id){
-           task = tasks[i];
+    for (let i=0; i<relevantList.length; i++){
+
+        if (relevantList[i].id === id){
+           task = relevantList[i];
            position = i;
            break;
         }

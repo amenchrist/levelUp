@@ -1,5 +1,7 @@
 /// For all the extra functions required in multiple places
 
+import { ASAP } from "./constants";
+
 
 
 export function passTitleAndID(e, ChangeTitleFunction, changeIDFunction) {
@@ -108,18 +110,22 @@ export function convertDateToMilliseconds(d) {
 
 
 export function displayDays(dueDate){
-    let days = Math.ceil((dueDate - new Date().getTime()) / (1000*60*60*24));
-    switch(true){
-        case days <= -1:
-            return `${Math.abs(days)} days ago`;
-        case days > 1:
-            return `${days} days `;
-        case days === 1:
-            return `${days} day `;
-        case Math.abs(days) === 0:
-            return `TODAY `;
-        default:
-            return `${days} days `;
+    if (dueDate === ASAP) {
+        return ASAP;
+    } else {
+        let days = Math.ceil((dueDate - new Date().getTime()) / (1000*60*60*24));
+        switch(true){
+            case days <= -1:
+                return `${Math.abs(days)} days ago`;
+            case days > 1:
+                return `${days} days `;
+            case days === 1:
+                return `${days} day `;
+            case Math.abs(days) === 0:
+                return `TODAY `;
+            default:
+                return `${days} days `;
+        }
     }
 }
 /* 

@@ -62,6 +62,7 @@ function TaskControls({ task, position, changeNav, updateExp, changeItemID, setA
 
     function markAsDone(){
         const dateNow = (new Date()).getTime();
+        task.doneDate = dateNow;
         if (task.status === ACTIVE) {
             pauseTask();
         }

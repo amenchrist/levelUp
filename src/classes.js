@@ -1,4 +1,4 @@
-import {TASK, PENDING, PROJECT, UNPLANNED, ASAP, UNPROCESSED, INBOX_ITEM } from './constants';
+import {TASK, PENDING, PROJECT, UNPLANNED, ASAP, UNPROCESSED, INBOX_ITEM, REMINDER, REFERENCE } from './constants';
 
 export class Item{
     constructor(name,description='None') {
@@ -29,7 +29,7 @@ export class Task{
         this.outcome = outcome;
         this.requiredContext = requiredContext;
         this.note = '';
-        this.dueDate =dueDate//(new Date()).toISOString().substr(0, 10);
+        this.dueDate = dueDate//(new Date()).toISOString().substr(0, 10);
         this.timeRequired = 0;
         this.timeRemaining = 0;
         this.requirements = '';
@@ -42,7 +42,7 @@ export class Task{
 }
 
 export class Project{
-    constructor(outcome ='', purpose ='', description = '', dueDate = 0, requirements = '', priority, frequency = '' ) {
+    constructor(outcome ='', purpose ='', description = '', dueDate = ASAP, requirements = '', priority, frequency = '' ) {
         const d = new Date();
         this.type = PROJECT;        
         this.id = d.getTime();
@@ -67,5 +67,28 @@ export class Project{
         this.priority = priority;
         this.frequency = frequency;
         this.note = '';
+    }
+}
+
+export class Reference{
+    constructor(name, details='') {
+        const d= new Date();
+        this.type = REFERENCE;
+        this.id = d.getTime();
+        this.entryDate = d.getTime();
+        this.name = name;
+        this.details = details;
+    }
+}
+
+export class Reminder{
+    constructor(name, date = new Date().getTime(), note ='') {
+        const d= new Date();
+        this.type = REMINDER;
+        this.id = d.getTime();
+        this.entryDate = d.getTime();
+        this.name = name;
+        this.note = note;
+        this.date = date;
     }
 }

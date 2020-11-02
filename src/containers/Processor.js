@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import QuestionAndOptions from '../components/QuestionAndOptions';
 import QuestionandInput from '../components/QuestionAndInput';
-import { Task, Project } from '../classes';
+import { Task, Project, Reference, Reminder } from '../classes';
 import { ReferenceList } from '../ReferenceList';
-import {  PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE, ADD, UPDATE, REMOVE, REFERENCES, SOMEDAY, PROJECTS, TASKS } from '../constants';
+import {  PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE, ADD, UPDATE, REMOVE, REFERENCES, SOMEDAY, PROJECTS, TASKS, DETAILS, REMINDERS, INBOX } from '../constants';
 import { selectView, selectItem, ChangeNav, ShipItems } from '../actions';
 import { connect } from 'react-redux';
 import DatePicker from '../components/DatePicker';
 import { pushChanges  } from '../functions';
+import TaskControls from '../components/TaskControls';
 
 
 //shipItems(items, agent, record)
@@ -44,13 +45,16 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     const ProjectList = db.Projects;
     const TaskList = db.Tasks;
     const ProcessedItems = db.Processed;
+    const SomedayList = db.Someday;
+    const References = db.References;
+    const Reminders = db.Reminders;
+    const Trash = db.Trash;
 
     
 
     const [ outcome, setOutcome ] = useState('');
     const [ requiredContext, setRequiredContext ] = useState('');
     const [ isActionable, setIsActionable ] = useState(null);
-    const [ taskName, setTaskName ] = useState('');
     const [ isMultistep, setIsMultistep ] = useState(null);
     const [ isDoneInFive, setIsDoneInFive ] = useState(null);
     const [ isDelegatable, setIsDelegatable ] = useState(null);
@@ -63,21 +67,13 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     const [ newTask, setNewTask ] = useState(null);
     const [ assignedAgent, setAssignedAgent ] = useState(null);
     const [ dueDate, setDueDate ] = useState(null);
+    const [ trashed, setTrashed ] = useState(false);
+    const [ incubated, setIncubated ] = useState(false);
+    const [ referenced, setReferenced ] = useState(false);
+    const [ newReference, setNewReference ] = useState(null);
+    const [ refDetails, setRefDetails ] = useState('');
+    const [ newReminder, setNewReminder ] = useState(null);
 
-    // function pushChanges(action, item, list){
-    //     let state = {
-    //         action: action,
-    //         list: list,
-    //         item: item,
-    //         pushDate: (new Date()).getTime()
-    //     }
-    //     shipItems(state);
-    // }
-
-    function processNextItem(e){
-        setStep(0);
-        //touchFunction(e);
-    }
 
     function makeNewProject(){
         let proj = new Project( outcome );
@@ -114,6 +110,24 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         setNewTaskID(task.id);  
     }
 
+    function makeNewReference(name){ 
+
+        let ref = new Reference(name);
+        setNewReference(ref);
+        console.log("new ref = ", ref);
+        setNextID(ref.id); 
+
+    }
+
+    function makeNewReminder(name){ 
+
+        let rem = new Reminder(name);
+        setNewReminder(rem);
+        console.log("new reminder = ", rem);
+        setNextID(rem.id); 
+
+    }
+
     function ammendList(action, list, item, itemndx){
         let dbList;
         switch (list) {
@@ -123,14 +137,20 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             case InboxItems:
                 dbList = "Inbox"
             break;
-            case REFERENCES:
+            case References:
                 dbList = "References"
+            break;
+            case Reminders:
+                dbList = "Reminders"
             break;
             case TaskList:
                 dbList = "Tasks"
             break;
-            case SOMEDAY:
+            case SomedayList:
                 dbList = "Someday"
+            break;
+            case Trash:
+                dbList = "Trash"
             break;
             default:
         }
@@ -150,11 +170,24 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
 
     function updateStatus() {
         item.status = PROCESSED;
+        item.processedDate = new Date().getTime()
         ProcessedItems.unshift(item);
         InboxItems.splice(itemIndex,1);
         pushChanges(UPDATE, item, "Inbox", shipItems);
         pushChanges(ADD, item, "Processed", shipItems);
         pushChanges(REMOVE, item, "Inbox", shipItems);
+    }
+    
+    function processNextItem(e){
+        setStep(0);
+        //touchFunction(e);
+        let nav = { 
+            title: INBOX,
+            view: DETAILS,
+            ID: nextItemID
+        }
+
+        changeNav(nav);
     }
 
     function proceed() {
@@ -164,38 +197,50 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     function refresh(){
         changeItemID(item.id);
     }
+
     
     if (item.status === UNPROCESSED && step === 0){
         proceed();
     }
 
-    function addToReferences(){
-        item.type = REFERENCE;
-        updateStatus();
-        InboxItems.splice(itemIndex,1);
-        ReferenceList.unshift(item);
-        pushChanges(ADD, item, "References", shipItems);
-    }
 
-    function addToSomedayList(){
-        InboxItems.splice(itemIndex,1);
-        ReferenceList.unshift(item);
-        pushChanges(ADD, item, "References", shipItems);
-    }
+    // function trashItem() {
+    //     updateStatus();
+    //     ammendList(ADD, Trash, item, 0);
+    // }
 
     let nav;
     if (isMultistep){
         nav = {
             title: PROJECTS,
-            view: "DETAILS",
+            view: DETAILS,
             ID: newProject.id
         }
     } else if(isMultistep === false && step >4){
         nav = {
             title: TASKS,
-            view: "DETAILS",
+            view: DETAILS,
             ID: newTask.id
         }
+    }
+
+    function viewNewReference(id) {
+        nav = {
+            title: REFERENCES,
+            view: DETAILS,
+            ID: id
+        }
+        changeNav(nav);
+    }
+
+    function viewNewReminder(id) {
+        nav = {
+            title: REMINDERS,
+            view: DETAILS,
+            ID: id
+        }
+
+        changeNav(nav);
     }
 
     switch(true) {
@@ -204,18 +249,71 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionAndOptions question='Is this Actionable?' 
                     yes={() => { setIsActionable(true); proceed() }} 
-                    no={() => { setIsActionable(false); addToReferences(); updateStatus(); proceed() }} />
+                    no={() => { setIsActionable(false); proceed() }} />
                 </div>
             )
         case ( isActionable === false && step === 2 ):
-        // Added to references
+            return (
+                <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
+                    <button className="button" id={nextItemID} onClick={() => { setReferenced(true); makeNewReference(item.name); proceed() }} >ADD TO REFERENCES</button>
+                    <button className="button" id={nextItemID} onClick={() => { setIncubated(true); makeNewReminder(item.name); proceed() }} >INCUBATE</button>
+                    {/* <button className="button" id={nextItemID} onClick={() => { setTrashed(true); trashItem(); proceed() }} >TRASH</button> */}
+                </div>
+            )
+        case ( trashed === true && step === 3 ):
+            return (
+                <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
+                    <h3 className='white tc pb2'>Item has been trashed</h3>
+                    <button className="button" id={nextItemID} onClick={processNextItem} >PROCESS NEXT ITEM</button>
+                </div>
+            )
+        case ( isActionable === false && step === 3 && referenced === true ):
+            //
+            return (
+                <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column'>
+                    <h2 className='white tc pb2'>Any details to add?</h2>
+                    <form onSubmit={(e) => { 
+                        newReference.details = refDetails; 
+                        console.log(newReference); 
+                        ammendList(ADD, References, newReference, 0); 
+                        updateStatus(); 
+                        e.preventDefault(); 
+                        proceed() 
+                    }}>
+                        <textarea rows="4" cols="45" autoFocus value={refDetails} onChange={(e)=> setRefDetails(e.target.value)} />
+                        <input type='submit' value='submit' />
+                    </form>
+                </div>
+            )
+        case ( isActionable === false && step === 3 && incubated === true ):
+        
         return (
-            <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
-                <h3 className='white tc pb2'>Item was added to References</h3>
-                <button className="button" id={nextItemID} onClick={processNextItem} >PROCESS NEXT ITEM</button>
-                <button className="button" id={nextItemID} onClick={() => changeItemID(item.id)} >VIEW ITEM</button>
+            <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column'>
+                <h2 className='white tc pb2'>Date of Reminder?</h2>
+                <DatePicker item={newReminder} dueDate={newReminder.date} />
+                <div>
+                    <button className="button" onClick={() => { 
+                        ammendList(ADD, Reminders, newReminder, 0); 
+                        updateStatus(); 
+                        proceed(); 
+                    }} >CONTINUE</button>
+                </div>
+                
             </div>
         )
+        case ( isActionable === false && step === 4 ):
+            if (referenced === true ) {}
+            if (incubated === true ) {;}
+            // Added to references
+            return (
+                <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
+                    <h3 className='white tc pb2'>Item has been processed</h3>
+                    <button className="button" id={nextItemID} onClick={processNextItem} >PROCESS NEXT ITEM</button>
+                    <button className="button" id={nextItemID} onClick={() => {
+                        referenced === true ? viewNewReference(nextID) : viewNewReminder(nextID)
+                    }} >VIEW ITEM</button>
+                </div>
+            )
         case ( isActionable === true && step === 2 ):
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
@@ -236,7 +334,6 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionandInput question="What's the task?" 
                     submitFunction={(answer) => {
-                        setTaskName(answer);
                         makeNewTask(answer);
                         proceed(); 
                     }} />
@@ -247,7 +344,6 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionandInput question="What's the first task?" 
                     submitFunction={(answer) => { 
-                        setTaskName(answer);
                         makeNewTask(answer); 
                         proceed(); 
                         }} />
@@ -259,26 +355,25 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                     <QuestionAndOptions question='Can the desired outcome be reached within the next 12 months?' 
                     yes={() => { 
                         setIsDoneInaYear(true); 
-                        TaskList.unshift(newTask);
-                        newProject.taskList.unshift(newTask.id); 
+                        newProject.taskList.unshift(newTask.id);
                         ammendList(ADD, ProjectList, newProject, 0); proceed() 
                     }} 
                     no={() => { 
-                        setIsDoneInaYear(false); 
                         newProject.taskList.unshift(newTask.id); 
-                        TaskList.unshift(newTask);
-                        addToSomedayList(newProject);
+                        ammendList(ADD, SomedayList, newProject, 0);
+                        setIsDoneInaYear(false); 
                         updateStatus(); 
-                        proceed() 
+                        proceed();
                     }} />
                 </div>
             )
         case ( isMultistep === false && step === 5 ):
+            // console.log("step 5. new task: ", newTask);
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionAndOptions question='Can the desired outcome be reached within the next 12 months?' 
                     yes={() => { setIsDoneInaYear(true); proceed() }} 
-                    no={() => { setIsDoneInaYear(false); addToSomedayList(newTask); updateStatus(); proceed() }} />
+                    no={() => { ammendList(ADD, SomedayList, newTask, 0); setIsDoneInaYear(false); updateStatus(); proceed() }} />
                 </div>
             )
         case ( isMultistep === true && step === 6 && isDoneInaYear === true ):
@@ -309,20 +404,24 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 </div>
             )
         case ( isMultistep === false && step === 6 && isDoneInaYear === true ):
+            console.log("step 5. new task: ", newTask);
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionAndOptions question='Can it be done now in 5 minutes or less?' 
-                    yes={() => { setIsDoneInFive(true); proceed() }} 
+                    yes={() => { setIsDoneInFive(true); ammendList(ADD, TaskList, newTask, 0); proceed() }} 
                     no={() => { setIsDoneInFive(false); proceed() }} />
                 </div>
             )
         case (isDoneInFive === true && step === 7):
+            console.log("new tasklKST:", TaskList)
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
-                    <h3>LET'S DO IT!</h3>
-                    <h2>TIMER</h2>
-                    <p>Once timer is done, you get the option to mark as completed. You also get the option ot defer the action.</p>
-                    <button className="button" onClick={() => { updateStatus(); setStep(0); refresh() }} >DONE</button>
+                    <h2 className='fw8 b white pb2'>LET'S DO IT!</h2>
+                    <div className='w-100 pa2 pb3' >
+                        <h3 className='fw7 b white pb2'>{newTask.name}</h3>
+                    </div>
+                    <button className="button" onClick={() => { updateStatus();  changeNav(nav) }} >GO TO TASK </button>
+                    {/* <button className="button" id={nextItemID} onClick={() => changeNav(nav)} >VIEW TASK</button> */}
                 </div>
             )
         case ( isDoneInFive === false && step === 7 ):

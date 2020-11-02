@@ -14,6 +14,7 @@ const mapStateToProps = state => {
 function ItemDetails({ id, touchFunction, selectAnother, prevID, nextID, db }) {
 
 
+    // NOTE: PREV AND NEXT BUTTONS INCLUDED HERE SO THEY ARE HIDDEN DURING PROCESSING
     const InboxItems = db.Inbox
 
     const [ readyToProcess, setReadyToProcess ] = useState(false);
@@ -48,7 +49,7 @@ function ItemDetails({ id, touchFunction, selectAnother, prevID, nextID, db }) {
                     <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
                         <button onClick={()=> setReadyToProcess(true)} >PROCESS THIS</button>
                     </div>
-                    <NewItemButton touchFunction={touchFunction} />
+                    <NewItemButton />
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prevID} currentID={id} />
                         <NextItemButton selectAnother={selectAnother} nextID={nextID} currentID={id} />
