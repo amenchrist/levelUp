@@ -256,7 +256,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
                     <button className="button" id={nextItemID} onClick={() => { setReferenced(true); makeNewReference(item.name); proceed() }} >ADD TO REFERENCES</button>
-                    <button className="button" id={nextItemID} onClick={() => { setIncubated(true); makeNewReminder(item.name); proceed() }} >INCUBATE</button>
+                    <button className="button" id={nextItemID} onClick={() => { setIncubated(true); makeNewReminder(item.name); proceed() }} >ADD TO REMINDERS</button>
                     {/* <button className="button" id={nextItemID} onClick={() => { setTrashed(true); trashItem(); proceed() }} >TRASH</button> */}
                 </div>
             )

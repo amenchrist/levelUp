@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { UpdateExp, ChangeNav, ShipItems } from '../actions';
-import { ASAP, DETAILS, PROJECTS, UPDATE } from '../constants';
-import { calculateTime, pushChanges } from '../functions';
+import { ASAP, DETAILS, PROJECTS, REMINDERS, UPDATE } from '../constants';
+import { ammendList } from '../functions';
 import DatePicker from './DatePicker';
 
 
@@ -37,24 +37,21 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ReminderDetails);
 
 
-function ReminderDetails({ changeNav,  item, shipItems }) {
+function ReminderDetails({ changeNav,  item, shipItems, db }) {
 
+    const [ name, setName ] = useState(item.name);
     const [ note, setnote ] = useState(item.note);
 
-    function changeNavigation(id, title){
-       
-        let nav = {
-            title: title,
-            view: DETAILS,
-            ID: id
-        }
-        changeNav(nav);        
-    }
+    function updateDB( obj, property, newVal) {
 
-    function updateDB(change) {
-        console.log("changes")
-     
-        pushChanges(UPDATE, item, "Reminders", shipItems);
+        if (obj[property] !== newVal){
+
+            console.log(`old value (${obj[property]}) !== new value (${newVal})`)
+
+            obj[property] = newVal;
+            ammendList(db, REMINDERS, item, UPDATE, shipItems)
+          
+        }
 
     }
     
@@ -62,7 +59,15 @@ function ReminderDetails({ changeNav,  item, shipItems }) {
         <div className='' >
             <div>
                 <div className='w-100 pa2 pb3' >
-                    <h3 className='fw7 b white pb2'>{item.name}</h3>
+                    {/* <h3 className='fw7 b white pb2'>{item.name}</h3> */}
+
+                    <input type='text' 
+                    className='bn fw7 b white bg-transparent'
+                    value={name} 
+                    onChange={(e)=> {setName(e.target.value);} } 
+                    onBlur={() => {updateDB(item, "name", name )} }  
+                    />
+
                     <h4 className='fw1 white'>{item.type}</h4>
                 </div>
 
@@ -75,7 +80,7 @@ function ReminderDetails({ changeNav,  item, shipItems }) {
                 <div className='pa2'>
                     <textarea rows="4" cols="45" 
                     onChange={(e)=> {setnote(e.target.value);} } 
-                    onBlur={ () =>{ updateDB(); item.note = note }} 
+                    onBlur={ () =>{ updateDB(item, "note", note )}} 
                     value={note} 
                     className='fw3 white bn bg-transparent' />
                 </div>

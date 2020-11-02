@@ -4,8 +4,8 @@ import { selectView, selectItem, UpdateExp, UpdateTaskStatus, ShipItems,ChangeNa
 import DatePicker from './DatePicker';
 import Timer from './Timer';
 import TaskControls from './TaskControls';
-import { pushChanges  } from '../functions';
-import { COMPLETED, DETAILS, PROJECTS, SOMEDAY, UPDATE } from '../constants';
+import { pushChanges, ammendList  } from '../functions';
+import { COMPLETED, DETAILS, PROJECTS, SOMEDAY, TASKS, UPDATE } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -72,14 +72,11 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
         for(let i=0; i<ProjectList.length; i++){
             if(parseInt(task.associatedProjectID) === parseInt(ProjectList[i].id)){
                 associatedProject = ProjectList[i];
-                console.log('associated project name: ', associatedProject.name)
+                //console.log('associated project name: ', associatedProject.name)
                 break;
             }
         }
     }
-    // console.log(task)
-    // console.log('associated project ID: ', task.associatedProjectID)
-    // console.log('associated project name: ', associatedProject.name)
 
     const [ name, setName ] = useState(task.name);
     const [ requiredContext, setrequiredContext ] = useState(task.requiredContext);
@@ -88,7 +85,6 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
   //  const [ timeRequired, settimeRequired ] = useState(task.timeRequired);
     const [ note, setnote ] = useState(task.note);
     const [ lastUpdated, setlastUpdated ] = useState(db.lastUpdated);
-    //const [ associatedProjectName, setAssociatedProjectName ] = useState(associatedProject.name);
 
 
     useEffect(() => {
@@ -101,19 +97,19 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
     }, [task.name, task.requiredContext, task.outcome, task.note, task.dueDate, task.timeSpent, activeSince, activeTask, task.id, db.lastUpdated ])
 
 
+    
 
-    function updateDB(change) {
-        console.log("changes")
+    function updateDB( obj, property, newVal) {
+
+        if (obj[property] !== newVal){
+            console.log(`old value (${obj[property]}) !== new value (${newVal})`)
+
+            obj[property] = newVal;
+            ammendList(db, TASKS, task, UPDATE, shipItems)
+          
+        }
+
      
-        pushChanges(UPDATE, task, "Tasks", shipItems);
-        // if (oldValue !== newValue){
-        //     oldValue = newValue;
-        //     console.log(oldValue)
-        //     console.log("old time: ", lastUpdated);
-        //     db.lastUpdated = (new Date()).getTime();
-        //     setlastUpdated(db.lastUpdated);
-            
-        // }
     }
 
     function changeNavigation(id, title){
@@ -137,11 +133,11 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
                             {/* <h3 className='fw7 b white pb2'>{task.name}</h3>
                             <h4 className='fw1 white'>{task.requiredContext}</h4> */}
         
-                            <input type='text' onChange={(e)=> {setName(e.target.value);} } onBlur={() => {task.name = name; updateDB();} } 
+                            <input type='text' onChange={(e)=> {setName(e.target.value);} } onBlur={() => { updateDB(task, "name", name ) } } 
                             value={name} className='bn fw9 b white bg-transparent' />
         
                             <input type='text' onChange={(e)=> {setrequiredContext(e.target.value);} } 
-                                onBlur={() =>{ task.requiredContext = requiredContext; updateDB(); }} 
+                                onBlur={() =>{ updateDB(task, "requiredContext", requiredContext ) }} 
                                 value={requiredContext} className='fw1 white bn bg-transparent' />
                             
                         </div>
@@ -155,7 +151,7 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
                         <div className='w-100 pl2 pb3'>
                             <h5 className='fw3 white'>Outcome: </h5>
                             {/* <h5 className='fw3 white'>{task.outcome} </h5> */}
-                            <textarea rows="2" cols="45" onChange={(e)=> {setoutcome(e.target.value);} } onBlur={() =>{ task.outcome = outcome; updateDB(); }} value={outcome} className='w-80 fw3 white bn bg-transparent' />
+                            <textarea rows="2" cols="45" onChange={(e)=> {setoutcome(e.target.value);} } onBlur={() =>{ updateDB(task, "outcome", outcome ) }} value={outcome} className='w-80 fw3 white bn bg-transparent' />
                         </div>
                         <div className='w-100 pl2 pb3 flex justify-between'>
                             <Timer timeSpent={task.timeSpent} task={task} />
@@ -170,7 +166,7 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
                         <h5 className='bb b--white pa2 fw3 white b' >NOTE</h5>
                         <div className='pa2'>
                             {/* <p className='fw3 white'>{task.note}</p> */}
-                            <textarea rows="4" cols="45" onChange={(e)=> {setnote(e.target.value);} } onBlur={ () =>{ updateDB(); task.note = note }} value={note} className='fw3 white bn bg-transparent' />
+                            <textarea rows="4" cols="45" onChange={(e)=> {setnote(e.target.value);} } onBlur={ () =>{ updateDB(task, "note", note )}} value={note} className='fw3 white bn bg-transparent' />
                         </div>
                         <TaskControls task={task} position={position} />
                         {/* <button className="button" onClick={startTimer}>START</button>

@@ -1,6 +1,7 @@
 /// For all the extra functions required in multiple places
 
-import { ASAP } from "./constants";
+import { ShipItems } from "./actions";
+import { ADD, ASAP, COMPLETED, INBOX, PROCESSED, PROJECTS, REFERENCES, REMINDERS, REMOVE, SOMEDAY, TASKS, TRASH, UPDATE } from "./constants";
 
 
 
@@ -127,6 +128,66 @@ export function displayDays(dueDate){
                 return `${days} days `;
         }
     }
+}
+
+
+
+
+export function ammendList(db, list, item, action, shippingFunction){
+    // lists = [ PROJECTS, TASKS, INBOX, REFERENCES, REMINDERS, SOMEDAY, COMPLETED, PROCESSED, TRASH ]
+    
+    let dbList;
+    switch (list) {
+        case PROJECTS:
+            dbList = "Projects"
+        break;
+        case INBOX:
+            dbList = "Inbox"
+        break;
+        case REFERENCES:
+            dbList = "References"
+        break;
+        case REMINDERS:
+            dbList = "Reminders"
+        break;
+        case TASKS:
+            dbList = "Tasks"
+        break;
+        case SOMEDAY:
+            dbList = "Someday"
+        break;
+        case PROCESSED:
+            dbList = "Processed"
+        break;
+        case TRASH:
+            dbList = "Trash"
+        break;
+        default:
+    }
+
+    let localList = db[dbList];
+    let itemndx = localList.indexOf(item);
+
+    console.log("local list = ", localList)
+    console.log("ammendment action = ", action)
+    console.log("index of item = ", itemndx)
+    switch (action) {
+        case REMOVE:
+            localList.splice(itemndx, 1);
+            pushChanges(REMOVE, item, dbList, shippingFunction);
+        break;
+        case ADD:
+            localList.unshift(item);
+            pushChanges(ADD, item, dbList, shippingFunction);
+        break;
+        case UPDATE:
+            localList[itemndx] = item;
+            pushChanges(UPDATE, item, dbList, shippingFunction);
+        break;
+        default:
+    }
+
+    console.log("local list post ammendment = ", localList)
 }
 /* 
 

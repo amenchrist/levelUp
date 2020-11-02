@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import List from './List';
-import { MISSION } from '../constants';
+import { MISSION, PROJECTS } from '../constants';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, RestorePreviousState, ShipItems } from '../actions';
-import { pushChanges, displayDays  } from '../functions';
+import { displayDays, ammendList  } from '../functions';
 import { UPDATE } from '../constants';
 import DatePicker from './DatePicker';
 import NewItemButton from './NewItemButton';
@@ -95,18 +95,17 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
         console.log("Last Updated: ", db.lastUpdated)
     }, [project.name, project.timeRequired, project.purpose, project.dueDate, project.description, db.lastUpdated ])
 
-    function updateDB(change) {
-        console.log("changes")
-     
-        pushChanges(UPDATE, project, "Projects", shipItems);
-        // if (oldValue !== newValue){
-        //     oldValue = newValue;
-        //     console.log(oldValue)
-        //     console.log("old time: ", lastUpdated);
-        //     db.lastUpdated = (new Date()).getTime();
-        //     setlastUpdated(db.lastUpdated);
-            
-        // }
+    function updateDB( obj, property, newVal) {
+
+        if (obj[property] !== newVal){
+
+            console.log(`old value (${obj[property]}) !== new value (${newVal})`)
+
+            obj[property] = newVal;
+            ammendList(db, PROJECTS, project, UPDATE, shipItems)
+          
+        }
+
     }
 
     return (
@@ -117,7 +116,7 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
                 className='bn fw7 b white bg-transparent'
                 value={name} 
                 onChange={(e)=> {setName(e.target.value);} } 
-                onBlur={() => {project.name = name; updateDB();} }  
+                onBlur={() => {updateDB(project, "name", name )} }  
                 />
 
                 <h4 className='fw1 white'>{displayDays(project.dueDate)}</h4>
@@ -130,7 +129,7 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
                     className='w-80 fw3 white bn bg-transparent' 
                     value={description} 
                     onChange={(e)=> {setDescription(e.target.value);} } 
-                    onBlur={() =>{ project.description = description; updateDB(); }} 
+                    onBlur={() =>{ updateDB(project, "description", description ) }} 
                     />
                 </div>
             </div>
@@ -142,7 +141,7 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
                 className='bn fw3 b white bg-transparent' 
                 value={purpose} 
                 onChange={(e)=> {setPurpose(e.target.value);} } 
-                onBlur={() => {project.purpose = purpose; updateDB();} } 
+                onBlur={() => {updateDB(project, "purpose", purpose )} } 
                 />
 
             </div>

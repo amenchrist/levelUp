@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, ShipItems } from '../actions';
-import { UPDATE } from '../constants';
-import { pushChanges  } from '../functions';
+import { REFERENCES, UPDATE } from '../constants';
+import { pushChanges, ammendList  } from '../functions';
 
 const mapStateToProps = state => {
     return {
@@ -52,12 +52,19 @@ function ReferenceDetails({ id , changeItemID, updateExp, db, shipItems, referen
 
     console.log("reference: ", reference)
 
+    const [ name, setName ] = useState(reference.name);
     const [ details, setDetails ] = useState(reference.details);
 
-    function updateDB(change) {
-        console.log("changes")
-     
-        pushChanges(UPDATE, reference, "References", shipItems);
+    function updateDB( obj, property, newVal) {
+
+        if (obj[property] !== newVal){
+
+            console.log(`old value (${obj[property]}) !== new value (${newVal})`)
+
+            obj[property] = newVal;
+            ammendList(db, REFERENCES, reference, UPDATE, shipItems)
+          
+        }
 
     }
 
@@ -65,13 +72,19 @@ function ReferenceDetails({ id , changeItemID, updateExp, db, shipItems, referen
         <div >
             <div>
                 <div className='w-100 pa2 pb3' >
-                    <h3 className='fw7 b white pb2'>{reference.name}</h3>
+                    {/* <h3 className='fw7 b white pb2'>{reference.name}</h3> */}
+                    <input type='text' 
+                    className='bn fw7 b white bg-transparent'
+                    value={name} 
+                    onChange={(e)=> {setName(e.target.value);} } 
+                    onBlur={() => {updateDB(reference, "name", name )} }  
+                    />
                     <h5 className='fw3 white'>{reference.type}</h5>
                 </div>
                 <div className='pa2'>
                     <textarea rows="4" cols="45" 
                     onChange={(e)=> {setDetails(e.target.value);} } 
-                    onBlur={ () =>{ updateDB(); reference.details = details }} 
+                    onBlur={ () =>{ updateDB(reference, "details", details ) }} 
                     value={details} 
                     className='fw3 white bn bg-transparent' />
                 </div>

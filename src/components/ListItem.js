@@ -103,7 +103,7 @@ function ListItem( { touchFunction, item, title }){
                 title={item.isTrashed ? TRASH : INBOX} data-view={DETAILS}  id={item.id} onClick={touchFunction}>
                     <div className='w-80'>
                     <p className='fw7 b white pb2'>{item.name}</p>
-                    <p className='fw3 white'>{(new Date(item.entryDate)).toLocaleString()}</p>
+                    <p className='fw3 white'>Entered: {(new Date(item.entryDate)).toLocaleString()}</p>
                     </div>
                     <div className='pa2' >
                         <p className='fw7 b bg-white pa2'>PROCESS</p>
