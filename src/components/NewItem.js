@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { INBOX, PROJECTS, TASKS, DETAILS } from '../constants';
+import { INBOX, PROJECTS, TASKS, DETAILS, REFERENCES, REMINDERS, REFERENCE } from '../constants';
 import { Item } from '../classes';
 import NewTask from './NewTask';
 import NewMission from './NewMission';
 import { selectItem, ShipItems, selectTitle, ChangeNav } from '../actions';
 import { connect } from 'react-redux';
+import NewReference from './NewReference';
+import NewReminder from './NewReminder';
 
 const mapStateToProps = state => {
     return {
@@ -93,6 +95,10 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
                 return <NewMission updateExp={updateExp} />
             case title === PROJECTS && parseInt(itemID) !== 0:
                 return <NewTask updateExp={updateExp} />
+            case title === REFERENCES:
+                return <NewReference updateExp={updateExp} />
+            case title === REMINDERS:
+                return <NewReminder updateExp={updateExp} />
             default:
                 return (
                     <div className='h-100 w-100 center ba b--black-10 '>
@@ -110,9 +116,11 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
     return (
         <div className='pa1 w-100'>
             <div className='pa1 w-100 flex justify-center'>
-                <button className="button w-30" onClick={(e)=> changeTitle(INBOX)}>INBOX</button>
-                <button className="button w-30" onClick={(e)=> changeTitle(TASKS)}>TASK</button>
-                <button className="button w-30" onClick={(e)=> changeTitle(PROJECTS)}>MISSION</button>
+                <button className="f7 button w-20" onClick={(e)=> changeTitle(INBOX)}>INBOX</button>
+                <button className="f7 button w-20" onClick={(e)=> changeTitle(TASKS)}>TASK</button>
+                <button className="f7 button w-20" onClick={(e)=> changeTitle(PROJECTS)}>MISSION</button>
+                <button className="f7 button w-20" onClick={(e)=> changeTitle(REFERENCES)}>REFERENCE</button>
+                <button className="f7 button w-20" onClick={(e)=> changeTitle(REMINDERS)}>REMINDER</button>
                 {/* <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>REF</button>
                 <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>FINANCE</button> */}
             </div>

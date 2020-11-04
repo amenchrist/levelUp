@@ -108,6 +108,10 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
 
     }
 
+    function saveDate(date){
+        updateDB( project, "dueDate", date )
+    }
+
     return (
         <div className='h-80'>
             <div className='w-100 h-10 pa2 pb3' >
@@ -147,7 +151,7 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
             </div>
             <div className='w-100 h-10 pl2 pb2 flex justify-between'>
                 {/* <h5 className='fw3 white'>Due: {project.dueDate} </h5> */}
-                <DatePicker item={project} dueDate={dueDate} />
+                <DatePicker item={project} dueDate={dueDate} updateFunc={saveDate} />
                 {/* <h5 className='fw3 white'>Time Required: {project.timeRequired}</h5> */}
             </div>
             <div className='w-100 h-10 pl2 pb3 flex justify-between'>

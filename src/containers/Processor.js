@@ -243,6 +243,11 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         changeNav(nav);
     }
 
+    function saveDate(date){
+        //updateDB( project, "dueDate", date )
+
+    }
+
     switch(true) {
         case ( step === 1 ):
             return (
@@ -286,11 +291,15 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 </div>
             )
         case ( isActionable === false && step === 3 && incubated === true ):
+            function saveReminderDate(date){
+                //updateDB( project, "dueDate", date )
+                newReminder.date = date;
+            }
         
         return (
             <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column'>
                 <h2 className='white tc pb2'>Date of Reminder?</h2>
-                <DatePicker item={newReminder} dueDate={newReminder.date} />
+                <DatePicker item={newReminder} dueDate={newReminder.date} updateFunc={saveReminderDate}/>
                 <div>
                     <button className="button" onClick={() => { 
                         ammendList(ADD, Reminders, newReminder, 0); 
@@ -440,10 +449,14 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 </div>
             )
         case ( isDelegatable === false && step === 8 ):
+            function saveTaskDate(date){
+                //updateDB( project, "dueDate", date )
+                newTask.dueDate = date;
+            }
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <h2 className='fw4 white'>By when should this task to be done</h2>
-                    <DatePicker item={newTask} dueDate={newTask.dueDate} />
+                    <DatePicker item={newTask} dueDate={newTask.dueDate} updateFunc={saveTaskDate} />
                     <div>
                         {/* <button className="button" onClick={() => { setDueDate("ASAP"); console.log(newTask); proceed(); }}>ASAP</button> */}
                         <button className="button" onClick={() => { setDueDate(newTask.dueDate); console.log(newTask); proceed(); }} >CONTINUE</button>

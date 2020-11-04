@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { UpdateExp, ChangeNav, ShipItems } from '../actions';
 import { ASAP, DETAILS, PROJECTS, REMINDERS, UPDATE } from '../constants';
@@ -42,6 +42,12 @@ function ReminderDetails({ changeNav,  item, shipItems, db }) {
     const [ name, setName ] = useState(item.name);
     const [ note, setnote ] = useState(item.note);
 
+    useEffect(() => {
+        setName(item.name);
+        setnote(item.note);
+        
+    }, [ item.name, item.note])
+
     function updateDB( obj, property, newVal) {
 
         if (obj[property] !== newVal){
@@ -53,6 +59,10 @@ function ReminderDetails({ changeNav,  item, shipItems, db }) {
           
         }
 
+    }
+
+    function saveDate(date){
+        updateDB( item, "date", date )
     }
     
     return (
@@ -73,7 +83,7 @@ function ReminderDetails({ changeNav,  item, shipItems, db }) {
 
                 <div className='w-100 pl2 pb3'>
                     <h5 className='fw3 white'>Date: </h5>
-                    <DatePicker item={item} dueDate={item.date} />
+                    <DatePicker item={item} dueDate={item.date} updateFunc={saveDate}/>
                 </div>
 
                 <h5 className='bb b--white pa2 fw3 white b' >NOTE</h5>

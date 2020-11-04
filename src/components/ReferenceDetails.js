@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, ShipItems } from '../actions';
 import { REFERENCES, UPDATE } from '../constants';
@@ -54,6 +54,12 @@ function ReferenceDetails({ id , changeItemID, updateExp, db, shipItems, referen
 
     const [ name, setName ] = useState(reference.name);
     const [ details, setDetails ] = useState(reference.details);
+
+    useEffect(() => {
+        setName(reference.name);
+        setDetails(reference.details);
+        
+    }, [ reference.name, reference.details])
 
     function updateDB( obj, property, newVal) {
 

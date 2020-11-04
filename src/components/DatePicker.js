@@ -34,15 +34,13 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatePicker);
 
-function DatePicker({ item, dueDate, db, shipItems, title }){
+function DatePicker({ item, dueDate, db, title, updateFunc }){
 
     let DbList = ''
     switch (title) {
         case PROJECTS:
 
     }
-
-    //pushChanges(UPDATE, item, "Inbox", shipItems);
 
     // REASSIGN DUE DATE TO FIX "ASAP" DATE FORMAT ISSUES
     let dateValue;
@@ -57,6 +55,7 @@ function DatePicker({ item, dueDate, db, shipItems, title }){
     //   console.log(prepareDate(str));
 
     useEffect(() => {
+        setchangeDate(false);
         setdate((new Date(dateValue)).toISOString().substr(0, 10));
         // setchangeDate(false);
         if (dueDate === ASAP){
@@ -77,11 +76,11 @@ function DatePicker({ item, dueDate, db, shipItems, title }){
                     />
                     <div>
                         <button className="button" onClick={() => { 
-                            item.dueDate = ASAP; setIsASAP(true); 
+                            updateFunc(ASAP); setIsASAP(true); 
                             setchangeDate(false) 
                         }}>A.S.A.P</button>
                         <button className="button" onClick={() => { 
-                            item.dueDate=convertDateToMilliseconds(date); 
+                            updateFunc(convertDateToMilliseconds(date)); 
                             setchangeDate(false); setIsASAP(false) 
                         }}>Save</button>
                     </div>

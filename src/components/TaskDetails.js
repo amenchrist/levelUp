@@ -108,8 +108,7 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
             ammendList(db, TASKS, task, UPDATE, shipItems)
           
         }
-
-     
+    
     }
 
     function changeNavigation(id, title){
@@ -120,6 +119,10 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
             ID: id
         }
         changeNav(nav);        
+    }
+
+    function saveDate(date){
+        updateDB( task, "dueDate", date )
     }
 
     switch (title){
@@ -155,7 +158,7 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
                         </div>
                         <div className='w-100 pl2 pb3 flex justify-between'>
                             <Timer timeSpent={task.timeSpent} task={task} />
-                            <DatePicker item={task} dueDate={dueDate} />
+                            <DatePicker item={task} dueDate={dueDate} updateFunc={saveDate} />
                             {/* <input type='date' defaultValue={dueDate} onChange={(e)=> {setdueDate(e.target.value);} } onBlur={() =>task.dueDate=dueDate} className='fw3 white bn bg-transparent' /> */}
                         </div>
                         <div className='w-100 pl2 pb3 flex justify-between'>                    

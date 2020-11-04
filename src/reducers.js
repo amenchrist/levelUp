@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import { 
     SELECT_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, TASKS, INBOX, REFERENCES, TODAY,
-    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, PROJECTS, LIST, NEW_ITEM, NEW, CHANGE_NAV, MISSION_TASKS
+    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, PROJECTS, LIST, NEW_ITEM, NEW, CHANGE_NAV, MISSION_TASKS, REMINDERS
 } from "./constants"
 
 import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_ITEMS, DELIVER_ITEMS } from './actions';
@@ -51,7 +51,7 @@ const initialState = {
 const values = (state=initialState, action={}) => {
     switch(action.type){
         case SELECT_TITLE:
-            let lists = [ PROJECTS, TASKS, INBOX, REFERENCES, TODAY ]
+            let lists = [ PROJECTS, TASKS, INBOX, REFERENCES, REMINDERS, TODAY ]
             let view = OVERVIEW;
             let ID = 0;
             if (lists.indexOf(action.payload) !== -1) {
