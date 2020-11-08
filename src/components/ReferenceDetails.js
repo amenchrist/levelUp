@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, ShipItems } from '../actions';
 import { REFERENCES, UPDATE } from '../constants';
-import { pushChanges, ammendList  } from '../functions';
+import { ammendList  } from '../functions';
 
 const mapStateToProps = state => {
     return {
@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ReferenceDetails);
 
 
-function ReferenceDetails({ id , changeItemID, updateExp, db, shipItems, reference }) {
+function ReferenceDetails({ id , changeItemID, updateExp, db, shipItems, reference, exp }) {
 
     const ReferenceList = db.Reference;
     // let reference = {};
@@ -68,7 +68,7 @@ function ReferenceDetails({ id , changeItemID, updateExp, db, shipItems, referen
             console.log(`old value (${obj[property]}) !== new value (${newVal})`)
 
             obj[property] = newVal;
-            ammendList(db, REFERENCES, reference, UPDATE, shipItems)
+            ammendList(db, REFERENCES, reference, UPDATE, shipItems, exp)
           
         }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { INBOX, PROJECTS, TASKS, DETAILS, REFERENCES, REMINDERS, REFERENCE } from '../constants';
+import { INBOX, PROJECTS, TASKS, DETAILS, REFERENCES, REMINDERS, REFERENCE, ADD } from '../constants';
 import { Item } from '../classes';
 import NewTask from './NewTask';
 import NewMission from './NewMission';
@@ -7,13 +7,15 @@ import { selectItem, ShipItems, selectTitle, ChangeNav } from '../actions';
 import { connect } from 'react-redux';
 import NewReference from './NewReference';
 import NewReminder from './NewReminder';
+import { ammendList } from '../functions';
 
 const mapStateToProps = state => {
     return {
         view: state.values.view,
         title: state.values.title,
         itemID: state.values.itemID,
-        db: state.items.record.items
+        db: state.items.record.items,
+        exp: state.UpdateExpReducer.exp
     }
 }
 
@@ -37,7 +39,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
 
 
-function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db, changeTitle, itemID, changeNav }) {
+function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db, changeTitle, itemID, changeNav, exp }) {
 
     // const [ type, setType ] = useState(title);
     const [ name, setName ] = useState('Enter item name');
@@ -53,13 +55,11 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
 
     function submitNewItem(event) {
         if(name !== 'Enter item name' && name !== '' ){
-            //console.log('name is set')
             let i = new Item(name);
-            console.log(i)
-            InboxItems.unshift(i);
-            pushChanges("ADD", i, "Inbox");
-            console.log("new inbox: ", InboxItems)
+            // InboxItems.unshift(i);
+            // pushChanges("ADD", i, "Inbox");
             updateExp(5);
+            ammendList(db, INBOX, i, ADD, shipItems)
             changeNavigation(i.id);
             //submitFunction(event);
             reset();

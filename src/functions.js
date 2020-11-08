@@ -72,19 +72,6 @@ export function setNavValues(e, navChanger, state){
     navChanger(nav);
 }
 
-
-export function pushChanges(action, item, list, shippingFunction){
-    let state = {
-        action: action,
-        list: list,
-        item: item,
-        pushDate: (new Date()).getTime()
-    }
-    shippingFunction(state);
-}
-
-
-
 export function calculateTime(timeSpent){
 
     //CALCULATE TIME SPENT
@@ -130,10 +117,19 @@ export function displayDays(dueDate){
     }
 }
 
+export function pushChanges(action, item, list, shippingFunction, exp){
+    let state = {
+        action: action,
+        list: list,
+        item: item,
+        pushDate: (new Date()).getTime(),
+        exp: exp
+    }
+    shippingFunction(state);
+}
 
 
-
-export function ammendList(db, list, item, action, shippingFunction){
+export function ammendList(db, list, item, action, shippingFunction, expObj){
     // lists = [ PROJECTS, TASKS, INBOX, REFERENCES, REMINDERS, SOMEDAY, COMPLETED, PROCESSED, TRASH ]
     
     let dbList;

@@ -4,7 +4,7 @@ import { selectView, selectItem, UpdateExp, UpdateTaskStatus, ShipItems,ChangeNa
 import DatePicker from './DatePicker';
 import Timer from './Timer';
 import TaskControls from './TaskControls';
-import { pushChanges, ammendList  } from '../functions';
+import { ammendList  } from '../functions';
 import { COMPLETED, DETAILS, PROJECTS, SOMEDAY, TASKS, UPDATE } from '../constants';
 
 const mapStateToProps = state => {
@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(TaskDetails);
 
 
-function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSince, activeTask, db, shipItems, changeNav }) {
+function TaskDetails({ id , title, updateExp, activeSince, activeTask, db, shipItems, changeNav, exp }) {
 
     const ProjectList = db.Projects;
     const tasks = db.Tasks;
@@ -105,7 +105,7 @@ function TaskDetails({ id , title, updateExp, status, updateTaskStatus, activeSi
             console.log(`old value (${obj[property]}) !== new value (${newVal})`)
 
             obj[property] = newVal;
-            ammendList(db, TASKS, task, UPDATE, shipItems)
+            ammendList(db, TASKS, task, UPDATE, shipItems, exp)
           
         }
     

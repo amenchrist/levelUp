@@ -30,6 +30,7 @@ const initialState = {
         deliveredAt: 0
     },
     exp: 0,
+    expTimestamp: 0,
     db: { lastUpdated: 0}
 }
 
@@ -92,7 +93,18 @@ const RestorePreviousStateReducer = (state=initialState, action={}) => {
 const UpdateExpReducer = (state=initialState, action={}) => {
     switch(action.type){
         case UPDATE_EXP:
-            return Object.assign({}, state, {exp: (state.exp + action.payload)});
+            console.log(action);
+            console.log(state);
+            let newXP, newTimestamp;
+            if (parseInt(action.expTimeStamp) === parseInt(state.expTimestamp)) {
+                newXP = 0;
+                newTimestamp = parseInt(state.expTimestamp);
+            } else {
+                newXP = parseInt(action.payload);
+                newTimestamp = parseInt(action.expTimestamp);
+                console.log("new xp = ", newXP)
+            }
+            return Object.assign({}, state, {exp: (state.exp + newXP), expTimestamp: newTimestamp});
         default:
             return state;
     }

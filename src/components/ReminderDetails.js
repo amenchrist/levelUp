@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ReminderDetails);
 
 
-function ReminderDetails({ changeNav,  item, shipItems, db }) {
+function ReminderDetails({ changeNav,  item, shipItems, db, exp }) {
 
     const [ name, setName ] = useState(item.name);
     const [ note, setnote ] = useState(item.note);
@@ -55,7 +55,7 @@ function ReminderDetails({ changeNav,  item, shipItems, db }) {
             console.log(`old value (${obj[property]}) !== new value (${newVal})`)
 
             obj[property] = newVal;
-            ammendList(db, REMINDERS, item, UPDATE, shipItems)
+            ammendList(db, REMINDERS, item, UPDATE, shipItems, exp)
           
         }
 

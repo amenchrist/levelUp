@@ -10,6 +10,7 @@ export class Item{
         this.name = name;
         this.description = '';
         this.status = UNPROCESSED;
+        this.exp = 5;
 
     }
 }
@@ -34,7 +35,7 @@ export class Task{
         this.timeRemaining = 0;
         this.requirements = '';
         this.associatedProjectID = associatedProjectID;
-        this.exp = 10;
+        this.exp = 20;
         this.description = '';
         this.agent = '';
         
@@ -62,7 +63,7 @@ export class Project{
         this.taskList = [];
         this.principles = '';
         this.requirements = requirements;
-        this.exp = 50;
+        this.exp = 100;
         this.purpose = purpose;
         this.priority = priority;
         this.frequency = frequency;
@@ -78,6 +79,7 @@ export class Reference{
         this.entryDate = d.getTime();
         this.name = name;
         this.details = details;
+        this.exp = 5;
     }
 }
 
@@ -90,5 +92,6 @@ export class Reminder{
         this.name = name;
         this.note = note;
         this.date = date;
+        this.exp = 5;
     }
 }

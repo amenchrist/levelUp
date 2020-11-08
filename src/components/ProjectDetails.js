@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
 
-function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
+function ProjectDetails({ project, view, changeItemID, db, shipItems, exp }) {
 
     const TaskList = db.Tasks.concat(db.Completed);
 
@@ -102,7 +102,7 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems }) {
             console.log(`old value (${obj[property]}) !== new value (${newVal})`)
 
             obj[property] = newVal;
-            ammendList(db, PROJECTS, project, UPDATE, shipItems)
+            ammendList(db, PROJECTS, project, UPDATE, shipItems, exp)
           
         }
 

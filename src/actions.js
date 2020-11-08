@@ -43,7 +43,8 @@ export const selectTask = (taskID) => {
 export const UpdateExp = (exp) => {
     return {
     type: UPDATE_EXP,
-    payload: exp
+    payload: exp,
+    expTimestamp: new Date().getTime()
 }};
 
 export const RestorePreviousState = (previousState) => {
@@ -210,7 +211,7 @@ export function ShipItems(items, agent, record) {
       body: JSON.stringify(items)
     })
       .then(response => response.json())
-      .then(json => dispatch(DeliverItems(agent, json)))
+      .then(json => {dispatch(DeliverItems(agent, json)); dispatch(UpdateExp(json.exp));})
       .catch((error) => {
         console.log("Error: ", error);
         setTimeout(ShipItems(items, agent), 5000);
@@ -218,5 +219,5 @@ export function ShipItems(items, agent, record) {
   }
 }
 
-const serverLink = "https://secret-citadel-16777.herokuapp.com/";
+const serverLink = "http://localhost:5000/"//"https://secret-citadel-16777.herokuapp.com/";
 //const serverLink2 = "http://localhost:5000/";
