@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem, RestorePreviousState, ChangeNav } from '../actions';
-import { DETAILS, LIST, MISSION_TASKS, PROJECTS } from '../constants';
+import { DETAILS, LIST, MISSION_TASKS, MISSIONS } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -46,7 +46,7 @@ function BackButton({ changeItemID, changeNav, missionID, title, previousTitle, 
         let navView = LIST;
 
         if(title === MISSION_TASKS) {
-            title = PROJECTS;
+            title = MISSIONS;
             navID = missionID;
             navView = DETAILS;
         };

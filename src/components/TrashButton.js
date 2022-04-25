@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ShipItems, ChangeNav } from '../actions';
 import trashCan from '../assets/trash1600.png';
-import { INBOX, PROJECTS, REMOVE, TASKS, REFERENCES, SOMEDAY, ADD, PROCESSED, COMPLETED, MISSION_TASKS, REMINDERS } from '../constants';
+import { INBOX, MISSIONS, REMOVE, TASKS, REFERENCES, SOMEDAY, ADD, PROCESSED, COMPLETED, MISSION_TASKS, EVENTS, UPDATE } from '../constants';
+import { pushChanges } from '../functions';
 
 const mapStateToProps = state => {
     return {
@@ -30,105 +31,64 @@ export default connect(mapStateToProps, mapDispatchToProps)(TrashButton);
 function TrashButton({ shipItems, changeNav, db, title, ID }) {
 
     const InboxItems = db.Inbox;
-    const ProjectList = db.Projects;
+    const MissionsList = db.Missions;
     const TaskList = db.Tasks;
     const References = db.References;
-    const Reminders = db.Reminders;
+    const Events = db.Events;
     const SomedayList = db.Someday;
     const ProcessedList = db.Processed;
     const Completed = db.Completed;
-    const Trash = db.Trash;
 
     
 
-    let currentlist, indx, currentItem;
+    let currentList, indx, currentItem, list;
 
     switch(title) {
-        case PROJECTS:
-            currentlist = ProjectList;
+        case MISSIONS:
+            currentList = MissionsList;
+            list = "Missions";
         break;
         case TASKS:
-            currentlist = TaskList;
+            currentList = TaskList;
+            list = "Tasks";
         break;
         case INBOX:
-            currentlist = InboxItems;
+            currentList = InboxItems;
+            list = "Inbox";
         break;
         case REFERENCES:
-            currentlist = References;
+            currentList = References;
+            list = "References";
         break;
-        case REMINDERS:
-            currentlist = Reminders;
+        case EVENTS:
+            currentList = Events;
+            list = "Events";
         break;
         case SOMEDAY:
-            currentlist = SomedayList;
+            currentList = SomedayList;
         break;
         case PROCESSED:
-            currentlist = ProcessedList;
+            currentList = TaskList;
+            list = "Tasks";
         break;
         case COMPLETED:
-            currentlist = Completed;
+            currentList = Completed;
         break;
         case MISSION_TASKS:
-            currentlist = TaskList;
+            currentList = TaskList;
+            list = "Tasks";
         break;
         default:
     }
 
-    for (let i=0; i<currentlist.length; i++){
+    for (let i=0; i<currentList.length; i++){
 
-        if (currentlist[i].id === parseInt(ID)){
-            currentItem = currentlist[i];
+        if (currentList[i].id === parseInt(ID)){
+            currentItem = currentList[i];
             indx = i;
             break;
         }
 
-    }
-
-
-    function pushChanges(action, item, list){
-        let state = {
-            action: action,
-            list: list,
-            item: item,
-            pushDate: (new Date()).getTime()
-        }
-        shipItems(state);
-    }
-
-    function ammendList(action, list, item, itemndx){
-        let dbList;
-        switch (list) {
-            case ProjectList:
-                dbList = "Projects"
-            break;
-            case InboxItems:
-                dbList = "Inbox"
-            break;
-            case REFERENCES:
-                dbList = "References"
-            break;
-            case TaskList:
-                dbList = "Tasks"
-            break;
-            case SOMEDAY:
-                dbList = "Someday"
-            break;
-            case Trash:
-                dbList = "Trash"
-            break;
-            default:
-        }
-        switch (action) {
-            case REMOVE:
-                list.splice(itemndx, 1);
-                pushChanges(REMOVE, item, dbList);
-            break;
-            case ADD:
-                list.unshift(item);
-                pushChanges(ADD, item, dbList);
-            break;
-            default:
-        }
     }
 
     //Change Nav to List
@@ -142,8 +102,11 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
         console.log('delete button clicked');
         currentItem.isTrashed = true;
         currentItem.trashedDate = new Date().getTime();
-        ammendList(ADD, Trash, currentItem, indx);
-        ammendList(REMOVE, currentlist, currentItem, indx);
+
+        //amendList(REMOVE, currentList, currentItem, indx);
+        //Trash.unshift(currentItem);
+        pushChanges(UPDATE, currentItem, list, shipItems);
+        // amendList(ADD, Trash, currentItem, indx);
         changeNav(nav);
     }
 

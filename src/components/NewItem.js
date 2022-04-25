@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { INBOX, PROJECTS, TASKS, DETAILS, REFERENCES, REMINDERS, REFERENCE, ADD } from '../constants';
+import { INBOX, MISSIONS, TASKS, DETAILS, REFERENCES, EVENTS, REFERENCE, ADD } from '../constants';
 import { Item } from '../classes';
 import NewTask from './NewTask';
 import NewMission from './NewMission';
 import { selectItem, ShipItems, selectTitle, ChangeNav } from '../actions';
 import { connect } from 'react-redux';
 import NewReference from './NewReference';
-import NewReminder from './NewReminder';
-import { ammendList } from '../functions';
+import NewEvent from './NewEvent';
+import { amendList } from '../functions';
 
 const mapStateToProps = state => {
     return {
@@ -36,9 +36,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewItem);
-
-
 function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db, changeTitle, itemID, changeNav, exp }) {
 
     // const [ type, setType ] = useState(title);
@@ -59,23 +56,13 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
             // InboxItems.unshift(i);
             // pushChanges("ADD", i, "Inbox");
             updateExp(5);
-            ammendList(db, INBOX, i, ADD, shipItems)
+            amendList(db, INBOX, i, ADD, shipItems)
             changeNavigation(i.id);
             //submitFunction(event);
             reset();
             event.preventDefault();
         }
         event.preventDefault();
-    }
-
-    function pushChanges(action, item, list){
-        let state = {
-            action: action,
-            list: list,
-            item: item,
-            pushDate: (new Date()).getTime()
-        }
-        shipItems(state);
     }
 
     function changeNavigation(id){
@@ -91,14 +78,14 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
         switch(true) {
             case title === TASKS:
                 return <NewTask updateExp={updateExp} />
-            case title === PROJECTS && parseInt(itemID) === 0:
+            case title === MISSIONS && parseInt(itemID) === 0:
                 return <NewMission updateExp={updateExp} />
-            case title === PROJECTS && parseInt(itemID) !== 0:
+            case title === MISSIONS && parseInt(itemID) !== 0:
                 return <NewTask updateExp={updateExp} />
             case title === REFERENCES:
                 return <NewReference updateExp={updateExp} />
-            case title === REMINDERS:
-                return <NewReminder updateExp={updateExp} />
+            case title === EVENTS:
+                return <NewEvent updateExp={updateExp} />
             default:
                 return (
                     <div className='h-100 w-100 center ba b--black-10 '>
@@ -118,9 +105,9 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
             <div className='pa1 w-100 flex justify-center'>
                 <button className="f7 button w-20" onClick={(e)=> changeTitle(INBOX)}>INBOX</button>
                 <button className="f7 button w-20" onClick={(e)=> changeTitle(TASKS)}>TASK</button>
-                <button className="f7 button w-20" onClick={(e)=> changeTitle(PROJECTS)}>MISSION</button>
+                <button className="f7 button w-20" onClick={(e)=> changeTitle(MISSIONS)}>MISSION</button>
                 <button className="f7 button w-20" onClick={(e)=> changeTitle(REFERENCES)}>REFERENCE</button>
-                <button className="f7 button w-20" onClick={(e)=> changeTitle(REMINDERS)}>REMINDER</button>
+                <button className="f7 button w-20" onClick={(e)=> changeTitle(EVENTS)}>EVENT</button>
                 {/* <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>REF</button>
                 <button className="button w-20" onClick={(e)=> changeTitle(e.target.value)}>FINANCE</button> */}
             </div>
@@ -128,3 +115,5 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
         </div>
     )
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewItem);

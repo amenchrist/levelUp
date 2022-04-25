@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PROJECT, TASK, INBOX_ITEM, TASKS, DONE, COMPLETED, DETAILS, PROJECTS, INBOX, TRASH, CALENDAR, MISSION_TASKS, SOMEDAY, REMINDER, REMINDERS, REFERENCES, REFERENCE, PROCESSED } from '../constants';
+import { MISSION, TASK, INBOX_ITEM, TASKS, DONE, COMPLETED, DETAILS, MISSIONS, INBOX, TRASH, CALENDAR, MISSION_TASKS, SOMEDAY, EVENT, EVENTS, REFERENCES, REFERENCE, PROCESSED } from '../constants';
 import { displayDays } from '../functions';
 
 const mapStateToProps = state => {
@@ -25,11 +25,12 @@ function ListItem( { touchFunction, item, title }){
     let nextTitle;
 
     switch(true){
-        case item.type === PROJECT && !item.isTrashed:
-            title === SOMEDAY ? nextTitle = SOMEDAY : nextTitle = PROJECTS;
+        case item.type === MISSION && !item.isTrashed:
+            console.log("trash log  ",item)
+            title === SOMEDAY ? nextTitle = SOMEDAY : nextTitle = MISSIONS;
             //let days = parseInt(Math.floor(total_hours / 24));
-            let days = (item.dueDate / (1000*60*60*24)) % 7;
-            console.log('days: ', days);
+            //let days = (item.dueDate / (1000*60*60*24)) % 7;
+            //console.log('days: ', days);
             return (
                 <div className='ba pa2 listItem w-100 flex justify-between h-20 items-center b--grey min-h-50' title={item.isTrashed ? TRASH : nextTitle} data-view={DETAILS}  id={item.id} onClick={touchFunction}>
                     <div className='w-80 '>
@@ -43,7 +44,7 @@ function ListItem( { touchFunction, item, title }){
             )
         case item.type === TASK && !item.isTrashed:
             item.status === DONE ? nextTitle = COMPLETED : nextTitle = TASKS;
-            if(title === PROJECTS){nextTitle = MISSION_TASKS};
+            if(title === MISSIONS){nextTitle = MISSION_TASKS};
             if(title === SOMEDAY){nextTitle = SOMEDAY};
             console.log(nextTitle);
             return (
@@ -57,8 +58,8 @@ function ListItem( { touchFunction, item, title }){
                     </div>
                 </div>
             )
-        case item.type === REMINDER && !item.isTrashed:
-            nextTitle = REMINDERS;
+        case item.type === EVENT && !item.isTrashed:
+            nextTitle = EVENTS;
             console.log(nextTitle);
             return (
                 <div className='ba pa2 listItem w-100 flex justify-between items-center b--grey min-h-50' data-view={DETAILS}  title={nextTitle} id={item.id} onClick={touchFunction}>

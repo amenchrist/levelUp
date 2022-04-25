@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import HomeButton from '../components/HomeButton';
-import ProjectsButton from '../components/ProjectsButton';
+import MissionsButton from '../components/MissionsButton';
 import TasksButton from '../components/TasksButton';
 import InboxButton from '../components/InboxButton';
 import StatsButton from '../components/StatsButton';
@@ -36,7 +36,7 @@ function NavBar(props) {
             <HomeButton touchFunction={handleEvent} />
             <InboxButton touchFunction={handleEvent} />
             <TasksButton touchFunction={handleEvent} />
-            <ProjectsButton touchFunction={handleEvent} />
+            <MissionsButton touchFunction={handleEvent} />
             <StatsButton touchFunction={handleEvent} />
         </div>       
     )

@@ -1,9 +1,9 @@
 import React from 'react';
-import { ProjectList } from '../ProjectList';
+import { MissionsList } from '../MissionsList';
 import List from '../components/List';
 import { connect } from 'react-redux';
 import { selectItem } from '../actions';
-import ProjectDetails from '../components/ProjectDetails';
+import MissionDetails from '../components/MissionDetails';
 
 const mapStateToProps = state => {
     return {
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-function Projects(props) {
+function Missions(props) {
 
     const { onTouch } = props;
     const { itemID } = props;
@@ -44,15 +44,15 @@ function Projects(props) {
         case  false:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
-                    <h1 className='tc'>Project</h1>
-                    <ProjectDetails id={parseInt(itemID)} />
+                    <h1 className='tc'>Mission</h1>
+                    <MissionDetails id={parseInt(itemID)} />
                 </div>        
             )
         default:
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10'>
-                    <h1 className='tc'>Projects</h1>
-                    <List content={ProjectList} touchFunction={passKey}/>
+                    <h1 className='tc'>Missions</h1>
+                    <List content={MissionsList} touchFunction={passKey}/>
                 </div>        
             )
             
@@ -60,4 +60,4 @@ function Projects(props) {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Projects);
+export default connect(mapStateToProps, mapDispatchToProps)(Missions);

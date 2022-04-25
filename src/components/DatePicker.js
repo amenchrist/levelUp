@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ASAP, PROJECTS } from '../constants';
+import { ASAP, MISSIONS } from '../constants';
 import { convertDateToMilliseconds, pushChanges } from '../functions';
 import {UpdateExp, ShipItems,ChangeNav } from '../actions';
 import { connect } from 'react-redux';
@@ -38,7 +38,7 @@ function DatePicker({ item, dueDate, db, title, updateFunc }){
 
     let DbList = ''
     switch (title) {
-        case PROJECTS:
+        case MISSIONS:
 
     }
 
@@ -47,17 +47,17 @@ function DatePicker({ item, dueDate, db, title, updateFunc }){
     dueDate === ASAP ? dateValue = new Date().getTime() : dateValue = dueDate;
 
     // CONVERT DATE STRING TO MILLISECONDS
-    const [ date, setdate ] = useState((new Date(dateValue)).toISOString().substr(0, 10));
-    const [ changeDate, setchangeDate ] = useState(false);
+    const [ date, setDate ] = useState((new Date(dateValue)).toISOString().substr(0, 10));
+    const [ changeDate, setChangeDate ] = useState(false);
     const [ isASAP, setIsASAP ] = useState(false);
     
     //   let str = "2020-10-26";
     //   console.log(prepareDate(str));
 
     useEffect(() => {
-        setchangeDate(false);
-        setdate((new Date(dateValue)).toISOString().substr(0, 10));
-        // setchangeDate(false);
+        setChangeDate(false);
+        setDate((new Date(dateValue)).toISOString().substr(0, 10));
+        // setChangeDate(false);
         if (dueDate === ASAP){
             setIsASAP(true)
         } else {
@@ -71,17 +71,17 @@ function DatePicker({ item, dueDate, db, title, updateFunc }){
                 <div>
                     <input type='date' className='fw3 white bn bg-transparent' autoFocus
                     defaultValue={date}
-                    onChange={(e)=> {setdate(e.target.value);} } 
+                    onChange={(e)=> {setDate(e.target.value);} } 
                     onBlur={() =>{}} 
                     />
                     <div>
                         <button className="button" onClick={() => { 
                             updateFunc(ASAP); setIsASAP(true); 
-                            setchangeDate(false) 
+                            setChangeDate(false) 
                         }}>A.S.A.P</button>
                         <button className="button" onClick={() => { 
                             updateFunc(convertDateToMilliseconds(date)); 
-                            setchangeDate(false); setIsASAP(false) 
+                            setChangeDate(false); setIsASAP(false) 
                         }}>Save</button>
                     </div>
                 </div>
@@ -90,12 +90,12 @@ function DatePicker({ item, dueDate, db, title, updateFunc }){
             if (isASAP){
                 return (
                     <div>
-                        <h5 className='fw4 white' onClick={() => setchangeDate(true)}>Due: ASAP</h5>
+                        <h5 className='fw4 white' onClick={() => setChangeDate(true)}>Due: ASAP</h5>
                     </div>
                     )
             }
             return (
-                <h5 className='fw4 white' onClick={() => setchangeDate(true)}>Due: {date} </h5>
+                <h5 className='fw4 white' onClick={() => setChangeDate(true)}>Due: {date} </h5>
             )
     }
 }

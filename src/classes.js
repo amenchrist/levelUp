@@ -1,4 +1,4 @@
-import {TASK, PENDING, PROJECT, UNPLANNED, ASAP, UNPROCESSED, INBOX_ITEM, REMINDER, REFERENCE } from './constants';
+import {TASK, PENDING, MISSION, UNPLANNED, ASAP, UNPROCESSED, INBOX_ITEM, EVENT, REFERENCE } from './constants';
 
 export class Item{
     constructor(name,description='None') {
@@ -11,12 +11,13 @@ export class Item{
         this.description = '';
         this.status = UNPROCESSED;
         this.exp = 5;
+        this.isTrashed = false;
 
     }
 }
 
 export class Task{
-    constructor(name,outcome, requiredContext, associatedProjectID = 0, dueDate = ASAP) {
+    constructor(name,outcome, requiredContext, associatedMissionID = 0, dueDate = ASAP) {
         const d = new Date();
         this.type = TASK;
         this.id = d.getTime();
@@ -34,24 +35,25 @@ export class Task{
         this.timeRequired = 0;
         this.timeRemaining = 0;
         this.requirements = '';
-        this.associatedProjectID = associatedProjectID;
+        this.associatedMissionID = associatedMissionID;
         this.exp = 20;
         this.description = '';
         this.agent = '';
+        this.isTrashed = false;
         
     }
 }
 
-export class Project{
+export class Mission{
     constructor(outcome ='', purpose ='', description = '', dueDate = ASAP, requirements = '', priority, frequency = '' ) {
         const d = new Date();
-        this.type = PROJECT;        
+        this.type = MISSION;        
         this.id = d.getTime();
         this.entryDate = d.getTime();
         this.name = outcome;
         this.description = description;
         this.outputRecordID = null;
-        this.dueDate = dueDate //(new Date(parseInt((d.getTime() + 7776000000)))).toISOString().substr(0, 10); // 3 months from the date the project is planned 
+        this.dueDate = dueDate //(new Date(parseInt((d.getTime() + 7776000000)))).toISOString().substr(0, 10); // 3 months from the date the MISSION is planned 
         this.timeRequired = 7776000000;
         this.timeSpent = 0;
         this.timeRemaining = setInterval(()=> {
@@ -68,6 +70,7 @@ export class Project{
         this.priority = priority;
         this.frequency = frequency;
         this.note = '';
+        this.isTrashed = false;
     }
 }
 
@@ -80,18 +83,20 @@ export class Reference{
         this.name = name;
         this.details = details;
         this.exp = 5;
+        this.isTrashed = false;
     }
 }
 
-export class Reminder{
+export class Event{
     constructor(name, date = new Date().getTime(), note ='') {
         const d= new Date();
-        this.type = REMINDER;
+        this.type = EVENT;
         this.id = d.getTime();
         this.entryDate = d.getTime();
         this.name = name;
         this.note = note;
         this.date = date;
         this.exp = 5;
+        this.isTrashed = false;
     }
 }

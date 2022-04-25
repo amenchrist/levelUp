@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectItem, UpdateExp, selectTitle,ChangeNav } from '../actions';
-import { PROJECTS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, PROCESSED, TRASH, COMPLETED, REMINDERS, LIST } from '../constants';
+import { selectItem, UpdateExp, selectTitle,ChangeNav, CreateAlert } from '../actions';
+import { MISSIONS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, PROCESSED, TRASH, COMPLETED, EVENTS, LIST } from '../constants';
 import List from '../components/List';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
@@ -22,7 +22,8 @@ const mapStateToProps = state => {
         recordState: state.items.record.isFetching,
         db: state.items.record.items,
         record: state.items.record,
-        state: state.values
+        state: state.values,
+        alerts: state.items.alerts
     }
 }
 
@@ -39,20 +40,31 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeNav: (navObj => {
             return dispatch(ChangeNav(navObj))
-        })
+        }),
+        createAlert: (msg) => {
+            return dispatch(CreateAlert(msg))
+        }
     }
 }
 
 function Main(props) {
 
-    const { state, title, view, itemID, changeItemID, previousView, updateExp, exp, db, record, changeNav } = props;
+    const { state, title, view, itemID, changeItemID, previousView, updateExp, exp, db, record, changeNav, createAlert, alerts } = props;
     
+    //console.log(alerts[0])
+    //console.log(state.items)
+    //console.log(alerts.length)
+    //console.log("alerting")
+    if (alerts.length > 0 ){
+        //alert(alerts[0].message);
+        //alert("Somehting to Alert")
+    }
     let type;
     switch(previousView) {
         case TASKS:
             type = TASK;
         break;
-        case PROJECTS:
+        case MISSIONS:
             type = MISSION;
         break;
         default:
@@ -66,20 +78,28 @@ function Main(props) {
     console.log('Item ID: ', itemID)
     console.log('View: ', view)
 
+    
+
     if(record.isFetching){
         return <div className="f5 fw4 white">Loading...</div>;
     } else {
-
+        console.log(db)
         let content;
         switch(title) {
             case TASKS:
                 content = db.Tasks;
             break;
-            case PROJECTS:
-                content = db.Projects;
+            case MISSIONS:
+                content = db.Missions;
             break;
             case INBOX:
                 content = db.Inbox;
+            break;
+            case CALENDAR:
+                content = db.Tasks.concat(db.Events);
+            break;
+            case REFERENCES:
+                content = db.References;
             break;
             case TODAY:
                 content = db.Tasks;
@@ -87,26 +107,21 @@ function Main(props) {
             case DAILY:
                 content = db.Tasks;
             break;
-            case CALENDAR:
-                content = db.Tasks.concat(db.Reminders);
-            break;
             case COMPLETED:
                 content = db.Completed;
             break;
             case PROCESSED:
-                content = db.Processed;
-            break;
-            case REFERENCES:
-                content = db.References;
+                content = db.Inbox;
             break;
             case SOMEDAY:
                 content = db.Someday;
             break;
-            case REMINDERS:
-                content = db.Reminders;
+            case EVENTS:
+                content = db.Events;
             break;
             case TRASH:
-                content = db.Trash;
+                // content = db.Trash;
+                content = db.Inbox.concat(db.Tasks, db.Missions, db.Events, db.References)
             break;
             default:
                 content = []
@@ -124,7 +139,7 @@ function Main(props) {
                             <h5 className='fw3 white'>EXP: {exp}</h5>
                         </div>
                         <div className='h-90 pa1'>
-                            <Details selectAnother={changeItemID} />
+                            <Details content={content} db={db} selectAnother={changeItemID} />
                         </div>
                     </div>
                 )
@@ -160,7 +175,7 @@ function Main(props) {
                 )
             default:
                 return (
-                    <Home />
+                    <Home db={db} />
                 );
         }
       }

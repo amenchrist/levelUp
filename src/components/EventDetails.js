@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { UpdateExp, ChangeNav, ShipItems } from '../actions';
-import { ASAP, DETAILS, PROJECTS, REMINDERS, UPDATE } from '../constants';
-import { ammendList } from '../functions';
+import { EVENTS, UPDATE } from '../constants';
+import { amendList } from '../functions';
 import DatePicker from './DatePicker';
 
 
@@ -34,10 +34,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReminderDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(EventDetails);
 
 
-function ReminderDetails({ changeNav,  item, shipItems, db, exp }) {
+function EventDetails({ changeNav,  item, shipItems, db, exp }) {
 
     const [ name, setName ] = useState(item.name);
     const [ note, setnote ] = useState(item.note);
@@ -55,7 +55,7 @@ function ReminderDetails({ changeNav,  item, shipItems, db, exp }) {
             console.log(`old value (${obj[property]}) !== new value (${newVal})`)
 
             obj[property] = newVal;
-            ammendList(db, REMINDERS, item, UPDATE, shipItems, exp)
+            amendList(db, EVENTS, item, UPDATE, shipItems, exp)
           
         }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { UpdateExp, ChangeNav, ShipItems } from '../actions';
-import { DETAILS, INBOX_ITEM, PROJECT, REFERENCE, REMINDER, REMOVE, TASK, ADD, INBOX, TASKS, PROJECTS, REFERENCES, REMINDERS } from '../constants';
+import { DETAILS, INBOX_ITEM, MISSION, REFERENCE, EVENT, REMOVE, TASK, ADD, INBOX, TASKS, MISSIONS, REFERENCES, EVENTS, UPDATE } from '../constants';
 import { calculateTime, pushChanges } from '../functions';
 
 
@@ -46,30 +46,30 @@ function TrashedItemDetails({ changeNav, item, db, shipItems }) {
                 dbList = "Tasks";
                 title = TASKS;
             break;
-            case PROJECT:
-                list = db.Projects;
-                dbList = "Projects";
-                title = PROJECTS;
+            case MISSION:
+                list = db.Missions;
+                dbList = "Missions";
+                title = MISSIONS;
             break;
             case REFERENCE:
                 list = db.References;
                 dbList = "References";
                 title = REFERENCES;
             break;
-            case REMINDER:
-                list = db.Reminders;
-                dbList = "Reminders";
-                title = REMINDERS;
+            case EVENT:
+                list = db.Events;
+                dbList = "Events";
+                title = EVENTS;
             break;
             default:
         }
         item.isTrashed = false;
         item.trashedDate = 0;
-        const itemIndex = db.Trash.indexOf(item.id);
-        db.Trash.splice(itemIndex,1);
-        pushChanges(REMOVE, item, "Trash", shipItems);
-        list.unshift(item);
-        pushChanges(ADD, item, dbList, shipItems)
+        // const itemIndex = db.Trash.indexOf(item.id);
+        // db.Trash.splice(itemIndex,1);
+        // pushChanges(REMOVE, item, "Trash", shipItems);
+        //list.unshift(item);
+        pushChanges(UPDATE, item, dbList, shipItems)
         changeNavigation(item.id, title)
     }
 

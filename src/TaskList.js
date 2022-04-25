@@ -16,8 +16,8 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: new Date().toISOString().substr(0, 10), //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProject: {
-            name: 'Project',
+        associatedMission: {
+            name: 'Mission',
             id: 1589657001530
         },
         requirements: '£1 minimum',
@@ -38,8 +38,8 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: 1589657001523, //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProject: {
-            name: 'Project',
+        associatedMission: {
+            name: 'Mission',
             id: 1589657001530
         },
         requirements: '£1 minimum',
@@ -60,8 +60,8 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProject: {
-            name: 'Project',
+        associatedMission: {
+            name: 'Mission',
             id: 1589657001531
         },
         requirements: '£1 minimum',
@@ -82,8 +82,8 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProject: {
-            name: 'Project',
+        associatedMission: {
+            name: 'Mission',
             id: 1589657001532
         },
         requirements: '£1 minimum',
@@ -104,8 +104,8 @@ export const TaskList = [
         note: 'Brown bread preferably',
         dueDate: 1589657001526, //gmt timestamp
         timeRequired: 900, //In seconds
-        associatedProject: {
-            name: 'Project',
+        associatedMission: {
+            name: 'Mission',
             id: 1589657001533
         },
         requirements: '£1 minimum',

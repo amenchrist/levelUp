@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { UpdateExp, ChangeNav, ShipItems } from '../actions';
-import { ASAP, DETAILS, PROJECTS } from '../constants';
+import { ASAP, DETAILS, MISSIONS } from '../constants';
 import { calculateTime } from '../functions';
 
 
@@ -36,18 +36,18 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(CompletedItemDetails);
 
 
-function CompletedItemDetails({ ProjectList, changeNav,  item }) {
+function CompletedItemDetails({ MissionsList, changeNav,  item }) {
 
-    //GET THE ASSOCIATED PROJECT NAME
+    //GET THE ASSOCIATED Mission NAME
     console.log("reached completed stage");
-    let associatedProject = {}
-    if(item.associatedProjectID === 0){
-        associatedProject.name = "Getting Things Done";
-    } else if (item.associatedProjectID > 0){
-        for(let i=0; i<ProjectList.length; i++){
-            if(parseInt(item.associatedProjectID) === parseInt(ProjectList[i].id)){
-                associatedProject = ProjectList[i];
-                console.log('associated project name: ', associatedProject.name)
+    let associatedMission = {}
+    if(item.associatedMissionID === 0){
+        associatedMission.name = "Getting Things Done";
+    } else if (item.associatedMissionID > 0){
+        for(let i=0; i<MissionsList.length; i++){
+            if(parseInt(item.associatedMissionID) === parseInt(MissionsList[i].id)){
+                associatedMission = MissionsList[i];
+                console.log('associated Mission name: ', associatedMission.name)
                 break;
             }
         }
@@ -77,7 +77,7 @@ function CompletedItemDetails({ ProjectList, changeNav,  item }) {
                 <div className='w-100 pl2 pb3'>
                     <h5 className='fw3 white'>Mission: </h5>
                     <h4 className='fw5 white' onClick={() => {
-                        if(item.associatedProjectID != 0){changeNavigation(item.associatedProjectID, PROJECTS)}}}>{associatedProject.name}</h4>
+                        if(item.associatedMissionID != 0){changeNavigation(item.associatedMissionID, MISSIONS)}}}>{associatedMission.name}</h4>
                 </div>
 
                 <div className='w-100 pl2 pb3'>

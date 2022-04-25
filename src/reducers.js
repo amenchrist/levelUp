@@ -2,10 +2,10 @@ import { combineReducers } from 'redux';
 
 import { 
     SELECT_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, TASKS, INBOX, REFERENCES, TODAY,
-    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, PROJECTS, LIST, NEW_ITEM, NEW, CHANGE_NAV, MISSION_TASKS, REMINDERS
+    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, MISSIONS, LIST, NEW_ITEM, NEW, CHANGE_NAV, MISSION_TASKS, EVENTS
 } from "./constants"
 
-import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_ITEMS, DELIVER_ITEMS } from './actions';
+import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_ITEMS, DELIVER_ITEMS, CREATE_ALERT, CLOSE_ALERT } from './actions';
 
 const initialState = {
     title: HOME, 
@@ -31,13 +31,14 @@ const initialState = {
     },
     exp: 0,
     expTimestamp: 0,
-    db: { lastUpdated: 0}
+    db: { lastUpdated: 0},
+    alerts: []
 }
 
 // const selectTitleReducer = (state=initialState, action={}) => {
 //     switch(action.type){
 //         case SELECT_TITLE:
-//             let lists = [ PROJECTS, TASKS, INBOX, REFERENCES, DUE_TODAY]
+//             let lists = [ MISSIONS, TASKS, INBOX, REFERENCES, DUE_TODAY]
 //             let view = OVERVIEW;
 //             if (lists.indexOf(action.payload) !== -1) {
 //                 view = LIST;
@@ -52,7 +53,7 @@ const initialState = {
 const values = (state=initialState, action={}) => {
     switch(action.type){
         case SELECT_TITLE:
-            let lists = [ PROJECTS, TASKS, INBOX, REFERENCES, REMINDERS, TODAY ]
+            let lists = [ MISSIONS, TASKS, INBOX, REFERENCES, EVENTS, TODAY ]
             let view = OVERVIEW;
             let ID = 0;
             if (lists.indexOf(action.payload) !== -1) {
@@ -63,13 +64,13 @@ const values = (state=initialState, action={}) => {
             }
             return Object.assign({}, state, {title: action.payload, view: view, itemID:ID, previousTitle: state.title, previousState: state});
         case CHANGE_NAV:
-            if(action.payload.title === PROJECTS){state.missionID = action.payload.ID}
+            if(action.payload.title === MISSIONS){state.missionID = action.payload.ID}
             return Object.assign({}, state, {title: action.payload.title, view: action.payload.view, itemID:action.payload.ID, previousTitle: state.title, previousItemID: state.itemID, previousView: state.view, missionID : state.missionID, previousState: state});
         case SELECT_ITEM:
-            //action.payload.title === PROJECTS ? state.missionID = action.payload.ID : state.missionID = 0;
+            //action.payload.title === MISSIONS ? state.missionID = action.payload.ID : state.missionID = 0;
             return Object.assign({}, state, {itemID: action.payload, previousItemID: state.itemID, previousState: state});
         case SELECT_VIEW:
-            //action.payload.title === PROJECTS ? state.missionID = action.payload.ID : state.missionID = 0;
+            //action.payload.title === MISSIONS ? state.missionID = action.payload.ID : state.missionID = 0;
             return Object.assign({}, state, {view: action.payload, previousView: state.view, previousState: state});
         default:
             return state;
@@ -102,7 +103,7 @@ const UpdateExpReducer = (state=initialState, action={}) => {
             } else {
                 newXP = parseInt(action.payload);
                 newTimestamp = parseInt(action.expTimestamp);
-                console.log("new xp = ", newXP)
+                //console.log("new xp = ", newXP)
             }
             return Object.assign({}, state, {exp: (state.exp + newXP), expTimestamp: newTimestamp});
         default:
@@ -190,8 +191,31 @@ function items(
             latestUpdate: {
                 items: action.payload,
                 isShipping: false,
-                deliveredAt: action.deliveredAt
+                deliveredAt: action.deliveredAt,
+                updateAcknowledged: false
             },
+        })
+    case CREATE_ALERT:
+        let alertArray = state.alerts
+        alertArray.unshift(action.payload)
+
+        // payload: {
+        //     timeStamp: Date.now(),
+        //     message: msg,
+        //   }
+
+        return Object.assign({}, state, {
+            alerts: alertArray
+        })
+    case CLOSE_ALERT:
+        alertArray = state.alerts
+        //alertArray.indexOf(action.payload)
+        function notAlerted(element){
+            return element !== action.payload
+        }
+        
+        return Object.assign({}, state, {
+            alerts: alertArray.filter(notAlerted)
         })
     default:
       return state

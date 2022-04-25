@@ -42,7 +42,7 @@ function NewReference({ updateExp, shipItems, changeNav, db }) {
         
         let r = new Reference(name, details );
         console.log(r);
-        References.unshift(r);
+        //References.unshift(r);
         pushChanges(ADD, r, "References", shipItems);
         updateExp(5);
         event.preventDefault();

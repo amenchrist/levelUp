@@ -1,7 +1,7 @@
 /// For all the extra functions required in multiple places
 
 import { ShipItems } from "./actions";
-import { ADD, ASAP, COMPLETED, INBOX, PROCESSED, PROJECTS, REFERENCES, REMINDERS, REMOVE, SOMEDAY, TASKS, TRASH, UPDATE } from "./constants";
+import { ADD, ASAP, COMPLETED, INBOX, PROCESSED, MISSIONS, REFERENCES, EVENTS, REMOVE, SOMEDAY, TASKS, TRASH, UPDATE } from "./constants";
 
 
 
@@ -117,25 +117,40 @@ export function displayDays(dueDate){
     }
 }
 
-export function pushChanges(action, item, list, shippingFunction, exp){
+export function pushChanges(action, item, list, shippingFunction, exp = 10){
+
+    let successMessage = '';
+    switch(action){
+        case ADD:
+            successMessage = `New ${list} added`;
+        break;
+        case REMOVE:
+            successMessage = `A ${list} was deleted`;
+        break;
+        case UPDATE:
+            successMessage = `A ${list} was updated`;
+        break;
+        default:      
+    }
     let state = {
         action: action,
         list: list,
         item: item,
         pushDate: (new Date()).getTime(),
-        exp: exp
+        exp,
+        successMessage
     }
     shippingFunction(state);
 }
 
 
-export function ammendList(db, list, item, action, shippingFunction, expObj){
-    // lists = [ PROJECTS, TASKS, INBOX, REFERENCES, REMINDERS, SOMEDAY, COMPLETED, PROCESSED, TRASH ]
+export function amendList(db, list, item, action, shippingFunction, expObj){
+    // lists = [ MISSIONS, TASKS, INBOX, REFERENCES, EVENTS, SOMEDAY, COMPLETED, PROCESSED, TRASH ]
     
     let dbList;
     switch (list) {
-        case PROJECTS:
-            dbList = "Projects"
+        case MISSIONS:
+            dbList = "Missions"
         break;
         case INBOX:
             dbList = "Inbox"
@@ -143,8 +158,8 @@ export function ammendList(db, list, item, action, shippingFunction, expObj){
         case REFERENCES:
             dbList = "References"
         break;
-        case REMINDERS:
-            dbList = "Reminders"
+        case EVENTS:
+            dbList = "Events"
         break;
         case TASKS:
             dbList = "Tasks"
@@ -189,9 +204,9 @@ export function ammendList(db, list, item, action, shippingFunction, expObj){
 
 function changeNavigation(id, navChanger){
     let nav;
-    if(title === PROJECTS) {
+    if(title === MISSIONS) {
         nav = {
-            title: PROJECTS,
+            title: MISSIONS,
             view: "DETAILS",
             ID: itemID
         }

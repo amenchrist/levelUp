@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { PENDING, LOW, MEDIUM, HIGH, MISSION, PROJECT, ADD, PROJECTS, DETAILS } from '../constants';
+import { PENDING, LOW, MEDIUM, HIGH, MISSION, ADD, MISSIONS, DETAILS } from '../constants';
 import { selectView, selectItem, ChangeNav, ShipItems } from '../actions';
-import { Project as Mission } from '../classes';
+import { Mission } from '../classes';
 import { pushChanges, convertDateToMilliseconds  } from '../functions';
 
 const mapStateToProps = state => {
@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function NewMission({ updateExp, shipItems, changeNav, db }) {
 
-    const ProjectList = db.Projects;
+    const MissionsList = db.Missions;
 
     let today = new Date().toISOString().substr(0, 10);
 
@@ -43,15 +43,16 @@ function NewMission({ updateExp, shipItems, changeNav, db }) {
 
     function submitNewItem(event) {
         
-        let m = new Mission(outcome, purpose, description, convertDateToMilliseconds(dueDate), requirements, priority);
+        let m = new Mission(outcome.trim(), purpose, description, convertDateToMilliseconds(dueDate), requirements, priority);
         console.log(m);
-        ProjectList.unshift(m);
-        pushChanges(ADD, m, "Projects", shipItems);
+        MissionsList.unshift(m);
+        pushChanges(ADD, m, "Missions", shipItems);
         updateExp(5);
         event.preventDefault();
+        //console.log(m)
 
         const nav = {
-            title: PROJECTS,
+            title: MISSIONS,
             view: DETAILS,
             ID: m.id
         }
@@ -80,7 +81,7 @@ function NewMission({ updateExp, shipItems, changeNav, db }) {
                 </select>
                 <textarea className='pa2 mb1' placeholder='Requirements' value={requirements} onChange={(e) => setRequirements(e.target.value)} />
                 {/* <input type='text' placeholder='Frequency' value={frequency} onChange={(e) => setFrequency(e.target.value)} />
-                <input type='text' placeholder='Associated project name' value={associatedProject} onChange={(e) => setAssociatedProject(e.target.value)} /> */}
+                <input type='text' placeholder='Associated MISSION name' value={associatedMISSION} onChange={(e) => setAssociatedMISSION(e.target.value)} /> */}
                 <input className='pa2 mb1'type='submit' value='submit' />
             </form>
         </div>

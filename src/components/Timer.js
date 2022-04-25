@@ -32,7 +32,7 @@ function Timer({ timeSpent, task, activeTask, activeSince, timeNow }){
         const dateNow = (new Date()).getTime();
         timeSpent = timeSpent + (dateNow - activeSince);
     }
-    console.log('time spent = '+timeSpent)
+    //console.log('time spent = '+timeSpent)
 
     let s = timeSpent;
     let ms = s % 1000;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, ShipItems } from '../actions';
 import { REFERENCES, UPDATE } from '../constants';
-import { ammendList  } from '../functions';
+import { amendList  } from '../functions';
 
 const mapStateToProps = state => {
     return {
@@ -68,7 +68,7 @@ function ReferenceDetails({ id , changeItemID, updateExp, db, shipItems, referen
             console.log(`old value (${obj[property]}) !== new value (${newVal})`)
 
             obj[property] = newVal;
-            ammendList(db, REFERENCES, reference, UPDATE, shipItems, exp)
+            amendList(db, REFERENCES, reference, UPDATE, shipItems, exp)
           
         }
 

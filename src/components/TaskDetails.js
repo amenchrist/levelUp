@@ -4,8 +4,8 @@ import { selectView, selectItem, UpdateExp, UpdateTaskStatus, ShipItems,ChangeNa
 import DatePicker from './DatePicker';
 import Timer from './Timer';
 import TaskControls from './TaskControls';
-import { ammendList  } from '../functions';
-import { COMPLETED, DETAILS, PROJECTS, SOMEDAY, TASKS, UPDATE } from '../constants';
+import { amendList  } from '../functions';
+import { COMPLETED, DETAILS, MISSIONS, SOMEDAY, TASKS, UPDATE } from '../constants';
 
 const mapStateToProps = state => {
     return {
@@ -49,7 +49,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(TaskDetails);
 
 function TaskDetails({ id , title, updateExp, activeSince, activeTask, db, shipItems, changeNav, exp }) {
 
-    const ProjectList = db.Projects;
+    const MissionsList = db.Missions;
     const tasks = db.Tasks;
     let task = {};
     let position, relevantList;
@@ -65,14 +65,14 @@ function TaskDetails({ id , title, updateExp, activeSince, activeTask, db, shipI
         }
     }
 
-    let associatedProject = {};
-    if(task.associatedProjectID === 0){
-        associatedProject.name = "Getting Things Done";
-    } else if (task.associatedProjectID > 0){
-        for(let i=0; i<ProjectList.length; i++){
-            if(parseInt(task.associatedProjectID) === parseInt(ProjectList[i].id)){
-                associatedProject = ProjectList[i];
-                //console.log('associated project name: ', associatedProject.name)
+    let associatedMission = {};
+    if(task.associatedMissionID === 0){
+        associatedMission.name = "Getting Things Done";
+    } else if (task.associatedMissionID > 0){
+        for(let i=0; i<MissionsList.length; i++){
+            if(parseInt(task.associatedMissionID) === parseInt(MissionsList[i].id)){
+                associatedMission = MissionsList[i];
+                //console.log('associated project name: ', associatedMission.name)
                 break;
             }
         }
@@ -105,7 +105,7 @@ function TaskDetails({ id , title, updateExp, activeSince, activeTask, db, shipI
             console.log(`old value (${obj[property]}) !== new value (${newVal})`)
 
             obj[property] = newVal;
-            ammendList(db, TASKS, task, UPDATE, shipItems, exp)
+            amendList(db, TASKS, task, UPDATE, shipItems, exp)
           
         }
     
@@ -148,7 +148,7 @@ function TaskDetails({ id , title, updateExp, activeSince, activeTask, db, shipI
                         <div className='w-100 pl2 pb3'>
                             <h5 className='fw3 white'>Mission: </h5>
                             <h4 className='fw5 white' onClick={() => {
-                                if(task.associatedProjectID != 0){changeNavigation(task.associatedProjectID, PROJECTS)}}} >{associatedProject.name}</h4>
+                                if(task.associatedMissionID != 0){changeNavigation(task.associatedMissionID, MISSIONS)}}} >{associatedMission.name}</h4>
                         </div>
         
                         <div className='w-100 pl2 pb3'>

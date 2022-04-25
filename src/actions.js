@@ -1,5 +1,5 @@
 import { 
-    SELECT_VIEW, SELECT_PROJECT, SELECT_TASK, SELECT_TITLE, SELECT_ITEM, 
+    SELECT_VIEW, SELECT_MISSION, SELECT_TASK, SELECT_TITLE, SELECT_ITEM, 
     UPDATE_EXP, RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, 
     SET_ACTIVE_TASK, RETRIEVE_DB, REFRESH_DB, CHANGE_NAV
   } from './constants';
@@ -28,10 +28,10 @@ export const selectView = (view) => {
   payload: view
 }};
 
-export const selectProject = (projectID) => {
+export const selectMission = (missionID) => {
     return {
-    type: SELECT_PROJECT,
-    payload: projectID
+    type: SELECT_MISSION,
+    payload: missionID
 }};
 
 export const selectTask = (taskID) => {
@@ -135,6 +135,7 @@ export function FetchItems(record) {
       .then(json => { console.log(json); dispatch(ReceiveItems(record, json))})
       .catch((error) => {
         console.log("Error: ", error);
+        //Repeat fetch every 5 seconds until successful
         setTimeout(dispatch(FetchItems(record)), 5000);
       })
   }
@@ -183,6 +184,7 @@ export function PackItems(items) {
 export const DELIVER_ITEMS = 'DELIVER_ITEMS';
 
 export function DeliverItems(agent, json) { // record/agent/destination
+  
   return {
     type: DELIVER_ITEMS,
     agent,
@@ -191,6 +193,30 @@ export function DeliverItems(agent, json) { // record/agent/destination
   }
 }
 
+export const CREATE_ALERT = "CREATE_ALERT"
+
+export function CreateAlert(msg) {
+  return {
+    type: CREATE_ALERT,
+    payload: {
+      timeStamp: Date.now(),
+      message: msg,
+    }
+  }
+}
+
+export const CLOSE_ALERT = "CLOSE_ALERT"
+
+export function CloseAlert(msg, timeStamp) {
+  return {
+    type: CLOSE_ALERT,
+    payload: {
+      timeStamp,
+      msg,
+    },
+    closedAt: Date.now()
+  }
+}
 // const testItem = {
 //   content: "this is a test item fom the front end"
 // }
@@ -202,7 +228,7 @@ export function ShipItems(items, agent, record) {
   return dispatch => {
     dispatch(PackItems(items))
     console.log("packed items: ", items)
-    return fetch(`${serverLink}${agent1}`, { 
+    return fetch(`${serverLink}${agent1}`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -211,9 +237,14 @@ export function ShipItems(items, agent, record) {
       body: JSON.stringify(items)
     })
       .then(response => response.json())
-      .then(json => {dispatch(DeliverItems(agent, json)); dispatch(UpdateExp(json.exp));})
+      .then(json => {
+        dispatch(DeliverItems(agent, json));
+        dispatch(CreateAlert(items.successMessage)) 
+        dispatch(UpdateExp(json.exp));
+      })
       .catch((error) => {
         console.log("Error: ", error);
+        //Repeat the update every 5 seconds till it succeeds
         setTimeout(ShipItems(items, agent), 5000);
       })
   }

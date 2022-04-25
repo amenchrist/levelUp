@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { REFERENCE, COMPLETED, PROCESSED, INBOX, TRASH, REFERENCES, PROJECTS, TASKS, CALENDAR, SOMEDAY, WAITING_FOR, REMINDERS, TODAY, ASAP, MISSION_TASKS, TASK, PROJECT, REMINDER } from '../constants';
+import { REFERENCE, COMPLETED, PROCESSED, INBOX, TRASH, REFERENCES, MISSIONS, TASKS, CALENDAR, SOMEDAY, WAITING_FOR, EVENTS, TODAY, ASAP, MISSION_TASKS, TASK, MISSION, EVENT } from '../constants';
 import NewItemButton from '../components/NewItemButton';
 import ItemDetails from '../components/ItemDetails';
 import TaskDetails from '../components/TaskDetails';
-import ProjectDetails from '../components/ProjectDetails';
+import MissionDetails from '../components/MissionDetails';
 import BackButton from '../components/BackButton';
 import PrevItemButton from '../components/PrevItemButton';
 import NextItemButton from '../components/NextItemButton';
@@ -13,7 +13,7 @@ import { selectItem } from '../actions';
 import TrashButton from '../components/TrashButton';
 import CompletedItemDetails from '../components/CompletedItemDetails';
 import TrashedItemDetails from '../components/TrashedItemDetails';
-import ReminderDetails from '../components/ReminderDetails';
+import EventDetails from '../components/EventDetails';
 
 
 const mapStateToProps = state => {
@@ -25,7 +25,6 @@ const mapStateToProps = state => {
         missionID: state.values.missionID,
         previousItemID: state.values.previousItemID,
         previousTitle: state.values.previousTitle,
-        db: state.items.record.items 
     }
 }
 
@@ -38,79 +37,32 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, changeItemID, previousItemID, previousTitle, missionID  }){
+function Details( { content, db, itemID, touchFunction, updateExp, selectAnother, title, changeItemID, previousItemID, previousTitle, missionID  }){
     
-    let content;
-
-    // DETERMINE CONTENT LIST
-    switch(title) {
-        case INBOX:
-            content = db.Inbox
-        break;
-        case PROJECTS:
-            content = db.Projects
-        break;
-        case TASKS:
-            content = db.Tasks
-        break;
-        case COMPLETED:
-            content = db.Completed
-        break;
-        case REFERENCES:
-            content = db.References
-        break;
-        case CALENDAR:
-            content = db.Tasks.concat(db.Projects)
-        break;
-        case ASAP:
-            content = db.Tasks
-        break;
-        case TODAY:
-            content = db.Tasks
-        break;
-        case WAITING_FOR:
-            content = db.WaitingFor
-        break;
-        case SOMEDAY:
-            content = db.Someday;
-        break;
-        case REMINDERS:
-            content = db.Reminders;
-        break;
-        case PROCESSED:
-            content = db.Processed;
-        break;
-        case TRASH:
-            content = db.Trash;
-        break;
-        default:
-            content = []
-    }
-
     //SPECIAL CONDITION FOR MISSION'S LIST
     if(title === MISSION_TASKS) {
 
-        content = getTasks(getproject(parseInt(missionID)), db.Tasks);
+        content = getTasks(getMission(parseInt(missionID)), db.Tasks);
 
-        function getproject(projID){
+        function getMission(projID){
             console.log("proj id: ", projID)
             let proj = {};
-            for (let x=0; x < db.Projects.length; x++){
-                if (db.Projects[x].id === projID){
-                    proj = db.Projects[x];
+            for (let x=0; x < db.Missions.length; x++){
+                if (db.Missions[x].id === projID){
+                    proj = db.Missions[x];
                 }
             }
             console.log("proj = ", proj)
             return proj;
             
         }
-        function getTasks(project, TaskList){
-            console.log("proj tasks: ", project.taskList)
+        function getTasks(mission, TaskList){
+            console.log("proj tasks: ", mission.taskList)
             let tasks = [];
-            if(project.taskList !== []){
-                for(let i=0; i<project.taskList.length; i++){
+            if(mission.taskList !== []){
+                for(let i=0; i<mission.taskList.length; i++){
                     for(let j=0; j<TaskList.length; j++){
-                        if(project.taskList[i] === TaskList[j].id ){
+                        if(mission.taskList[i] === TaskList[j].id ){
                             tasks.push(TaskList[j]);
                             break;
                         }
@@ -122,7 +74,7 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
         }
     }
 
-    console.log("content list from details: ", content)
+    //console.log("content list from details: ", content)
 
     // FIND ITEM
     let item = {};
@@ -145,15 +97,15 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
 
     // CHOOSE DETAILS FORMAT FOR DIFFERENT LIST OR ITEM TYPES
     switch(title) {
-        case PROJECTS:
+        case MISSIONS:
             return (
                 <div className='w-100 h-100 center br1 pa2 ba b--black-10'>
                     <div className='flex justify-between items-center'>
                         <BackButton id={0} />
                         <TrashButton />
                     </div>
-                    <h2 className='tc b gold f3'>PROJECT</h2>
-                    <ProjectDetails project={item} touchFunction={touchFunction} updateExp={updateExp}/>
+                    <h2 className='tc b gold f3'>MISSION</h2>
+                    <MissionDetails mission={item} touchFunction={touchFunction} updateExp={updateExp}/>
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={changeItemID} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={changeItemID} nextID={next} currentID={itemID} />
@@ -234,15 +186,15 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                     </div>
                 </div>
             )
-        case REMINDERS:
+        case EVENTS:
             return (
                 <div className='h-100 w-100 center br1 ba b--black-10'>
                     <div className='flex justify-between items-center'>
                         <BackButton id={0} />
                         <TrashButton />
                     </div>
-                    <h1 className='tc b gold'>REMINDER</h1>
-                    <ReminderDetails id={parseInt(itemID)} item={item} />
+                    <h1 className='tc b gold'>EVENT</h1>
+                    <EventDetails id={parseInt(itemID)} item={item} />
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
@@ -266,16 +218,16 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                         </div>
                     </div>
                 )
-            } else if (item.type === PROJECT) {
-                console.log("someday item is this project = ", item)
+            } else if (item.type === MISSION) {
+                console.log("someday item is this mission = ", item)
                 return (
                     <div className='w-100 h-100 center br1 pa2 ba b--black-10'>
                         <div className='flex justify-between items-center'>
                             <BackButton id={0} />
                             <TrashButton />
                         </div>
-                        <h2 className='tc b gold f3'>PROJECT</h2>
-                        <ProjectDetails project={item} touchFunction={touchFunction} updateExp={updateExp}/>
+                        <h2 className='tc b gold f3'>MISSION</h2>
+                        <MissionDetails mission={item} touchFunction={touchFunction} updateExp={updateExp}/>
                         <div className='flex justify-between self-end'>
                             <PrevItemButton selectAnother={changeItemID} prevID={prev} currentID={itemID} />
                             <NextItemButton selectAnother={changeItemID} nextID={next} currentID={itemID} />
@@ -292,7 +244,7 @@ function Details( { db, itemID, touchFunction, updateExp, selectAnother, title, 
                         <TrashButton />
                     </div>
                     <h2 className='tc b gold f3'>COMPLETED</h2>
-                    <CompletedItemDetails item={item} ProjectList={db.Projects}/>
+                    <CompletedItemDetails item={item} MissionsList={db.missions}/>
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />

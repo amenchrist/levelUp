@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import StatsOverview from '../components/StatsOverview';
 import TaskOverview from '../components/TasksOverview';
-import ProjectsOverview from '../components/ProjectsOverview';
+import MissionsOverview from '../components/MissionsOverview';
 import InboxOverview from '../components/InboxOverview';
 import { ChangeNav } from '../actions';
 import {  CALENDAR, DAILY, LIST, REFERENCES, SOMEDAY, STATS } from '../constants';
@@ -18,7 +18,6 @@ const mapStateToProps = state => {
         // title: state.values.title,
         itemID: state.values.itemID,
         exp: state.UpdateExpReducer.exp,
-        db: state.items.record.items,
         state: state.values
     }
 }
@@ -46,7 +45,7 @@ function Home(props) {
             </div>
             <div className="flex justify-center h-20 ">
                 <div className='w-50 pa1'>
-                    <ProjectsOverview touchFunction={handleEvent} projects={db.Projects} />
+                    <MissionsOverview touchFunction={handleEvent} missions={db.Missions} />
                 </div>
                 <div className='w-50 pa1'>
                     <TaskOverview touchFunction={handleEvent} tasks={db.Tasks}/>

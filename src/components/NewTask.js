@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { PENDING, LOW, TASK, MEDIUM, HIGH, PROJECTS } from '../constants';
-import { selectView, selectItem, ShipItems, ChangeNav } from '../actions';
-import { Task, Project } from '../classes';
+import { PENDING, LOW, TASK, MEDIUM, HIGH, MISSIONS, ADD } from '../constants';
+import { selectView, selectItem, ShipItems, ChangeNav, } from '../actions';
+import { Task } from '../classes';
+import { pushChanges } from '../functions';
 
 
 const mapStateToProps = state => {
@@ -46,53 +47,16 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
     const [ priority, setPriority ] = useState('');
     const [ frequency, setFrequency ] = useState(0);
     const [ requirements, setRequirements ] = useState('');
-    const [ associatedProjectID, setAssociatedProjectID ] = useState(itemID);
-
-    // class Task{
-    //     constructor() {
-    //         const d= new Date();
-
-    //         setFrequency(0);
-    //         setAssociatedProject({});
-
-    //         this.type = TASK;
-    //         this.id = d.getTime();
-    //         this.entryDate = d.getTime();
-    //         this.status = PENDING;
-    //         this.priority = priority;
-    //         this.frequency = frequency;
-    //         this.timeSpent = 0;
-    //         this.outcomeRecordID = 0;
-    //         this.name = name;
-    //         this.outcome = outcome;
-    //         this.requiredContext = requiredContext;
-    //         this.note = note;
-    //         this.dueDate = dueDate;
-    //         this.timeRequired = 0;
-    //         this.requirements = requirements;
-    //         this.associatedProject = associatedProject;
-    //         this.exp = 10;
-    //     }
-    // }
-
-    function pushChanges(action, item, list){
-        let state = {
-            action: action,
-            list: list,
-            item: item,
-            pushDate: (new Date()).getTime()
-        }
-        shipItems(state);
-    }
+    const [ associatedMissionID, setAssociatedMissionID ] = useState(itemID);
 
     function submitNewItem(event) {
-        let t = new Task(name, outcome, requiredContext, associatedProjectID, dueDate);
+        let t = new Task(name, outcome, requiredContext, associatedMissionID, dueDate);
         console.log(t);
         updateExp(5);
         TaskList.unshift(t);
-        pushChanges("ADD", t, "Tasks");
-        if(title === PROJECTS){
-           addToProjectTasks(t, associatedProjectID);
+        pushChanges(ADD, t, "Tasks", shipItems);
+        if(title === MISSIONS){
+           addToMissionTasks(t, associatedMissionID);
         }
         //changeItemID(t.id);
         changeNavigation(t.id)
@@ -101,9 +65,9 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
 
     function changeNavigation(id){
         let nav;
-        if(title === PROJECTS) {
+        if(title === MISSIONS) {
             nav = {
-                title: PROJECTS,
+                title: MISSIONS,
                 view: "DETAILS",
                 ID: itemID
             }
@@ -117,9 +81,9 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
         changeNav(nav);
     }
 
-    function addToProjectTasks(task, projID){
+    function addToMissionTasks(task, projID){
         let id = parseInt(projID);
-        let content = db.Projects;
+        let content = db.Missions;
         let proj;
         for (let i=0; i<content.length; i++){
             console.log(content[i].id)
@@ -127,9 +91,9 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
                 console.log(content[i].id)
 
                 proj = content[i];
-                proj.taskList.unshift(task.id);
+                //proj.taskList.unshift(task.id);
 
-                pushChanges("UPDATE", proj, "Projects");
+                pushChanges("UPDATE", proj, "Missions", shipItems);
             }
         }
 
@@ -155,7 +119,7 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
                 <textarea className='pa2 mb1' placeholder='Requirements' value={requirements} onChange={(e) => setRequirements(e.target.value)} />
                 <input className='pa2 mb1' type='text' placeholder='Assigned Agent' value={agent} onChange={(e)=> setAgent(e.target.value)} />
                 {/* <input type='text' placeholder='Frequency' value={frequency} onChange={(e) => setFrequency(e.target.value)} />
-                <input type='text' placeholder='Associated project name' value={associatedProject} onChange={(e) => setAssociatedProject(e.target.value)} /> */}
+                <input type='text' placeholder='Associated Mission name' value={associatedMission} onChange={(e) => setAssociatedMission(e.target.value)} /> */}
                 <input className='pa2 mb1' type='submit' value='submit' />
             </form>
         </div>

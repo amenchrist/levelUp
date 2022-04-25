@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { selectItem, ChangeNav } from '../actions';
 import ListItem from './ListItem';
 import Scroll from './Scroll';
-import { TASK, TASKS, PROJECTS, PROJECT, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES, COMPLETED, INBOX, ASAP, CALENDAR } from '../constants';
+import { TASK, TASKS, MISSIONS, MISSION, INBOX_ITEM, TODAY, DAILY, DONE, REFERENCE, REFERENCES, COMPLETED, INBOX, ASAP, CALENDAR, TRASH, EVENT, PROCESSED } from '../constants';
 import { setNavValues  } from '../functions';
 
 const mapStateToProps = state => {
@@ -26,15 +26,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-
-
-/////////////////////////////////////////////////
-
-
 function List({ content, changeItemID, title, state, changeNav }) {
 
-    //console.log("first contetn: ", content)
-    function handleEvent(e ) {
+    //console.log("first content: ", content)
+    function handleEvent(e) {
         setNavValues(e, changeNav, state);
     }
 
@@ -42,23 +37,35 @@ function List({ content, changeItemID, title, state, changeNav }) {
     
 
     
-    // Project, Task, Inbox and Reference Lists 
+    // Mission, Task, Inbox, Event and Reference Lists 
     let type = '';
     let status;
     let filteredContent = []
     switch(title){
+        case INBOX:
+            filteredContent = content.filter((entry) => (entry.type === INBOX_ITEM && entry.isTrashed === false) && entry.status !== PROCESSED );
+        break;
         case TASKS:
             type = TASK;
-            filteredContent = content
+            filteredContent = content.filter((entry) => (entry.isTrashed === false));
         break;
-        case PROJECTS:
-            //type = PROJECT;
-            filteredContent = content;
-            //filteredContent = content.filter((entry) => (entry.type === type));
-            // A Mission's Tasklist
-            // missionTasks = content.map((entry,i ) => {
-            //     return <ListItem item={content[i]} touchFunction={handleEvent} key={content[i].id}/>
-            // })
+        case MISSIONS:
+            filteredContent = content.filter((entry) => (entry.isTrashed === false));
+        break;
+        case CALENDAR:
+            filteredContent = content.filter((entry) => (entry.dueDate !== ASAP && entry.isTrashed === false) && entry.type === EVENT);
+        break;
+        case REFERENCES:
+            filteredContent = content.filter((entry) => (entry.type === REFERENCE && entry.isTrashed === false));
+        break;
+        case COMPLETED:
+            filteredContent = content.filter((entry) => (entry.status === DONE && entry.isTrashed === false));
+        break;
+        case TRASH:
+            filteredContent = content.filter((entry) => (entry.isTrashed === true));
+        break;
+        case PROCESSED:
+            filteredContent = content.filter((entry) => (entry.status === PROCESSED));
         break;
         case TODAY:
             type = TASK;
@@ -81,28 +88,9 @@ function List({ content, changeItemID, title, state, changeNav }) {
                 return <ListItem item={dailyEx[i]} touchFunction={handleEvent} key={content[i].id}/>
             })
         break;
-        case REFERENCES:
-            type = REFERENCE;
-            filteredContent = content.filter((entry) => (entry.type === type));
-        break;
-        case COMPLETED:
-            status = DONE;
-            filteredContent = content.filter((entry) => (entry.status === status));
-        break;
-        case INBOX:
-            type = INBOX_ITEM;
-            filteredContent = content.filter((entry) => (entry.type === type));
-        break;
-        case CALENDAR:
-            filteredContent = content.filter((entry) => (entry.dueDate !== ASAP));
-        break;
         default:
-            filteredContent = content;
+            filteredContent = content.filter((entry) => (entry.isTrashed === false));
     }
-
-    //console.log("filtered COntent: ", filteredContent);
-    //console.log("COntent: ", content);
-     
 
     const ListItems = filteredContent.map((entry,i) => {
         return <ListItem item={filteredContent[i]} touchFunction={handleEvent} key={content[i].id}/>
@@ -122,7 +110,7 @@ function List({ content, changeItemID, title, state, changeNav }) {
                     {dailyTasks}
                 </Scroll>
             )
-        // case PROJECTS:
+        // case MISSIONS:
         //     return (
         //         <Scroll>
         //             {missionTasks}

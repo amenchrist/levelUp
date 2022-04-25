@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import List from './List';
-import { MISSION, PROJECTS } from '../constants';
+import { MISSION, MISSIONS } from '../constants';
 import { connect } from 'react-redux';
 import { selectView, selectItem, UpdateExp, RestorePreviousState, ShipItems } from '../actions';
-import { displayDays, ammendList  } from '../functions';
+import { displayDays, amendList  } from '../functions';
 import { UPDATE } from '../constants';
 import DatePicker from './DatePicker';
 import NewItemButton from './NewItemButton';
@@ -39,9 +39,9 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(MissionDetails);
 
-function ProjectDetails({ project, view, changeItemID, db, shipItems, exp }) {
+function MissionDetails({ mission, view, changeItemID, db, shipItems, exp }) {
 
     const TaskList = db.Tasks.concat(db.Completed);
 
@@ -63,37 +63,38 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems, exp }) {
     
     function getTasks(){
         let tasks = [];
-        if(project.taskList !== []){
-            for(let i=0; i<project.taskList.length; i++){
+        console.log("from get tasks ", mission)
+        if(mission.taskList !== []){
+            for(let i=0; i<mission.taskList.length; i++){
                 for(let j=0; j<TaskList.length; j++){
-                    if(project.taskList[i] === TaskList[j].id ){
+                    if(mission.taskList[i] === TaskList[j].id ){
                         tasks.push(TaskList[j]);
                         break;
                     }
                 }
             }
         }
-        console.log(tasks);
+        //console.log(tasks);
         return tasks;
     }
 
-    const projectTasks = getTasks();
+    const missionTasks = getTasks();
 
-    const [ name, setName ] = useState(project.name);
-    const [ purpose, setPurpose ] = useState(project.purpose);
-    const [ description, setDescription ] = useState(project.description);
-    const [ dueDate, setdueDate ] = useState(project.dueDate);
-    const [ timeRequired, setTimeRequired ] = useState(project.timeRequired);
+    const [ name, setName ] = useState(mission.name);
+    const [ purpose, setPurpose ] = useState(mission.purpose);
+    const [ description, setDescription ] = useState(mission.description);
+    const [ dueDate, setdueDate ] = useState(mission.dueDate);
+    const [ timeRequired, setTimeRequired ] = useState(mission.timeRequired);
     const [ lastUpdated, setlastUpdated ] = useState(db.lastUpdated);
 
     useEffect(() => {
-        setName(project.name);
-        setTimeRequired(project.timeRequired);
-        setPurpose(project.purpose);
-        setDescription(project.description);
-        setdueDate(project.dueDate);
+        setName(mission.name);
+        setTimeRequired(mission.timeRequired);
+        setPurpose(mission.purpose);
+        setDescription(mission.description);
+        setdueDate(mission.dueDate);
         console.log("Last Updated: ", db.lastUpdated)
-    }, [project.name, project.timeRequired, project.purpose, project.dueDate, project.description, db.lastUpdated ])
+    }, [mission.name, mission.timeRequired, mission.purpose, mission.dueDate, mission.description, db.lastUpdated ])
 
     function updateDB( obj, property, newVal) {
 
@@ -102,14 +103,14 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems, exp }) {
             console.log(`old value (${obj[property]}) !== new value (${newVal})`)
 
             obj[property] = newVal;
-            ammendList(db, PROJECTS, project, UPDATE, shipItems, exp)
+            amendList(db, MISSIONS, mission, UPDATE, shipItems, exp)
           
         }
 
     }
 
     function saveDate(date){
-        updateDB( project, "dueDate", date )
+        updateDB( mission, "dueDate", date )
     }
 
     return (
@@ -120,10 +121,10 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems, exp }) {
                 className='bn fw7 b white bg-transparent'
                 value={name} 
                 onChange={(e)=> {setName(e.target.value);} } 
-                onBlur={() => {updateDB(project, "name", name )} }  
+                onBlur={() => {updateDB(mission, "name", name )} }  
                 />
 
-                <h4 className='fw1 white'>{displayDays(project.dueDate)}</h4>
+                <h4 className='fw1 white'>{displayDays(mission.dueDate)}</h4>
             </div>
 
             <div className='w-100 h-20 pl2 pt3'>
@@ -133,29 +134,29 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems, exp }) {
                     className='w-80 fw3 white bn bg-transparent' 
                     value={description} 
                     onChange={(e)=> {setDescription(e.target.value);} } 
-                    onBlur={() =>{ updateDB(project, "description", description ) }} 
+                    onBlur={() =>{ updateDB(mission, "description", description ) }} 
                     />
                 </div>
             </div>
             <div className='w-100 h-10 pl2 pb2'>
                 <h5 className='fw3 white'>Purpose: </h5>
-                {/* <h5 className='fw3 white'>{project.purpose} </h5> */}
+                {/* <h5 className='fw3 white'>{mission.purpose} </h5> */}
 
                 <input type='text' 
                 className='bn fw3 b white bg-transparent' 
                 value={purpose} 
                 onChange={(e)=> {setPurpose(e.target.value);} } 
-                onBlur={() => {updateDB(project, "purpose", purpose )} } 
+                onBlur={() => {updateDB(mission, "purpose", purpose )} } 
                 />
 
             </div>
             <div className='w-100 h-10 pl2 pb2 flex justify-between'>
-                {/* <h5 className='fw3 white'>Due: {project.dueDate} </h5> */}
-                <DatePicker item={project} dueDate={dueDate} updateFunc={saveDate} />
-                {/* <h5 className='fw3 white'>Time Required: {project.timeRequired}</h5> */}
+                {/* <h5 className='fw3 white'>Due: {mission.dueDate} </h5> */}
+                <DatePicker item={mission} dueDate={dueDate} updateFunc={saveDate} />
+                {/* <h5 className='fw3 white'>Time Required: {mission.timeRequired}</h5> */}
             </div>
             <div className='w-100 h-10 pl2 pb3 flex justify-between'>
-                <h5 className='fw3 white'>Status: {project.status}</h5>
+                <h5 className='fw3 white'>Status: {mission.status}</h5>
                 {/* <h5 className='fw3 white'>Time Remaining: 12:34:50 </h5> */}
             </div>
             <div className='flex justify-between items-center'>
@@ -163,7 +164,7 @@ function ProjectDetails({ project, view, changeItemID, db, shipItems, exp }) {
                 <NewItemButton />
             </div> 
             <div className='pa2 h-30'>
-                <List content={projectTasks} filter={MISSION} touchFunction={passKey} />
+                <List content={missionTasks} filter={MISSION} touchFunction={passKey} />
             </div>
             
         </div>

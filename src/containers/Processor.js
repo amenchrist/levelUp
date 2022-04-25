@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import QuestionAndOptions from '../components/QuestionAndOptions';
 import QuestionandInput from '../components/QuestionAndInput';
-import { Task, Project, Reference, Reminder } from '../classes';
+import { Task, Mission, Reference, Event } from '../classes';
 import { ReferenceList } from '../ReferenceList';
-import {  PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE, ADD, UPDATE, REMOVE, REFERENCES, SOMEDAY, PROJECTS, TASKS, DETAILS, REMINDERS, INBOX } from '../constants';
+import {  PROCESSED, TASK, PENDING, UNPROCESSED, REFERENCE, ADD, UPDATE, REMOVE, REFERENCES, SOMEDAY, MISSIONS, TASKS, DETAILS, EVENTS, INBOX } from '../constants';
 import { selectView, selectItem, ChangeNav, ShipItems } from '../actions';
 import { connect } from 'react-redux';
 import DatePicker from '../components/DatePicker';
@@ -42,13 +42,11 @@ const mapDispatchToProps = (dispatch) => {
 function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, db, shipItems, changeNav }) {
 
     const InboxItems = db.Inbox;
-    const ProjectList = db.Projects;
+    const MissionList = db.Missions;
     const TaskList = db.Tasks;
-    const ProcessedItems = db.Processed;
     const SomedayList = db.Someday;
     const References = db.References;
-    const Reminders = db.Reminders;
-    const Trash = db.Trash;
+    const Events = db.Events;
 
     
 
@@ -61,9 +59,9 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     const [ step, setStep ] = useState(0);
     const [ nextID, setNextID ] = useState(0);
     const [ isDoneInaYear, setIsDoneInaYear ] = useState(null);
-    const [ newProjectID, setNewProjectID ] = useState(0);
+    const [ newMissionID, setNewMissionID ] = useState(0);
     const [ newTaskID, setNewTaskID ] = useState(0);
-    const [ newProject, setNewProject ] = useState(null);
+    const [ newMission, setNewMission ] = useState(null);
     const [ newTask, setNewTask ] = useState(null);
     const [ assignedAgent, setAssignedAgent ] = useState(null);
     const [ dueDate, setDueDate ] = useState(null);
@@ -72,15 +70,15 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     const [ referenced, setReferenced ] = useState(false);
     const [ newReference, setNewReference ] = useState(null);
     const [ refDetails, setRefDetails ] = useState('');
-    const [ newReminder, setNewReminder ] = useState(null);
+    const [ newEvent, setNewEvent ] = useState(null);
 
 
-    function makeNewProject(){
-        let proj = new Project( outcome );
-        setNewProject(proj);
-        setNewProjectID(proj.id);
-        //ProjectList.unshift(proj);
-        // pushChanges(ADD, proj, "Projects");
+    function makeNewMission(){
+        let proj = new Mission( outcome );
+        setNewMission(proj);
+        setNewMissionID(proj.id);
+        //MissionList.unshift(proj);
+        // pushChanges(ADD, proj, "Missions");
         updateStatus();
         //InboxItems.splice(itemIndex,1);
         // pushChanges(REMOVE, item, "Inbox");
@@ -92,7 +90,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         let theOutcome = outcome;
         if (isMultistep === true) {
             theOutcome = '';
-            asProjID = newProjectID;
+            asProjID = newMissionID;
         }
 
         let task = new Task(name, theOutcome, requiredContext, asProjID);
@@ -119,20 +117,20 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
 
     }
 
-    function makeNewReminder(name){ 
+    function makeNewEvent(name){ 
 
-        let rem = new Reminder(name);
-        setNewReminder(rem);
-        console.log("new reminder = ", rem);
-        setNextID(rem.id); 
+        let ev = new Event(name);
+        setNewEvent(ev);
+        console.log("new event = ", ev);
+        setNextID(ev.id); 
 
     }
 
-    function ammendList(action, list, item, itemndx){
+    function amendList(action, list, item, itemndx){
         let dbList;
         switch (list) {
-            case ProjectList:
-                dbList = "Projects"
+            case MissionList:
+                dbList = "Missions"
             break;
             case InboxItems:
                 dbList = "Inbox"
@@ -140,8 +138,8 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             case References:
                 dbList = "References"
             break;
-            case Reminders:
-                dbList = "Reminders"
+            case Events:
+                dbList = "Events"
             break;
             case TaskList:
                 dbList = "Tasks"
@@ -149,19 +147,16 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             case SomedayList:
                 dbList = "Someday"
             break;
-            case Trash:
-                dbList = "Trash"
-            break;
             default:
         }
         switch (action) {
             case REMOVE:
-                list.splice(itemndx, 1);
-                pushChanges(REMOVE, item, dbList, shipItems);
+                //list.splice(itemndx, 1);
+                //pushChanges(REMOVE, item, dbList, shipItems);
             break;
             case ADD:
                 list.unshift(item);
-                pushChanges(ADD, item, dbList, shipItems);
+                //pushChanges(ADD, item, dbList, shipItems);
             break;
             default:
         }
@@ -171,11 +166,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     function updateStatus() {
         item.status = PROCESSED;
         item.processedDate = new Date().getTime()
-        ProcessedItems.unshift(item);
-        InboxItems.splice(itemIndex,1);
         pushChanges(UPDATE, item, "Inbox", shipItems);
-        pushChanges(ADD, item, "Processed", shipItems);
-        pushChanges(REMOVE, item, "Inbox", shipItems);
     }
     
     function processNextItem(e){
@@ -203,18 +194,12 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         proceed();
     }
 
-
-    // function trashItem() {
-    //     updateStatus();
-    //     ammendList(ADD, Trash, item, 0);
-    // }
-
     let nav;
     if (isMultistep){
         nav = {
-            title: PROJECTS,
+            title: MISSIONS,
             view: DETAILS,
-            ID: newProject.id
+            ID: newMission.id
         }
     } else if(isMultistep === false && step >4){
         nav = {
@@ -233,9 +218,9 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
         changeNav(nav);
     }
 
-    function viewNewReminder(id) {
+    function viewNewEvent(id) {
         nav = {
-            title: REMINDERS,
+            title: EVENTS,
             view: DETAILS,
             ID: id
         }
@@ -244,7 +229,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
     }
 
     function saveDate(date){
-        //updateDB( project, "dueDate", date )
+        //updateDB( mission, "dueDate", date )
 
     }
 
@@ -261,7 +246,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
                     <button className="button" id={nextItemID} onClick={() => { setReferenced(true); makeNewReference(item.name); proceed() }} >ADD TO REFERENCES</button>
-                    <button className="button" id={nextItemID} onClick={() => { setIncubated(true); makeNewReminder(item.name); proceed() }} >ADD TO REMINDERS</button>
+                    <button className="button" id={nextItemID} onClick={() => { setIncubated(true); makeNewEvent(item.name); proceed() }} >ADD TO EVENTS</button>
                     {/* <button className="button" id={nextItemID} onClick={() => { setTrashed(true); trashItem(); proceed() }} >TRASH</button> */}
                 </div>
             )
@@ -280,7 +265,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                     <form onSubmit={(e) => { 
                         newReference.details = refDetails; 
                         console.log(newReference); 
-                        ammendList(ADD, References, newReference, 0); 
+                        pushChanges(UPDATE, newReference, "References", shipItems);
                         updateStatus(); 
                         e.preventDefault(); 
                         proceed() 
@@ -291,18 +276,18 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 </div>
             )
         case ( isActionable === false && step === 3 && incubated === true ):
-            function saveReminderDate(date){
-                //updateDB( project, "dueDate", date )
-                newReminder.date = date;
+            function saveEventDate(date){
+                newEvent.date = date;
             }
         
         return (
             <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column'>
-                <h2 className='white tc pb2'>Date of Reminder?</h2>
-                <DatePicker item={newReminder} dueDate={newReminder.date} updateFunc={saveReminderDate}/>
+                <h2 className='white tc pb2'>Date of Event?</h2>
+                <DatePicker item={newEvent} dueDate={newEvent.date} updateFunc={saveEventDate}/>
                 <div>
                     <button className="button" onClick={() => { 
-                        ammendList(ADD, Reminders, newReminder, 0); 
+                        pushChanges(ADD, newEvent, "Events", shipItems);
+                        amendList(ADD, Events, newEvent, 0); 
                         updateStatus(); 
                         proceed(); 
                     }} >CONTINUE</button>
@@ -319,7 +304,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                     <h3 className='white tc pb2'>Item has been processed</h3>
                     <button className="button" id={nextItemID} onClick={processNextItem} >PROCESS NEXT ITEM</button>
                     <button className="button" id={nextItemID} onClick={() => {
-                        referenced === true ? viewNewReference(nextID) : viewNewReminder(nextID)
+                        referenced === true ? viewNewReference(nextID) : viewNewEvent(nextID)
                     }} >VIEW ITEM</button>
                 </div>
             )
@@ -334,7 +319,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionAndOptions question='Can the outcome be reached with just one task?' 
                     yes={() => { setIsMultistep(false); proceed(); } } 
-                    no={() => { setIsMultistep(true); proceed();  makeNewProject(); }} />
+                    no={() => { setIsMultistep(true); proceed();  makeNewMission(); }} />
                 </div>
             )
             
@@ -364,12 +349,13 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                     <QuestionAndOptions question='Can the desired outcome be reached within the next 12 months?' 
                     yes={() => { 
                         setIsDoneInaYear(true); 
-                        newProject.taskList.unshift(newTask.id);
-                        ammendList(ADD, ProjectList, newProject, 0); proceed() 
+                        newMission.taskList.unshift(newTask.id);
+                        pushChanges(ADD, newMission, "Missions", shipItems);
+                        amendList(ADD, MissionList, newMission, 0); proceed() 
                     }} 
                     no={() => { 
-                        newProject.taskList.unshift(newTask.id); 
-                        ammendList(ADD, SomedayList, newProject, 0);
+                        newMission.taskList.unshift(newTask.id); 
+                        amendList(ADD, SomedayList, newMission, 0);
                         setIsDoneInaYear(false); 
                         updateStatus(); 
                         proceed();
@@ -382,11 +368,11 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionAndOptions question='Can the desired outcome be reached within the next 12 months?' 
                     yes={() => { setIsDoneInaYear(true); proceed() }} 
-                    no={() => { ammendList(ADD, SomedayList, newTask, 0); setIsDoneInaYear(false); updateStatus(); proceed() }} />
+                    no={() => { amendList(ADD, SomedayList, newTask, 0); setIsDoneInaYear(false); updateStatus(); proceed() }} />
                 </div>
             )
         case ( isMultistep === true && step === 6 && isDoneInaYear === true ):
-            // New project was added and page refreshed
+            // New mission was added and page refreshed
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
                     <h3 className='white tc pb2'>A new Mission has been added</h3>
@@ -395,21 +381,21 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                 </div>
             )
         case ( isMultistep === true && step === 6 && isDoneInaYear === false ):
-            // New project was added and page refreshed
+            // New mission was added and page refreshed
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
                     <h3 className='white tc pb2'>A new Mission has been added to the Someday List</h3>
                     <button className="button" id={nextItemID} onClick={processNextItem} >PROCESS NEXT ITEM</button>
-                    {/* <button className="button" id={nextItemID} onClick={() => changeItemID(nextID)} >VIEW PROJECT</button> */}
+                    {/* <button className="button" id={nextItemID} onClick={() => changeItemID(nextID)} >VIEW MISSION</button> */}
                 </div>
             )
         case ( isMultistep === false && step === 6 && isDoneInaYear === false ):
-            // New project was added and page refreshed
+            // New mission was added and page refreshed
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 flex items-center flex-column show ' >
                     <h3 className='white tc pb2'>A new Task has been added to the Someday List</h3>
                     <button className="button" id={nextItemID} onClick={processNextItem} >PROCESS NEXT ITEM</button>
-                    {/* <button className="button" id={nextItemID} onClick={() => changeItemID(nextID)} >VIEW PROJECT</button> */}
+                    {/* <button className="button" id={nextItemID} onClick={() => changeItemID(nextID)} >VIEW MISSION</button> */}
                 </div>
             )
         case ( isMultistep === false && step === 6 && isDoneInaYear === true ):
@@ -417,7 +403,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             return (
                 <div className='h-100 w-100 center br1 pa3 ba b--black-10 show ' >
                     <QuestionAndOptions question='Can it be done now in 5 minutes or less?' 
-                    yes={() => { setIsDoneInFive(true); ammendList(ADD, TaskList, newTask, 0); proceed() }} 
+                    yes={() => { setIsDoneInFive(true); pushChanges(ADD, newTask, "Tasks", shipItems); amendList(ADD, TaskList, newTask, 0); proceed() }} 
                     no={() => { setIsDoneInFive(false); proceed() }} />
                 </div>
             )
@@ -450,7 +436,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             )
         case ( isDelegatable === false && step === 8 ):
             function saveTaskDate(date){
-                //updateDB( project, "dueDate", date )
+                //updateDB( mission, "dueDate", date )
                 newTask.dueDate = date;
             }
             return (
@@ -470,7 +456,9 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
                     submitFunction={(answer) => { 
                         setRequiredContext(answer); 
                         newTask.requiredContext = answer;
-                        ammendList(ADD, TaskList, newTask, 0)
+                        pushChanges(ADD, newTask, "Tasks", shipItems)
+                        amendList(ADD, TaskList, newTask, 0);
+                        
                         proceed(); }} />
                 </div>
             )
