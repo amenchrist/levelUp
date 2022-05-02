@@ -250,5 +250,5 @@ export function ShipItems(items, agent, record) {
   }
 }
 
-const serverLink = "http://localhost:5000/"//"https://secret-citadel-16777.herokuapp.com/";
+const serverLink = "https://secret-citadel-16777.herokuapp.com/";
 //const serverLink2 = "http://localhost:5000/";
