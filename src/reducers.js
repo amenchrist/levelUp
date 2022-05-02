@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 
 import { 
     SELECT_VIEW, OVERVIEW, SELECT_ITEM, UPDATE_EXP, TASKS, INBOX, REFERENCES, TODAY,
-    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, MISSIONS, LIST, NEW_ITEM, NEW, CHANGE_NAV, MISSION_TASKS, EVENTS
+    RESTORE_PREVIOUS_STATE, UPDATE_TASK_STATUS, SET_ACTIVE_TASK, HOME, SELECT_TITLE, 
+    MISSIONS, LIST, NEW_ITEM, NEW, CHANGE_NAV, MISSION_TASKS, EVENTS, ACTIVE
 } from "./constants"
 
 import { SELECT_RECORD, INVALIDATE_RECORD, REQUEST_ITEMS, RECEIVE_ITEMS, PACK_ITEMS, DELIVER_ITEMS, CREATE_ALERT, CLOSE_ALERT } from './actions';
@@ -123,13 +124,20 @@ const UpdateTaskStatusReducer = (state=initialState, action={}) => {
 const initialActiveTask = {
     activeTask: {},
     activeSince: 0,
-    timeNow: (new Date()).getTime()
+    timeNow: (new Date()).getTime(),
+    timerOn: false
 }
 
 const SetActiveTaskReducer = (state=initialActiveTask, action={}) => {
     switch(action.type){
         case SET_ACTIVE_TASK:
-            return Object.assign({}, state, {activeTask: action.payload, activeSince: (new Date()).getTime() });
+            let lastActive;
+            //action.payload.timeSpent === 0 ? lastActive = (new Date()).getTime() : lastActive = action.payload.activeSince;
+
+            console.log("from AT Reducer: ", state)
+            let timerOn;
+            action.payload.status === ACTIVE && state.timerOn === false ? timerOn = true : timerOn = false
+            return Object.assign({}, state, {activeTask: action.payload, activeSince: action.payload.activeSince, timerOn });
         default:
             return state;
     }

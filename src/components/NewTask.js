@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { PENDING, LOW, TASK, MEDIUM, HIGH, MISSIONS, ADD } from '../constants';
+import { PENDING, LOW, TASK, MEDIUM, HIGH, MISSIONS, ADD, DAILY, NONE, SOMEDAY } from '../constants';
 import { selectView, selectItem, ShipItems, ChangeNav, } from '../actions';
 import { Task } from '../classes';
 import { pushChanges } from '../functions';
+import DatePicker from './DatePicker';
 
 
 const mapStateToProps = state => {
@@ -41,17 +42,19 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
     const [ name, setName ] = useState('');
     const [ outcome, setOutcome ] = useState('');
     const [ requiredContext, setRequiredContext ] = useState('');
-    const [ note, setNote ] = useState('');
-    const [ dueDate, setDueDate ] = useState((new Date()).toISOString().substr(0, 10));
+    const [ details, setDetails ] = useState('');
+    const [ dueDate, setDueDate ] = useState(SOMEDAY);
     const [ agent, setAgent ] = useState('');
     const [ priority, setPriority ] = useState('');
-    const [ frequency, setFrequency ] = useState(0);
+    const [ frequency, setFrequency ] = useState('NONE');
     const [ requirements, setRequirements ] = useState('');
     const [ associatedMissionID, setAssociatedMissionID ] = useState(itemID);
 
     function submitNewItem(event) {
         let t = new Task(name, outcome, requiredContext, associatedMissionID, dueDate);
         console.log(t);
+        t.frequency = frequency;
+        t.details = details;
         updateExp(5);
         TaskList.unshift(t);
         pushChanges(ADD, t, "Tasks", shipItems);
@@ -91,7 +94,7 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
                 console.log(content[i].id)
 
                 proj = content[i];
-                //proj.taskList.unshift(task.id);
+                proj.taskList.unshift(task.id);
 
                 pushChanges("UPDATE", proj, "Missions", shipItems);
             }
@@ -106,15 +109,15 @@ function NewTask({ changeItemID, updateExp, shipItems, itemID, db, changeNav, ti
             <form onSubmit={submitNewItem} className='flex flex-column' title={TASK}>
                 <input className='pa2 mb1' type='text' autoFocus placeholder='Name' value={name} onChange={(e)=> setName(e.target.value)} />
                 <input  className='pa2 mb1'type='text' placeholder='Outcome' value={outcome} onChange={(e) => setOutcome(e.target.value)} />
+                <textarea  className='pa2 mb1' placeholder='Details' value={details} onChange={(e) => setDetails(e.target.value)} />
                 <textarea  className='pa2 mb1' placeholder='Required Context' value={requiredContext} onChange={(e) => setRequiredContext(e.target.value)} />
-                <textarea  className='pa2 mb1' placeholder='Note' value={note} onChange={(e) => setNote(e.target.value)} />
-                <label className='fw4 white' htmlFor="due date" >Due Date:</label>
-                <input className='pa2 mb1' id='due date' type='date' min={today} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
-                <select className='pa2 mb1' id="priority" value={priority} onChange={(e)=> setPriority(e.target.value)}>
-                    <option value="" disabled defaultValue>Priority</option>
-                    <option value={LOW}>Low</option>
-                    <option value={MEDIUM}>Medium</option>
-                    <option value={HIGH}>High</option>
+                {/* <label className='fw4 white' htmlFor="due date" >Due Date:</label> */}
+                <DatePicker item={{}} dueDate={dueDate} updateFunc={setDueDate} />
+                {/* <input className='pa2 mb1' id='due date' type='date' min={today} value={dueDate} onChange={(e) => setDueDate(e.target.value)} /> */}
+                <select className='pa2 mb1' id="priority" value={frequency} onChange={(e)=> setFrequency(e.target.value)}>
+                    <option value="" disabled defaultValue>Frequency</option>
+                    <option value={NONE}>ONE-TIME</option>
+                    <option value={DAILY}>DAILY</option>
                 </select>
                 <textarea className='pa2 mb1' placeholder='Requirements' value={requirements} onChange={(e) => setRequirements(e.target.value)} />
                 <input className='pa2 mb1' type='text' placeholder='Assigned Agent' value={agent} onChange={(e)=> setAgent(e.target.value)} />

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { PENDING, LOW, MEDIUM, HIGH, MISSION, ADD, MISSIONS, DETAILS } from '../constants';
+import { PENDING, LOW, MEDIUM, HIGH, MISSION, ADD, MISSIONS, DETAILS, SOMEDAY } from '../constants';
 import { selectView, selectItem, ChangeNav, ShipItems } from '../actions';
 import { Mission } from '../classes';
 import { pushChanges, convertDateToMilliseconds  } from '../functions';
+import DatePicker from './DatePicker';
 
 const mapStateToProps = state => {
     return {
@@ -35,15 +36,15 @@ function NewMission({ updateExp, shipItems, changeNav, db }) {
 
     const [ purpose, setPurpose ] = useState('');
     const [ outcome, setOutcome ] = useState('');
-    const [ description, setDescription ] = useState('');
-    const [ dueDate, setDueDate ] = useState(today);
+    const [ details, setDetails ] = useState('');
+    const [ dueDate, setDueDate ] = useState(SOMEDAY);
     const [ priority, setPriority ] = useState('');
     const [ requirements, setRequirements ] = useState('');
 
 
     function submitNewItem(event) {
         
-        let m = new Mission(outcome.trim(), purpose, description, convertDateToMilliseconds(dueDate), requirements, priority);
+        let m = new Mission(outcome.trim(), purpose, dueDate, requirements, priority);
         console.log(m);
         MissionsList.unshift(m);
         pushChanges(ADD, m, "Missions", shipItems);
@@ -69,10 +70,11 @@ function NewMission({ updateExp, shipItems, changeNav, db }) {
             <form onSubmit={submitNewItem} className='flex flex-column' title={MISSION}>
                 {/* <input className='pa2 mb1' autoFocus type='text' placeholder='Name' value={name} onChange={(e)=> setName(e.target.value)} /> */}
                 <input className='pa2 mb1' autoFocus type='text' placeholder='Outcome' value={outcome} onChange={(e) => setOutcome(e.target.value)} />
-                <textarea className='pa2 mb1' placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)} />
+                <textarea className='pa2 mb1' placeholder='Details' value={details} onChange={(e) => setDetails(e.target.value)} />
                 <textarea className='pa2 mb1' placeholder='What is the purpose of the mission?' value={purpose} onChange={(e) => setPurpose(e.target.value)} />
-                <label className='fw4 white' htmlFor="due date" >Due Date:</label>
-                <input className='pa2 mb1' id='due date' type='date' min={today} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+                {/* <label className='fw4 white' htmlFor="due date" >Due Date:</label>
+                <input className='pa2 mb1' id='due date' type='date' min={today} value={dueDate} onChange={(e) => setDueDate(e.target.value)} /> */}
+                <DatePicker item={{}} dueDate={dueDate} updateFunc={setDueDate} />
                 <select className='pa2 mb1' id="priority" value={priority} onChange={(e)=> setPriority(e.target.value)}>
                     <option value="" disabled defaultValue>Priority</option>
                     <option value={LOW}>Low</option>

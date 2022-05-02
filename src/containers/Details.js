@@ -84,7 +84,7 @@ function Details( { content, db, itemID, touchFunction, updateExp, selectAnother
     for (let i=0; i<content.length; i++){
         //console.log("entering loop. Iteration: ", i)
         
-        if (content[i].id === id){
+        if (parseInt(content[i].id) === id){
             item = content[i];
             //console.log("item from loop: ", item)
 
@@ -99,13 +99,15 @@ function Details( { content, db, itemID, touchFunction, updateExp, selectAnother
     switch(title) {
         case MISSIONS:
             return (
-                <div className='w-100 h-100 center br1 pa2 ba b--black-10'>
+                <div className='w-100 h-100 center br1 pa2 bw2 ba b--black-10'>
                     <div className='flex justify-between items-center'>
                         <BackButton id={0} />
                         <TrashButton />
                     </div>
                     <h2 className='tc b gold f3'>MISSION</h2>
-                    <MissionDetails mission={item} touchFunction={touchFunction} updateExp={updateExp}/>
+                    <div className='h-70'>
+                        <MissionDetails mission={item} touchFunction={touchFunction} updateExp={updateExp}/>
+                    </div>
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={changeItemID} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={changeItemID} nextID={next} currentID={itemID} />
@@ -121,7 +123,9 @@ function Details( { content, db, itemID, touchFunction, updateExp, selectAnother
                         <TrashButton />
                     </div>
                     <h2 className='tc b gold f3'>TASK</h2>
-                    <TaskDetails id={parseInt(itemID)} />
+                    <div className='h-70'>
+                        <TaskDetails id={parseInt(itemID)} />
+                    </div>
                     <div className='flex justify-between self-end'>
                         <PrevItemButton selectAnother={selectAnother} prevID={prev} currentID={itemID} />
                         <NextItemButton selectAnother={selectAnother} nextID={next} currentID={itemID} />
@@ -151,7 +155,9 @@ function Details( { content, db, itemID, touchFunction, updateExp, selectAnother
                         <TrashButton />
                     </div>
                     <h2 className='tc b gold f3'>Inbox Item</h2>
-                    <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} selectAnother={selectAnother} prevID={prev} nextID={next} />
+                    <div className='h-60'>
+                        <ItemDetails id={parseInt(itemID)} touchFunction={touchFunction} selectAnother={selectAnother} prevID={prev} nextID={next} />
+                    </div>
                 </div>        
             )
         case PROCESSED:

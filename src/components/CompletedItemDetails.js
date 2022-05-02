@@ -33,8 +33,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompletedItemDetails);
-
 
 function CompletedItemDetails({ MissionsList, changeNav,  item }) {
 
@@ -77,7 +75,7 @@ function CompletedItemDetails({ MissionsList, changeNav,  item }) {
                 <div className='w-100 pl2 pb3'>
                     <h5 className='fw3 white'>Mission: </h5>
                     <h4 className='fw5 white' onClick={() => {
-                        if(item.associatedMissionID != 0){changeNavigation(item.associatedMissionID, MISSIONS)}}}>{associatedMission.name}</h4>
+                        if(item.associatedMissionID !== 0){changeNavigation(item.associatedMissionID, MISSIONS)}}}>{associatedMission.name}</h4>
                 </div>
 
                 <div className='w-100 pl2 pb3'>
@@ -86,10 +84,10 @@ function CompletedItemDetails({ MissionsList, changeNav,  item }) {
                 </div>
                 <div className='w-100 pl2 pb3 flex justify-between'>
                     <h5 className='fw3 white'>Time Spent: {calculateTime(item.timeSpent)}</h5>
-                    <h5 className='fw3 white'>Due Date: {item.dueDate === ASAP ? ASAP : new Date(item.dueDate).toDateString()} </h5>
+                    <h5 className='fw3 white'>Due Date: {item.dueDate === ASAP ? ASAP : item.dueDate} </h5>
                 </div>
                 <div className='w-100 pl2 pb3 flex justify-between'>
-                    <h5 className='fw3 white'>COMPLETED: {new Date(item.doneDate).toLocaleString()} </h5>
+                    <h5 className='fw3 white'>COMPLETED: {(item.doneDate)} </h5>
                 </div>
                 <div className='w-100 pl2 pb3 flex justify-between'>           
                     {/* <h5 className='fw3 white'>Time Required: {task.timeRequired}</h5>
@@ -104,3 +102,5 @@ function CompletedItemDetails({ MissionsList, changeNav,  item }) {
         </div>
     )
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompletedItemDetails);

@@ -74,7 +74,7 @@ export function setNavValues(e, navChanger, state){
 
 export function calculateTime(timeSpent){
 
-    //CALCULATE TIME SPENT
+    //CALCULATE TIME SPENT from timeSpent in seconds
     console.log("timespent from calcTime: ", timeSpent)
     let s = timeSpent;
     let ms = s % 1000;
@@ -101,18 +101,19 @@ export function displayDays(dueDate){
     if (dueDate === ASAP) {
         return ASAP;
     } else {
+        dueDate = new Date(dueDate).getTime()
         let days = Math.ceil((dueDate - new Date().getTime()) / (1000*60*60*24));
         switch(true){
             case days <= -1:
-                return `${Math.abs(days)} days ago`;
+                return `Due ${Math.abs(days)} days ago`;
             case days > 1:
-                return `${days} days `;
+                return `${days} Days remaining`;
             case days === 1:
-                return `${days} day `;
+                return `${days} Day remaining`;
             case Math.abs(days) === 0:
-                return `TODAY `;
+                return `DUE TODAY `;
             default:
-                return `${days} days `;
+                return `${days} Days remaining`;
         }
     }
 }
@@ -185,7 +186,7 @@ export function amendList(db, list, item, action, shippingFunction, expObj){
     switch (action) {
         case REMOVE:
             localList.splice(itemndx, 1);
-            pushChanges(REMOVE, item, dbList, shippingFunction);
+            //pushChanges(REMOVE, item, dbList, shippingFunction);
         break;
         case ADD:
             localList.unshift(item);

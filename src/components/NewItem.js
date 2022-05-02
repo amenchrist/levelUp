@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { INBOX, MISSIONS, TASKS, DETAILS, REFERENCES, EVENTS, REFERENCE, ADD } from '../constants';
+import { INBOX, MISSIONS, TASKS, DETAILS, REFERENCES, EVENTS, REFERENCE, ADD, CALENDAR } from '../constants';
 import { Item } from '../classes';
 import NewTask from './NewTask';
 import NewMission from './NewMission';
@@ -84,6 +84,8 @@ function NewItem({ submitFunction, title, updateExp, changeItemID, shipItems, db
                 return <NewTask updateExp={updateExp} />
             case title === REFERENCES:
                 return <NewReference updateExp={updateExp} />
+            case title === CALENDAR:
+                return <NewEvent updateExp={updateExp} />
             case title === EVENTS:
                 return <NewEvent updateExp={updateExp} />
             default:

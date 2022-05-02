@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ShipItems, ChangeNav } from '../actions';
 import trashCan from '../assets/trash1600.png';
-import { INBOX, MISSIONS, REMOVE, TASKS, REFERENCES, SOMEDAY, ADD, PROCESSED, COMPLETED, MISSION_TASKS, EVENTS, UPDATE } from '../constants';
+import { INBOX, MISSIONS, REMOVE, TASKS, REFERENCES, SOMEDAY, ADD, PROCESSED, COMPLETED, MISSION_TASKS, EVENTS, UPDATE, DONE, PAUSED, TASK, MISSION, EVENT } from '../constants';
 import { pushChanges } from '../functions';
 
 const mapStateToProps = state => {
@@ -35,9 +35,9 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
     const TaskList = db.Tasks;
     const References = db.References;
     const Events = db.Events;
-    const SomedayList = db.Someday;
-    const ProcessedList = db.Processed;
-    const Completed = db.Completed;
+    const SomedayList = db.Tasks.concat(db.Missions)
+    const ProcessedList = db.Inbox;
+    const Completed = db.Tasks.concat(db.Missions).filter( e => e.status === DONE)
 
     
 
@@ -98,10 +98,24 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
         ID: 0
     }
 
-    function deleteItem() {
-        console.log('delete button clicked');
+    function trashItem() {
+        console.log('trash button clicked');
+        console.log("current trash item: ", currentItem)
+        if (currentItem.status === "ACTIVE"){currentItem.status = PAUSED }
+        switch (currentItem.type){
+            case TASK:
+                list = "Tasks";
+            break;
+            case MISSION:
+                list = "Missions";
+            break;
+            case EVENT:
+                list = "Events";
+            break;
+            default:
+        }
         currentItem.isTrashed = true;
-        currentItem.trashedDate = new Date().getTime();
+        currentItem.trashedDate = new Date().toISOString().substr(0, 10);;
 
         //amendList(REMOVE, currentList, currentItem, indx);
         //Trash.unshift(currentItem);
@@ -113,7 +127,7 @@ function TrashButton({ shipItems, changeNav, db, title, ID }) {
 
     return (
         <div>
-            <img src={trashCan} alt='trash icon' className='h2' onClick={() => {deleteItem()}} />
+            <img src={trashCan} alt='trash icon' className='h2' onClick={() => {trashItem()}} />
         </div>
     )
 }

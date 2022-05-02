@@ -42,7 +42,7 @@ function ItemDetails({ id, touchFunction, selectAnother, prevID, nextID, db }) {
         switch(readyToProcess){
         case false:
             return (
-                <div >
+                <div className='h-100' >
                     <h5 className='white b pb2'>Name: {item.name}</h5>
                     <h5 className='white pb2'>Entry Date: {(new Date(item.entryDate)).toISOString().substr(0, 10)} </h5>
                     {/* <h5 className='white pb2'>Status: {item.status} </h5> */}

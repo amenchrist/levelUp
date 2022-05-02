@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function PrevItemButton({ selectAnother, prevID, currentID }){
 
-    if(currentID !== prevID){
+    if(parseInt(currentID) !== prevID){
         return (
             <div className='whiteB w3 h3 flex items-center justify-center' onClick={() => selectAnother(prevID)}>
                 <h2 className=' white b f8 fw9 ma0'>Prev</h2>

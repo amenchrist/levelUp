@@ -12,6 +12,7 @@ const mapStateToProps = state => {
         status: state.UpdateTaskStatusReducer.taskStatus,
         activeTask: state.SetActiveTaskReducer.activeTask,
         activeSince: state.SetActiveTaskReducer.activeSince,
+        timerOn: state.SetActiveTaskReducer.timerOn,
         db: state.items.record.items 
     }
 }
@@ -41,27 +42,42 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskControls);
 
-function TaskControls({ task, position, changeNav, updateExp, changeItemID, setActiveTask, activeSince, activeTask, shipItems, db }){
+function TaskControls({ task, position, changeNav, updateExp, changeItemID, setActiveTask, activeSince, activeTask, shipItems, db, timerOn }){
 
-    let prevTimeSpent = task.timeSpent;
-    //console.log("on entrering task cont, prevtime: ", prevTimeSpent)
+    if( task.status === ACTIVE && timerOn === false){
+        startTimer();
+        console.log("Timer is off")
+    }
+
+    function updateTask(){
+        pushChanges(UPDATE, task, "Tasks", shipItems);
+    }
+    
+    let prevTimeSpent = parseInt(task.timeSpent);
+    //console.log("on entering task cont, prevtime: ", prevTimeSpent)
     function startTimer(){
-        setActiveTask(task);
         task.status = ACTIVE;
-        
+        if (task.activeSince === 0 ){
+            task.activeSince = new Date().getTime();
+        }
+        setActiveTask(task);
+        updateTask();
     }
 
     function pauseTask(){
-        const dateNow = (new Date()).getTime();
+        const dateNow = new Date().getTime();
+        task.timeSpent = prevTimeSpent + (dateNow - parseInt(activeSince));
         setActiveTask({});
         task.status = PAUSED;
-        task.timeSpent = prevTimeSpent + (dateNow - parseInt(activeSince));
+        task.activeSince = 0;
+        timerOn = false;
+        updateTask();
         //console.log("previos time spent:, ", prevTimeSpent)
         //console.log("time spent:, ", task.timeSpent)
     }
 
     function markAsDone(){
-        const dateNow = (new Date()).getTime();
+        const dateNow = new Date().toISOString().substr(0, 10);
         task.doneDate = dateNow;
         if (task.status === ACTIVE) {
             pauseTask();
@@ -72,11 +88,11 @@ function TaskControls({ task, position, changeNav, updateExp, changeItemID, setA
         //console.log("timespent from task controls after: ", task.timeSpent)
         setActiveTask({});
         updateExp(task.exp);
-        pushChanges(UPDATE, task, "Tasks", shipItems);
-        db.Completed.unshift(task);
-        pushChanges(ADD, task, "Completed", shipItems);
-        db.Tasks.splice(position,1);
-        pushChanges(REMOVE, task, "Tasks", shipItems);
+        updateTask();
+        //db.Completed.unshift(task);
+        //pushChanges(ADD, task, "Completed", shipItems);
+        //db.Tasks.splice(position,1);
+        //pushChanges(REMOVE, task, "Tasks", shipItems);
         const nav = {
             title: COMPLETED,
             view: "DETAILS",
@@ -84,6 +100,8 @@ function TaskControls({ task, position, changeNav, updateExp, changeItemID, setA
         }
         changeNav(nav);
     }
+
+    
 
     switch(task.status){
         case ACTIVE:
@@ -95,12 +113,15 @@ function TaskControls({ task, position, changeNav, updateExp, changeItemID, setA
                 </div>
             )
         case PAUSED:
-            return (
-                <div className='flex justify-center'>
-                    <button className="button" onClick={startTimer}>CONTINUE</button>
-                    <button className="button" onClick={markAsDone}>MARK DONE</button>
-                </div>
-            )
+            if (activeTask.id === undefined){
+
+                return (
+                    <div className='flex justify-center'>
+                        <button className="button" onClick={startTimer}>CONTINUE</button>
+                        <button className="button" onClick={markAsDone}>MARK DONE</button>
+                    </div>
+                )
+            }
         case PENDING:
             //console.log(typeof activeTask)
             //console.log(activeTask.id)

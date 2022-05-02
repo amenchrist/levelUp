@@ -32,8 +32,9 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveTaskTimer);
 
 function ActiveTaskTimer({changeItemID, activeSince, activeTask, changeNav}) {
+    
     const dateNow = (new Date()).getTime();
-    const timeSpent = activeTask.timeSpent + (dateNow - activeSince);
+    const timeSpent = parseInt(activeTask.timeSpent) + (dateNow - parseInt(activeSince));
 
     let s = timeSpent;
     let ms = s % 1000;

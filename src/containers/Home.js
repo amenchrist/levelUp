@@ -5,7 +5,7 @@ import TaskOverview from '../components/TasksOverview';
 import MissionsOverview from '../components/MissionsOverview';
 import InboxOverview from '../components/InboxOverview';
 import { ChangeNav } from '../actions';
-import {  CALENDAR, DAILY, LIST, REFERENCES, SOMEDAY, STATS } from '../constants';
+import {  CALENDAR, DAILY, DONE, LIST, REFERENCES, SOMEDAY, STATS, TASK } from '../constants';
 import './Home.css';
 import NewItemTile from '../components/NewItemTile';
 import TodaysMission from '../components/TodaysMission';
@@ -38,6 +38,10 @@ function Home(props) {
         setNavValues(e, changeNav, state);
     }
 
+    let somedayContent = db.Tasks.concat(db.Missions).filter((t) => (t.isTrashed === false && t.status !== DONE) && t.dueDate === SOMEDAY);
+
+    let dailyEx = db.Tasks.filter((entry) => (entry.type === TASK && entry.frequency === DAILY ) && (entry.isTrashed === false));
+            
     return (
         <div className='h-100 pa1' >
             <div className='pa1 ph1 h-40 ba' title={STATS}>
@@ -57,11 +61,11 @@ function Home(props) {
             <div className="flex justify-center h-30">
                 <div className='w-50 h-100 pa1'>
                     <div className=' w-100 h-50 pb1'>
-                        <TodaysMission touchFunction={handleEvent} gotoItem={changeItemID} />
+                        <TodaysMission touchFunction={handleEvent} gotoItem={changeItemID} db={db}/>
                     </div>
                     <div className=' w-100 h-50 pt1'>
                         <div className='flex items-center justify-center h-100 w-100 center bg-white pa1' data-view={LIST} title={DAILY} onClick={handleEvent}>
-                            <h2 className='tc'>Daily<br />Exercises</h2>
+                            <h2 className='tc'>Daily<br />Exercises<br />({dailyEx.length})</h2>
                         </div>
                     </div>
                 </div>
@@ -69,7 +73,7 @@ function Home(props) {
                     <div className=' w-100 h-50'>
                         <div className=' h-50 pa1'>
                             <div className='flex items-center justify-center h-100 w-100 center bg-white ' data-view={LIST} title={SOMEDAY} onClick={handleEvent} >
-                                <h4 className='tc'>Someday</h4>
+                                <h4 className='tc'>Someday ({somedayContent.length})</h4>
                             </div>
                         </div>
                         <div className='h-50 pa1'>

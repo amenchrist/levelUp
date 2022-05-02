@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectItem, UpdateExp, selectTitle,ChangeNav, CreateAlert } from '../actions';
-import { MISSIONS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, PROCESSED, TRASH, COMPLETED, EVENTS, LIST } from '../constants';
+import { selectItem, UpdateExp, selectTitle,ChangeNav, CreateAlert, SetActiveTask } from '../actions';
+import { MISSIONS, STATS, TASKS, INBOX, TASK, MISSION, DAILY, REFERENCES, TODAY, NEW, SOMEDAY, CALENDAR, DETAILS, PROCESSED, TRASH, COMPLETED, EVENTS, LIST, ACTIVE, DONE, ASAP, EVENT } from '../constants';
 import List from '../components/List';
 import './Home.css';
 import NewItemButton from '../components/NewItemButton';
@@ -43,21 +43,27 @@ const mapDispatchToProps = (dispatch) => {
         }),
         createAlert: (msg) => {
             return dispatch(CreateAlert(msg))
-        }
+        },
+        setActiveTask: (task) => {
+            return dispatch(SetActiveTask(task))
+        },
     }
 }
 
 function Main(props) {
 
-    const { state, title, view, itemID, changeItemID, previousView, updateExp, exp, db, record, changeNav, createAlert, alerts } = props;
+    const { 
+        state, title, view, itemID, changeItemID, previousView, 
+        updateExp, exp, db, record, changeNav, createAlert, alerts, setActiveTask } = props;
     
-    //console.log(alerts[0])
+    
+    //console.log("state from Main: ", state)
     //console.log(state.items)
     //console.log(alerts.length)
     //console.log("alerting")
     if (alerts.length > 0 ){
         //alert(alerts[0].message);
-        //alert("Somehting to Alert")
+        //alert("Something to Alert")
     }
     let type;
     switch(previousView) {
@@ -66,6 +72,9 @@ function Main(props) {
         break;
         case MISSIONS:
             type = MISSION;
+        break;
+        case CALENDAR:
+            type = EVENT;
         break;
         default:
     } 
@@ -84,44 +93,53 @@ function Main(props) {
         return <div className="f5 fw4 white">Loading...</div>;
     } else {
         console.log(db)
-        let content;
+        //STATS OVERVIEW TIMER TRIGGER ON REFRESH
+        let activeTasks = db.Tasks.filter((entry) => entry.status === ACTIVE);
+        //console.log("Active Task from Main: ", activeTasks);
+        if (activeTasks.length > 0){
+            setActiveTask(activeTasks[0])
+        }
+
+        //Distribute Content
+        let content, unsortedContent;
         switch(title) {
             case TASKS:
-                content = db.Tasks;
+                unsortedContent = db.Tasks.filter( e => e.isTrashed === false && e.status !== DONE && e.dueDate !== SOMEDAY);
+                content = unsortedContent.sort((a,b) => a.order - b.order)
             break;
             case MISSIONS:
-                content = db.Missions;
+                content = db.Missions.filter( e => e.isTrashed === false && e.status !== DONE && e.dueDate !== SOMEDAY);
             break;
             case INBOX:
-                content = db.Inbox;
+                content = db.Inbox.filter((entry) => entry.isTrashed === false && entry.status !== PROCESSED );
             break;
             case CALENDAR:
-                content = db.Tasks.concat(db.Events);
+                content = db.Tasks.filter( e => e.isTrashed === false && e.status !== DONE && (e.dueDate !== ASAP && e.dueDate !== SOMEDAY)).concat(db.Events);
             break;
             case REFERENCES:
-                content = db.References;
+                content = db.References.filter( e => e.isTrashed === false);
             break;
             case TODAY:
-                content = db.Tasks;
+                content = db.Tasks.filter( e => e.isTrashed === false && e.status !== DONE);
             break;
             case DAILY:
-                content = db.Tasks;
+                content = db.Tasks.filter( e => e.isTrashed === false && e.status !== DONE);
             break;
             case COMPLETED:
-                content = db.Completed;
+                content = db.Tasks.concat(db.Missions).filter( e => e.isTrashed === false && e.status === DONE);
             break;
             case PROCESSED:
-                content = db.Inbox;
+                content = db.Inbox.filter( e => e.isTrashed === false && e.status === PROCESSED);
             break;
             case SOMEDAY:
-                content = db.Someday;
+                content = db.Tasks.concat(db.Missions).filter( e => e.isTrashed === false && e.dueDate === SOMEDAY );
             break;
             case EVENTS:
-                content = db.Events;
+                content = db.Events.filter( e => e.isTrashed === false);
             break;
             case TRASH:
                 // content = db.Trash;
-                content = db.Inbox.concat(db.Tasks, db.Missions, db.Events, db.References)
+                content = db.Inbox.concat(db.Tasks, db.Missions, db.Events, db.References)//.filter( e => e.isTrashed === true)
             break;
             default:
                 content = []
@@ -135,7 +153,7 @@ function Main(props) {
             case view === DETAILS && itemID !== 0:
                 return (
                     <div className='h-100 pa2 '>
-                        <div className='h-10'>
+                        <div className='h-10 ba b--black-10'>
                             <h5 className='fw3 white'>EXP: {exp}</h5>
                         </div>
                         <div className='h-90 pa1'>
@@ -163,6 +181,7 @@ function Main(props) {
                     </div>   
                 )
             case view === NEW:
+                console.log("type: ", type)
                 return (
                     <div className='h-100 pa2'>
                         <div className=' h-10'>

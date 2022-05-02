@@ -144,9 +144,6 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
             case TaskList:
                 dbList = "Tasks"
             break;
-            case SomedayList:
-                dbList = "Someday"
-            break;
             default:
         }
         switch (action) {
@@ -165,7 +162,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
 
     function updateStatus() {
         item.status = PROCESSED;
-        item.processedDate = new Date().getTime()
+        item.processedDate = new Date().toISOString().substr(0, 10);
         pushChanges(UPDATE, item, "Inbox", shipItems);
     }
     
