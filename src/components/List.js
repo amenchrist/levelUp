@@ -145,7 +145,7 @@ function List({ content, changeItemID, title, view, state, changeNav }) {
                 }
             } else {
                 return (
-                    <div>
+                    <div className='h-100'>
                         <Scroll>
                             {listItems}
                         </Scroll>

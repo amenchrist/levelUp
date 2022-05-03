@@ -101,7 +101,7 @@ function Processor({ nextItemID, item, touchFunction, changeItemID, itemIndex, d
 
         //ADD TASK TO TASK LIST AND 
         //TaskList.unshift(task);
-        //pushChanges(ADD, task, "Tasks", shipItems);
+        pushChanges(ADD, task, "Tasks", shipItems);
 
         // InboxItems.splice(itemIndex,1);
         // pushChanges(REMOVE, item, "Inbox");
