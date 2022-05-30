@@ -2,7 +2,7 @@
 
 Life is a game.
 
-This is a React based gamified task manager project built on the principles of the “Getting Things Done” methodology by David Allen. 
+This is a React based gamified task manager project built with principles from the “Getting Things Done” methodology by David Allen. 
 
 Stack: MongoDB, Express, React, Node. 
 
