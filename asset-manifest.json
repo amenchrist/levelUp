@@ -1,26 +1,27 @@
 {
   "files": {
     "main.css": "/levelUp/static/css/main.80c8f500.chunk.css",
-    "main.js": "/levelUp/static/js/main.53e87553.chunk.js",
-    "main.js.map": "/levelUp/static/js/main.53e87553.chunk.js.map",
+    "main.js": "/levelUp/static/js/main.962099f7.chunk.js",
+    "main.js.map": "/levelUp/static/js/main.962099f7.chunk.js.map",
     "runtime-main.js": "/levelUp/static/js/runtime-main.4602af5c.js",
     "runtime-main.js.map": "/levelUp/static/js/runtime-main.4602af5c.js.map",
-    "static/css/2.040d5b7a.chunk.css": "/levelUp/static/css/2.040d5b7a.chunk.css",
-    "static/js/2.86e7fc71.chunk.js": "/levelUp/static/js/2.86e7fc71.chunk.js",
-    "static/js/2.86e7fc71.chunk.js.map": "/levelUp/static/js/2.86e7fc71.chunk.js.map",
+    "static/css/2.07548e1c.chunk.css": "/levelUp/static/css/2.07548e1c.chunk.css",
+    "static/js/2.e44444ac.chunk.js": "/levelUp/static/js/2.e44444ac.chunk.js",
+    "static/js/2.e44444ac.chunk.js.map": "/levelUp/static/js/2.e44444ac.chunk.js.map",
     "index.html": "/levelUp/index.html",
-    "precache-manifest.f510248fd6e0abd3eecf73669017d6de.js": "/levelUp/precache-manifest.f510248fd6e0abd3eecf73669017d6de.js",
+    "precache-manifest.47bc3c08b369f462b2e7b1e21cb68c06.js": "/levelUp/precache-manifest.47bc3c08b369f462b2e7b1e21cb68c06.js",
     "service-worker.js": "/levelUp/service-worker.js",
-    "static/css/2.040d5b7a.chunk.css.map": "/levelUp/static/css/2.040d5b7a.chunk.css.map",
+    "static/css/2.07548e1c.chunk.css.map": "/levelUp/static/css/2.07548e1c.chunk.css.map",
     "static/css/main.80c8f500.chunk.css.map": "/levelUp/static/css/main.80c8f500.chunk.css.map",
-    "static/js/2.86e7fc71.chunk.js.LICENSE.txt": "/levelUp/static/js/2.86e7fc71.chunk.js.LICENSE.txt",
+    "static/js/2.e44444ac.chunk.js.LICENSE.txt": "/levelUp/static/js/2.e44444ac.chunk.js.LICENSE.txt",
+    "static/media/GAMER INTRO.png": "/levelUp/static/media/GAMER INTRO.3e025a06.png",
     "static/media/trash1600.png": "/levelUp/static/media/trash1600.4a1c4989.png"
   },
   "entrypoints": [
     "static/js/runtime-main.4602af5c.js",
-    "static/css/2.040d5b7a.chunk.css",
-    "static/js/2.86e7fc71.chunk.js",
+    "static/css/2.07548e1c.chunk.css",
+    "static/js/2.e44444ac.chunk.js",
     "static/css/main.80c8f500.chunk.css",
-    "static/js/main.53e87553.chunk.js"
+    "static/js/main.962099f7.chunk.js"
   ]
 }
