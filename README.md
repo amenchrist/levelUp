@@ -1,4 +1,16 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Mission Control
+
+Life is a game.
+
+This is a React based gamified task manager project built with principles from the “Getting Things Done” methodology by David Allen. 
+
+Stack: MongoDB, Express, React, Node. 
+
+Deployed:
+https://amenchrist.github.io/levelUp/
+
+Server URL:
+https://github.com/amenchrist/levelupserver
 
 ## Available Scripts
 

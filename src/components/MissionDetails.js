@@ -9,7 +9,6 @@ import DatePicker from './DatePicker';
 import NewItemButton from './NewItemButton';
 import Scroll from './Scroll';
 import { Task } from '../classes';
-import { set } from 'mongoose';
 
 const mapStateToProps = state => {
     return {

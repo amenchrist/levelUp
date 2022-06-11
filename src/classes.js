@@ -48,7 +48,7 @@ export class Task{
 }
 
 export class Mission{
-    constructor(outcome ='', purpose ='', dueDate = ASAP, requirements = '', priority, frequency = '' ) {
+    constructor(outcome ='', purpose ='', dueDate = ASAP, requirements = '', priority = "", frequency = '' ) {
         const d = new Date();
         this.type = MISSION;        
         this.id = d.getTime();
