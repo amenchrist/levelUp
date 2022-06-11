@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ChangeNav } from '../actions';
 import { COMPLETED, PROCESSED, TRASH } from '../constants';
+import { useStateContext } from '../Contexts/ContextProvider';
 
 const mapStateToProps = state => {
     return {
@@ -24,6 +25,8 @@ const mapDispatchToProps = (dispatch) => {
 
 function Stats( { changeNav}) {
 
+    const { setIsLoggedIn } = useStateContext();
+
     function openList(title){
         const nav = {
             title: title,
@@ -32,6 +35,11 @@ function Stats( { changeNav}) {
         }
 
             changeNav(nav);
+    }
+
+    function logout(){
+        localStorage.setItem('LoggedIn', 'false');
+        setIsLoggedIn(false)
     }
     return (
         <div className='h-75 w-90 center pa3 pa4-ns ba b--black-10'>
@@ -47,6 +55,9 @@ function Stats( { changeNav}) {
                 </div>
                 <div className='whiteB h3 flex items-center justify-center' onClick={() => {openList(TRASH)}}>
                     <h1 className=' white b f8 fw9 ma0'>Trash</h1>
+                </div>
+                <div className='whiteB h3 flex items-center justify-center' onClick={() => {logout()}}>
+                    <h1 className=' white b f8 fw9 ma0'>Logout</h1>
                 </div>
             </div>     
         </div>

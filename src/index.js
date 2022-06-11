@@ -11,6 +11,7 @@ import 'tachyons';
 import './tachyonBoost.css';
 import rootReducer from './reducers';
 import { SelectRecord, FetchItems } from './actions';
+import { ContextProvider } from './Contexts/ContextProvider';
 
 const logger = createLogger();
 const store = createStore(rootReducer, applyMiddleware(logger, thunkMiddleware));
@@ -26,7 +27,9 @@ store.dispatch(FetchItems('reactjs'));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
-    <App  />
+      <ContextProvider>
+        <App  />
+      </ContextProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

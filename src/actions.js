@@ -125,8 +125,6 @@ export function ReceiveItems(record, json) {
 
 //import fetch from 'cross-fetch'
 
-
-
 export function FetchItems(record) {
   return dispatch => {
     dispatch(RequestItems(record))
@@ -136,37 +134,8 @@ export function FetchItems(record) {
       .catch((error) => {
         console.log("Error: ", error);
         //Repeat fetch every 5 seconds until successful
-        setTimeout(dispatch(FetchItems(record)), 5000);
+        //setTimeout(dispatch(FetchItems(record)), 5000);
       })
-  }
-}
-
-function shouldFetchPosts(state, subreddit) {
-  const posts = state.postsBySubreddit[subreddit]
-  if (!posts) {
-    return true
-  } else if (posts.isFetching) {
-    return false
-  } else {
-    return posts.didInvalidate
-  }
-}
-
-export function fetchPostsIfNeeded(subreddit) {
-  // Note that the function also receives getState()
-  // which lets you choose what to dispatch next.
-
-  // This is useful for avoiding a network request if
-  // a cached value is already available.
-
-  return (dispatch, getState) => {
-    if (shouldFetchPosts(getState(), subreddit)) {
-      // Dispatch a thunk from thunk!
-      return dispatch(FetchItems(subreddit))
-    } else {
-      // Let the calling code know there's nothing to wait for.
-      return Promise.resolve()
-    }
   }
 }
 
@@ -217,12 +186,8 @@ export function CloseAlert(msg, timeStamp) {
     closedAt: Date.now()
   }
 }
-// const testItem = {
-//   content: "this is a test item fom the front end"
-// }
 
 const agent1 = "amen"
-
 
 export function ShipItems(items, agent, record) {
   return dispatch => {
@@ -250,5 +215,5 @@ export function ShipItems(items, agent, record) {
   }
 }
 
-const serverLink = "https://secret-citadel-16777.herokuapp.com/";
-//const serverLink2 = "http://localhost:5000/";
+//const serverLink = "https://secret-citadel-16777.herokuapp.com/";
+const serverLink = "http://localhost:5000/";

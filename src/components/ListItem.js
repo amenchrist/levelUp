@@ -26,7 +26,7 @@ function ListItem( { touchFunction, item, title }){
 
     switch(true){
         case item.type === MISSION && !item.isTrashed:
-            console.log("trash log  ",item)
+            //console.log("trash log  ",item)
             title === SOMEDAY ? nextTitle = SOMEDAY : nextTitle = MISSIONS;
             //let days = parseInt(Math.floor(total_hours / 24));
             //let days = (item.dueDate / (1000*60*60*24)) % 7;
@@ -150,4 +150,3 @@ function ListItem( { touchFunction, item, title }){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListItem);
-
